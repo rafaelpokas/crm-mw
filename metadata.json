@@ -1,0 +1,6 @@
+{
+  "name": "MegaWhip CRM Demo",
+  "description": "Protótipo funcional do CRM comercial B2B MegaWhip com leads, funil, atendimento multicanal, cotações com alçada e IA assistida.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
