@@ -8,7 +8,11 @@ import {
   AlertTriangle,
   FileText,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  Database,
+  ShoppingCart,
+  Send,
+  Sparkles
 } from 'lucide-react';
 import { formatCurrency } from '../utils/formatters';
 
@@ -18,11 +22,20 @@ interface CatalogViewProps {
 }
 
 export const CatalogView: React.FC<CatalogViewProps> = ({ productId, navigateTo }) => {
-  const { db } = useCrm();
+  const { db, simulateCatalogSubmission } = useCrm();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProdId, setSelectedProdId] = useState<string | null>(productId || null);
+
+  // Catalog request simulation modal state
+  const [catalogModalOpen, setCatalogModalOpen] = useState(false);
+  const [selectedMachine, setSelectedMachine] = useState('Colheitadeira John Deere CH570');
+  const [customerName, setCustomerName] = useState('Comprador Demo 01 (Usina)');
+  const [customerEmail, setCustomerEmail] = useState('comprador01@example.com');
+  const [customerWa, setCustomerWa] = useState('WA-DEMO-001');
+  const [submittingRequest, setSubmittingRequest] = useState(false);
+  const [requestFeedback, setRequestFeedback] = useState<string | null>(null);
 
   const categories = useMemo(() => {
     const cats = new Set(db.products.map(p => p.category));
@@ -45,6 +58,34 @@ export const CatalogView: React.FC<CatalogViewProps> = ({ productId, navigateTo 
     return db.products.find(p => p.id === selectedProdId);
   }, [db.products, selectedProdId]);
 
+  const handleSendCatalogRequest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmittingRequest(true);
+    setRequestFeedback(null);
+
+    const res = await simulateCatalogSubmission({
+      contactName: customerName,
+      contactEmail: customerEmail,
+      contactWa: customerWa,
+      machineModel: selectedMachine,
+      selectedItems: [
+        { sku: 'DEMO-MW-001', quantity: 2 },
+        { sku: 'DEMO-MW-002', quantity: 4 }
+      ]
+    });
+
+    setSubmittingRequest(false);
+    if (res.ok) {
+      setRequestFeedback('Solicitação do Catálogo transportada com sucesso para o atendimento!');
+      setTimeout(() => {
+        setCatalogModalOpen(false);
+        if (res.data?.opportunity?.id) {
+          navigateTo(`/oportunidades/${res.data.opportunity.id}`);
+        }
+      }, 1200);
+    }
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6 text-xs text-[#223237]">
       {/* Header */}
@@ -57,9 +98,17 @@ export const CatalogView: React.FC<CatalogViewProps> = ({ productId, navigateTo 
             </span>
           </h1>
           <p className="text-xs text-[#53636A] mt-1">
-            SKUs prefixados DEMO para testes operacionais. Preços determinísticos e alçadas técnicas.
+            SKUs com consulta de disponibilidade no ERP COBOL/Delphi e integração direta com o fluxo de atendimento.
           </p>
         </div>
+
+        <button
+          onClick={() => setCatalogModalOpen(true)}
+          className="bg-[#223237] hover:bg-[#2d3f45] text-white px-4 py-2 rounded-lg font-bold flex items-center space-x-2 shadow-xs transition"
+        >
+          <ShoppingCart size={15} className="text-[#B1D448]" />
+          <span>Simular Seleção no Catálogo (Jornada)</span>
+        </button>
       </div>
 
       {/* Filters */}
@@ -96,6 +145,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({ productId, navigateTo 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredProducts.map(p => {
           const isSelected = p.id === selectedProdId;
+          const erpItem = db.erpStock.find(s => s.sku === p.sku);
 
           return (
             <div
@@ -119,6 +169,17 @@ export const CatalogView: React.FC<CatalogViewProps> = ({ productId, navigateTo 
 
               <div className="text-[11px] text-[#53636A] line-clamp-2 leading-relaxed">
                 {p.application}
+              </div>
+
+              {/* Live ERP Stock indicator */}
+              <div className="p-2 bg-[#F5F6F0] rounded border border-[#dae0d7] flex items-center justify-between text-[11px]">
+                <span className="flex items-center space-x-1 text-gray-600">
+                  <Database size={12} className="text-blue-600" />
+                  <span>Estoque ERP:</span>
+                </span>
+                <span className="font-bold text-emerald-800">
+                  {erpItem ? `${erpItem.availableStock} un disponíveis` : 'Sob consulta'}
+                </span>
               </div>
 
               <div className="pt-2 border-t border-[#dae0d7]/70 flex items-center justify-between">
@@ -174,11 +235,6 @@ export const CatalogView: React.FC<CatalogViewProps> = ({ productId, navigateTo 
               </div>
 
               <div>
-                <span className="text-[#53636A] block text-[11px]">Disponibilidade:</span>
-                <span className="text-[#223237]">{activeProduct.availability}</span>
-              </div>
-
-              <div>
                 <span className="text-[#53636A] block text-[11px]">Aplicação Técnica Aprovada:</span>
                 <p className="p-2.5 bg-[#F5F6F0] rounded border border-[#dae0d7] text-[#223237] leading-relaxed">
                   {activeProduct.application}
@@ -200,6 +256,105 @@ export const CatalogView: React.FC<CatalogViewProps> = ({ productId, navigateTo 
                 Fechar
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Catalog Request Simulation Modal (Item 1 & 4 from 13/10 Update) */}
+      {catalogModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl border border-[#dae0d7] shadow-2xl p-6 max-w-lg w-full space-y-4">
+            <div className="border-b border-[#dae0d7] pb-3">
+              <h3 className="font-bold text-base text-[#223237] flex items-center space-x-2">
+                <ShoppingCart size={18} className="text-[#B1D448]" />
+                <span>Simulação: Cliente Seleciona Peças no Catálogo</span>
+              </h3>
+              <p className="text-xs text-[#53636A] mt-1">
+                Transporta máquina, SKUs selecionados, quantidades e dados de contato para o CRM sem perder o contexto da seleção.
+              </p>
+            </div>
+
+            {requestFeedback && (
+              <div className="p-3 bg-emerald-50 border border-emerald-300 text-emerald-800 rounded font-bold text-xs">
+                {requestFeedback}
+              </div>
+            )}
+
+            <form onSubmit={handleSendCatalogRequest} className="space-y-3">
+              <div>
+                <label className="block font-semibold mb-1">Máquina / Implemento Selecionado:</label>
+                <select
+                  value={selectedMachine}
+                  onChange={e => setSelectedMachine(e.target.value)}
+                  className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs bg-white"
+                >
+                  <option value="Colheitadeira John Deere CH570">Colheitadeira John Deere CH570 (Cana)</option>
+                  <option value="Trator Case Magnum 340">Trator Case Magnum 340 (Grãos)</option>
+                  <option value="Pulverizador Patriot 350">Pulverizador Patriot 350</option>
+                  <option value="Transbordo canavieiro">Transbordo canavieiro (OEM)</option>
+                </select>
+              </div>
+
+              <div className="p-2.5 bg-gray-50 border border-[#dae0d7] rounded-lg space-y-1">
+                <div className="font-bold text-[11px] text-[#223237]">Itens Transportados do Catálogo:</div>
+                <div className="text-[11px] text-[#53636A]">
+                  • 2x DEMO-MW-001 (Chicote padrão demonstrativo)<br />
+                  • 4x DEMO-MW-002 (Conector demonstrativo)
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold mb-1">Nome do Comprador:</label>
+                  <input
+                    type="text"
+                    required
+                    value={customerName}
+                    onChange={e => setCustomerName(e.target.value)}
+                    className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold mb-1">E-mail Corporativo:</label>
+                  <input
+                    type="email"
+                    required
+                    value={customerEmail}
+                    onChange={e => setCustomerEmail(e.target.value)}
+                    className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">WhatsApp Fictício:</label>
+                <input
+                  type="text"
+                  required
+                  value={customerWa}
+                  onChange={e => setCustomerWa(e.target.value)}
+                  className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs font-mono"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setCatalogModalOpen(false)}
+                  className="px-3 py-1.5 border border-[#dae0d7] rounded-lg text-xs"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={submittingRequest}
+                  className="px-5 py-2 bg-[#223237] hover:bg-[#2d3f45] text-white rounded-lg font-bold text-xs"
+                >
+                  {submittingRequest ? 'Transportando...' : 'Confirmar e Abrir no CRM'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -36,7 +36,15 @@ const SCENARIO_DESCRIPTIONS = [
   { id: 'C13', title: 'C13 - Marcar perda sem motivo', desc: 'Tentativa de marcar perda sem preencher a justificativa obrigatória é barrada pela validação comercial.', route: '/oportunidades/O001' },
   { id: 'C14', title: 'C14 - Mensagem ambígua de cliente com 2 negociações', desc: 'Contato com duas oportunidades ativas envia mensagem genérica. O sistema solicita associação correta ao vendedor.', route: '/atendimento' },
   { id: 'C15', title: 'C15 - WhatsApp fora da janela de 24h', desc: 'Tentativa de enviar texto livre após 24h sem resposta do cliente é bloqueada, exigindo envio de modelo aprovado.', route: '/atendimento' },
-  { id: 'C16', title: 'C16 - Reset Completo da Demonstração', desc: 'Restaura a base exata do seed JSON inicial, relógio para 09/10/2026 às 15:00 e zera todas as mutações.', route: '/visao-geral' }
+  { id: 'C16', title: 'C16 - Reset Completo da Demonstração', desc: 'Restaura a base exata do seed JSON inicial, relógio para 09/10/2026 às 15:00 e zera todas as mutações.', route: '/visao-geral' },
+  { id: 'C17', title: 'C17 - Lead Instagram sem segmento', desc: 'Gera lead de mídia social sem segmento comercial definido, criando pendência na fila de qualificação.', route: '/leads' },
+  { id: 'C18', title: 'C18 - Lead LP de Grãos com campanha', desc: 'Gera lead com campanha associada (lp-graos-plantio-2026) e sugere catálogo pertinente de grãos.', route: '/leads' },
+  { id: 'C19', title: 'C19 - Alerta de mercado regional cana', desc: 'Aprova alerta de inteligência com janela regional e cria rascunho de campanha para clientes elegíveis.', route: '/relatorios' },
+  { id: 'C20', title: 'C20 - Retorno de cliente pelo catálogo', desc: 'Cliente existente envia nova seleção pelo catálogo web; sistema anexa ao histórico sem duplicar cadastro.', route: '/atendimento' },
+  { id: 'C21', title: 'C21 - Cliente multissegmento atualizado', desc: 'Atualiza perfil da empresa E001 para registrar múltiplos segmentos agrícolas (Cana + Grãos + Citros).', route: '/clientes/E001' },
+  { id: 'C22', title: 'C22 - Bloqueio de ação sazonal vencida', desc: 'Tenta acionar inteligência sazonal com calendário técnico vencido (CAL-003); sistema barra até atualização.', route: '/relatorios' },
+  { id: 'C23', title: 'C23 - Descadastro de marketing (Opt-out)', desc: 'Registra opt-out de marketing para contato C001, suspendendo disparos de automação de campanhas.', route: '/clientes/E001' },
+  { id: 'C24', title: 'C24 - Despacho de pedido ao ERP COBOL', desc: 'Despacha pedido da cotação ganha Q005 ao ERP legado com protocolo de sincronização e conciliação.', route: '/oportunidades/O007' }
 ];
 
 export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ navigateTo }) => {

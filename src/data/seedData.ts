@@ -5,7 +5,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     schemaVersion: 1,
     name: "MegaWhip CRM Demo",
     synthetic: true,
-    clock: "2026-10-09T15:00:00-03:00",
+    clock: "2026-10-13T15:00:00-03:00",
     timezone: "America/Sao_Paulo",
     currency: "BRL",
     locale: "pt-BR",
@@ -19,7 +19,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     followUpBusinessDays: 1,
     excludeWeekends: true,
     holidayCalendar: null,
-    realIntegrationsEnabled: false
+    realIntegrationsEnabled: false,
+    erpApiTimeoutMs: 2500
   },
   users: [
     {
@@ -57,85 +58,182 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     {
       id: "E001",
       name: "Agro Horizonte Demo",
-      segment: "Reposição agrícola",
-      city: "Cidade Demo",
+      segment: "Cana de açúcar",
+      city: "Ribeirão Preto",
       state: "SP",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Cana de açúcar",
+        additionalSegments: ["Grãos (Soja/Milho)"],
+        crop: ["Cana-de-açúcar"],
+        supplyChainRole: "Usina",
+        region: "Ribeirão Preto / SP",
+        confirmedMachines: ["Colheitadeira CH570", "Trator Magnum 340"],
+        qualificationStatus: "confirmed",
+        confidence: "confirmed",
+        lastValidatedAt: "2026-10-10T11:00:00-03:00",
+        validationSource: "Reunião de qualificação técnica"
+      }
     },
     {
       id: "E002",
       name: "Oficina Campo Norte Demo",
-      segment: "Oficina",
-      city: "Cidade Demo",
-      state: "SP",
+      segment: "Reposição agrícola",
+      city: "Uberlândia",
+      state: "MG",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Reposição agrícola",
+        additionalSegments: ["Oficina"],
+        crop: ["Milho", "Soja"],
+        supplyChainRole: "Oficina multimarca",
+        region: "Triângulo Mineiro / MG",
+        confirmedMachines: ["Trator John Deere 7200"],
+        qualificationStatus: "confirmed",
+        confidence: "confirmed",
+        lastValidatedAt: "2026-10-09T14:00:00-03:00",
+        validationSource: "Atendimento comercial"
+      }
     },
     {
       id: "E003",
       name: "Revenda Vale Verde Demo",
-      segment: "Revenda",
-      city: "Cidade Demo",
-      state: "SP",
+      segment: "Grãos (Soja/Milho)",
+      city: "Sorriso",
+      state: "MT",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Grãos (Soja/Milho)",
+        additionalSegments: ["Revenda"],
+        crop: ["Soja", "Milho"],
+        supplyChainRole: "Revenda de Peças",
+        region: "Sorriso / MT",
+        confirmedMachines: ["Pulverizador Patriot 350"],
+        qualificationStatus: "confirmed",
+        confidence: "confirmed",
+        lastValidatedAt: "2026-10-08T16:00:00-03:00",
+        validationSource: "Histórico de compras"
+      }
     },
     {
       id: "E004",
       name: "Máquinas Aurora Demo",
       segment: "Projeto OEM",
-      city: "Cidade Demo",
+      city: "Campinas",
       state: "SP",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Projeto OEM",
+        additionalSegments: ["Industrial"],
+        crop: [],
+        supplyChainRole: "Fabricante Implementos",
+        region: "Campinas / SP",
+        confirmedMachines: ["Implemento sob medida"],
+        qualificationStatus: "partial",
+        confidence: "hypothesis",
+        lastValidatedAt: "2026-10-07T10:00:00-03:00",
+        validationSource: "Formulário inicial site"
+      }
     },
     {
       id: "E005",
       name: "Agro Peças Central Demo",
       segment: "Reposição agrícola",
-      city: "Cidade Demo",
+      city: "Araraquara",
       state: "SP",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Reposição agrícola",
+        additionalSegments: ["Citros"],
+        crop: ["Laranja"],
+        supplyChainRole: "Revenda de Peças",
+        region: "Araraquara / SP",
+        confirmedMachines: [],
+        qualificationStatus: "confirmed",
+        confidence: "confirmed",
+        lastValidatedAt: "2026-10-06T15:00:00-03:00",
+        validationSource: "Atendimento WhatsApp"
+      }
     },
     {
       id: "E006",
       name: "Cultivo Sul Demo",
-      segment: "Oficina",
-      city: "Cidade Demo",
-      state: "SP",
+      segment: "Grãos (Soja/Milho)",
+      city: "Passo Fundo",
+      state: "RS",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Grãos (Soja/Milho)",
+        additionalSegments: ["Trigo"],
+        crop: ["Trigo", "Soja"],
+        supplyChainRole: "Produtor rural",
+        region: "Passo Fundo / RS",
+        confirmedMachines: ["Colheitadeira S680"],
+        qualificationStatus: "confirmed",
+        confidence: "confirmed",
+        lastValidatedAt: "2026-10-05T12:00:00-03:00",
+        validationSource: "Visita comercial"
+      }
     },
     {
       id: "E007",
       name: "Oficina Rota Rural Demo",
-      segment: "Revenda",
-      city: "Cidade Demo",
-      state: "SP",
+      segment: "Café",
+      city: "Varginha",
+      state: "MG",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Café",
+        additionalSegments: ["Oficina"],
+        crop: ["Café"],
+        supplyChainRole: "Oficina especializada",
+        region: "Sul de Minas / MG",
+        confirmedMachines: ["Trator cafeeiro estreito"],
+        qualificationStatus: "confirmed",
+        confidence: "confirmed",
+        lastValidatedAt: "2026-10-04T09:00:00-03:00",
+        validationSource: "Recomendação técnica"
+      }
     },
     {
       id: "E008",
       name: "Implementos Planalto Demo",
       segment: "Projeto OEM",
-      city: "Cidade Demo",
+      city: "Ribeirão Preto",
       state: "SP",
       document: null,
-      fictitious: true
+      fictitious: true,
+      segmentProfile: {
+        mainSegment: "Projeto OEM",
+        additionalSegments: ["Cana de açúcar"],
+        crop: ["Cana-de-açúcar"],
+        supplyChainRole: "Fabricante Implementos",
+        region: "Ribeirão Preto / SP",
+        confirmedMachines: ["Transbordo canavieiro"],
+        qualificationStatus: "confirmed",
+        confidence: "confirmed",
+        lastValidatedAt: "2026-10-03T14:00:00-03:00",
+        validationSource: "Homologação de engenharia"
+      }
     }
   ],
   contacts: [
     {
       id: "C001",
       companyId: "E001",
-      name: "Comprador Demo 01",
+      name: "Comprador Demo 01 (Usina)",
       email: "comprador01@example.com",
       whatsappMockId: "WA-DEMO-001",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
     },
     {
       id: "C002",
@@ -144,7 +242,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       email: "comprador02@example.com",
       whatsappMockId: "WA-DEMO-002",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
     },
     {
       id: "C003",
@@ -153,7 +252,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       email: "comprador03@example.com",
       whatsappMockId: "WA-DEMO-003",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
     },
     {
       id: "C004",
@@ -162,7 +262,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       email: "comprador04@example.com",
       whatsappMockId: "WA-DEMO-004",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
     },
     {
       id: "C005",
@@ -171,7 +272,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       email: "comprador05@example.com",
       whatsappMockId: "WA-DEMO-005",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
     },
     {
       id: "C006",
@@ -180,7 +282,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       email: "comprador06@example.com",
       whatsappMockId: "WA-DEMO-006",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
     },
     {
       id: "C007",
@@ -189,7 +292,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       email: "comprador07@example.com",
       whatsappMockId: "WA-DEMO-007",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
     },
     {
       id: "C008",
@@ -198,7 +302,31 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       email: "comprador08@example.com",
       whatsappMockId: "WA-DEMO-008",
       preferredChannel: "whatsapp",
-      doNotContact: false
+      doNotContact: false,
+      unsubscribedFromMarketing: false
+    }
+  ],
+  touchpoints: [
+    {
+      id: "TP001",
+      contactId: "C001",
+      companyId: "E001",
+      channel: "site",
+      campaign: "demo-outubro",
+      pageOrAd: "megawhip.com.br/catalogo",
+      details: "Entrada inicial via formulário do site solicitando reposição canavieira",
+      createdAt: "2026-10-01T09:00:00-03:00"
+    },
+    {
+      id: "TP002",
+      contactId: "C001",
+      companyId: "E001",
+      channel: "catalog",
+      pageOrAd: "catalogo-interativo-colheitadeiras",
+      details: "Cliente navegou no catálogo e selecionou chicote CH570 (DEMO-MW-001)",
+      selectedProducts: [{ sku: "DEMO-MW-001", quantity: 2 }],
+      machineModel: "Colheitadeira John Deere CH570",
+      createdAt: "2026-10-08T14:30:00-03:00"
     }
   ],
   leads: [
@@ -207,7 +335,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       contactId: "C001",
       source: "site",
       campaign: "demo-outubro",
-      interest: "Reposição demonstrativa",
+      interest: "Reposição demonstrativa canavieira",
       status: "converted",
       ownerId: "U002",
       createdAt: "2026-10-01T09:00:00-03:00",
@@ -227,9 +355,9 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     {
       id: "L003",
       contactId: "C003",
-      source: "email",
-      campaign: null,
-      interest: "Reposição demonstrativa",
+      source: "landing_page",
+      campaign: "lp-graos-safra",
+      interest: "Chicotes para plantio de grãos",
       status: "converted",
       ownerId: "U002",
       createdAt: "2026-10-03T09:00:00-03:00",
@@ -240,7 +368,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       contactId: "C004",
       source: "referral",
       campaign: null,
-      interest: "Projeto personalizado",
+      interest: "Projeto personalizado OEM",
       status: "converted",
       ownerId: "U003",
       createdAt: "2026-10-04T09:00:00-03:00",
@@ -260,9 +388,9 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     {
       id: "L006",
       contactId: "C006",
-      source: "whatsapp",
-      campaign: null,
-      interest: "Reposição demonstrativa",
+      source: "instagram",
+      campaign: "ad-revisao-eletrica",
+      interest: "Kits de chicotes para colheitadeira de grãos",
       status: "converted",
       ownerId: "U003",
       createdAt: "2026-10-06T09:00:00-03:00",
@@ -282,13 +410,17 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     {
       id: "L008",
       contactId: "C008",
-      source: "referral",
-      campaign: null,
-      interest: "Reposição demonstrativa",
+      source: "catalog",
+      campaign: "selecao-catalogo-oem",
+      interest: "Chicotes sob projeto selecionados no catálogo",
       status: "converted",
       ownerId: "U003",
       createdAt: "2026-10-07T09:00:00-03:00",
-      convertedOpportunityId: "O008"
+      convertedOpportunityId: "O008",
+      catalogContext: {
+        machineModel: "Transbordo canavieiro",
+        selectedItems: [{ sku: "DEMO-MW-001", quantity: 4 }]
+      }
     }
   ],
   opportunities: [
@@ -296,7 +428,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       id: "O001",
       companyId: "E001",
       contactId: "C001",
-      title: "Solicitação demonstrativa 01",
+      title: "Solicitação demonstrativa 01 - Usina Cana",
       stage: "new",
       ownerId: "U002",
       estimatedValueCents: 250000,
@@ -305,7 +437,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: null,
       lostReason: null,
-      version: 1
+      version: 1,
+      erpSyncStatus: "not_sent"
     },
     {
       id: "O002",
@@ -320,7 +453,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: null,
       lostReason: null,
-      version: 1
+      version: 1,
+      erpSyncStatus: "not_sent"
     },
     {
       id: "O003",
@@ -335,7 +469,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: null,
       lostReason: null,
-      version: 1
+      version: 1,
+      erpSyncStatus: "not_sent"
     },
     {
       id: "O004",
@@ -350,7 +485,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: null,
       lostReason: null,
-      version: 1
+      version: 1,
+      erpSyncStatus: "not_sent"
     },
     {
       id: "O005",
@@ -365,7 +501,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: null,
       lostReason: null,
-      version: 1
+      version: 1,
+      erpSyncStatus: "not_sent"
     },
     {
       id: "O006",
@@ -380,7 +517,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: null,
       lostReason: null,
-      version: 1
+      version: 1,
+      erpSyncStatus: "not_sent"
     },
     {
       id: "O007",
@@ -395,7 +533,9 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: "2026-10-09T11:00:00-03:00",
       lostReason: null,
-      version: 1
+      version: 1,
+      erpSyncStatus: "confirmed",
+      erpOrderId: "ERP-PED-2026-904"
     },
     {
       id: "O008",
@@ -410,7 +550,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       stageEnteredAt: "2026-10-08T10:00:00-03:00",
       closedAt: "2026-10-09T11:00:00-03:00",
       lostReason: "Prazo",
-      version: 1
+      version: 1,
+      erpSyncStatus: "not_sent"
     }
   ],
   products: [
@@ -421,11 +562,11 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       category: "Chicotes",
       unit: "un",
       unitPriceCents: 85000,
-      availability: "Disponibilidade simulada",
+      availability: "14 un disponíveis (ERP COBOL)",
       active: true,
       requiresTechnicalApproval: false,
       knowledgeId: "K001",
-      application: "Somente cenário fictício; nenhuma compatibilidade real declarada"
+      application: "Linha agrícola pesada - Colheitadeiras canavieiras e tratores de grande porte"
     },
     {
       id: "P002",
@@ -434,11 +575,11 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       category: "Componentes",
       unit: "un",
       unitPriceCents: 12000,
-      availability: "Disponibilidade simulada",
+      availability: "112 un disponíveis (ERP COBOL)",
       active: true,
       requiresTechnicalApproval: false,
       knowledgeId: "K001",
-      application: "Somente cenário fictício; nenhuma compatibilidade real declarada"
+      application: "Conector selado antichama para chicotes elétricos de motor"
     },
     {
       id: "P003",
@@ -447,11 +588,11 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       category: "Acessórios",
       unit: "un",
       unitPriceCents: 30000,
-      availability: "Disponibilidade simulada",
+      availability: "30 un disponíveis (ERP COBOL)",
       active: true,
       requiresTechnicalApproval: false,
       knowledgeId: "K001",
-      application: "Somente cenário fictício; nenhuma compatibilidade real declarada"
+      application: "Kit de campo para manutenção rápida de chicotes e chicote auxiliar"
     },
     {
       id: "P004",
@@ -460,11 +601,11 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       category: "Projeto OEM",
       unit: "un",
       unitPriceCents: null,
-      availability: "Consultar equipe",
+      availability: "Produção sob medida (Engenharia)",
       active: true,
       requiresTechnicalApproval: true,
       knowledgeId: "K001",
-      application: "Somente cenário fictício; nenhuma compatibilidade real declarada"
+      application: "Projeto exclusivo conforme diagrama e especificações dimensionais"
     },
     {
       id: "P005",
@@ -473,11 +614,11 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       category: "Engenharia",
       unit: "un",
       unitPriceCents: null,
-      availability: "Consultar equipe",
+      availability: "Consultar equipe técnica",
       active: true,
       requiresTechnicalApproval: true,
       knowledgeId: "K001",
-      application: "Somente cenário fictício; nenhuma compatibilidade real declarada"
+      application: "Mapeamento e reprodução de chicotes fora de linha ou importados"
     },
     {
       id: "P006",
@@ -486,11 +627,185 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       category: "Chicotes",
       unit: "un",
       unitPriceCents: 50000,
-      availability: "Disponibilidade simulada",
+      availability: "6 un disponíveis (ERP COBOL)",
       active: true,
       requiresTechnicalApproval: false,
       knowledgeId: "K001",
-      application: "Somente cenário fictício; nenhuma compatibilidade real declarada"
+      application: "Chicote auxiliar de cabine e sensores para implementos agrícolas"
+    }
+  ],
+  erpStock: [
+    {
+      sku: "DEMO-MW-001",
+      name: "Chicote padrão demonstrativo",
+      physicalStock: 18,
+      availableStock: 14,
+      reservedStock: 4,
+      warehouse: "Depósito Matriz SP",
+      unit: "un",
+      lastSyncAt: "2026-10-13T12:00:00-03:00",
+      erpStatus: "synced"
+    },
+    {
+      sku: "DEMO-MW-002",
+      name: "Conector demonstrativo",
+      physicalStock: 120,
+      availableStock: 112,
+      reservedStock: 8,
+      warehouse: "Depósito Matriz SP",
+      unit: "un",
+      lastSyncAt: "2026-10-13T12:00:00-03:00",
+      erpStatus: "synced"
+    },
+    {
+      sku: "DEMO-MW-003",
+      name: "Kit de reparo demonstrativo",
+      physicalStock: 35,
+      availableStock: 30,
+      reservedStock: 5,
+      warehouse: "Depósito Linha Pesada",
+      unit: "un",
+      lastSyncAt: "2026-10-13T12:00:00-03:00",
+      erpStatus: "synced"
+    },
+    {
+      sku: "DEMO-MW-004",
+      name: "Chicote sob projeto demonstrativo",
+      physicalStock: 0,
+      availableStock: 0,
+      reservedStock: 0,
+      warehouse: "Fabricação Sob Demanda",
+      unit: "un",
+      lastSyncAt: "2026-10-13T12:00:00-03:00",
+      erpStatus: "synced"
+    },
+    {
+      sku: "DEMO-MW-005",
+      name: "Serviço de engenharia reversa demonstrativo",
+      physicalStock: 0,
+      availableStock: 0,
+      reservedStock: 0,
+      warehouse: "Engenharia / Serviço",
+      unit: "un",
+      lastSyncAt: "2026-10-13T12:00:00-03:00",
+      erpStatus: "synced"
+    },
+    {
+      sku: "DEMO-MW-006",
+      name: "Conjunto auxiliar demonstrativo",
+      physicalStock: 8,
+      availableStock: 6,
+      reservedStock: 2,
+      warehouse: "Depósito Matriz SP",
+      unit: "un",
+      lastSyncAt: "2026-10-13T12:00:00-03:00",
+      erpStatus: "synced"
+    }
+  ],
+  erpOrderSyncs: [
+    {
+      id: "SYNC-001",
+      quoteId: "Q005",
+      opportunityId: "O007",
+      erpOrderId: "ERP-PED-2026-904",
+      status: "confirmed",
+      dispatchedAt: "2026-10-09T11:05:00-03:00",
+      confirmedAt: "2026-10-09T11:05:02-03:00",
+      correlationId: "corr-q005-seed"
+    }
+  ],
+  marketCalendar: [
+    {
+      id: "CAL-001",
+      segment: "Cana de açúcar",
+      region: "Ribeirão Preto / SP",
+      cropOrCycle: "Entressafra e Manutenção Preventiva",
+      periodReference: "Outubro a Dezembro",
+      status: "active",
+      sourceDocument: "K004 - Calendário Técnico Canavieiro SP (Aprovado)",
+      reviewedBy: "U004 (Técnico Demo)",
+      validUntil: "2026-12-31T23:59:59-03:00",
+      opportunitySummary: "Janela prioritária para usinas e fornecedores revisarem chicotes elétricos de colheitadeiras antes da nova safra."
+    },
+    {
+      id: "CAL-002",
+      segment: "Grãos (Soja/Milho)",
+      region: "Sorriso / MT",
+      cropOrCycle: "Preparação de Plantio Safra Verão",
+      periodReference: "Setembro a Novembro",
+      status: "active",
+      sourceDocument: "K005 - Calendário Técnico Grãos MT (Aprovado)",
+      reviewedBy: "U004 (Técnico Demo)",
+      validUntil: "2026-11-30T23:59:59-03:00",
+      opportunitySummary: "Produtores e revendas demandam kits de reparo e chicotes auxiliares para tratores e plantadeiras em operação contínua."
+    },
+    {
+      id: "CAL-003",
+      segment: "Café",
+      region: "Sul de Minas / MG",
+      cropOrCycle: "Pós-colheita e Revisão Elétrica",
+      periodReference: "Agosto a Setembro",
+      status: "expired",
+      sourceDocument: "K006 - Calendário Cafeeiro (Revisão Vencida)",
+      reviewedBy: "U004 (Técnico Demo)",
+      validUntil: "2026-09-30T23:59:59-03:00",
+      opportunitySummary: "Período vencido. Exige validação da equipe técnica antes de gerar novas ações sazonais para este público."
+    }
+  ],
+  marketAlerts: [
+    {
+      id: "ALT-001",
+      title: "Janela de Entressafra Canavieira em Ribeirão Preto / SP",
+      reason: "Usinas e grandes fornecedores na região de Ribeirão Preto estão na fase crítica de manutenção de chicotes de colheitadeiras (CH570).",
+      eligibleSegment: "Cana de açúcar",
+      eligibleRegion: "Ribeirão Preto / SP",
+      targetAudienceCount: 2,
+      sourceCalendarId: "CAL-001",
+      suggestedAction: "campaign",
+      targetProducts: ["DEMO-MW-001", "DEMO-MW-002"],
+      draftSubject: "MegaWhip: Preparação de Chicotes Elétricos para Entressafra Canavieira",
+      draftMessage: "Olá! Com a aproximação da entressafra canavieira em Ribeirão Preto, verificamos a disponibilidade em estoque para chicotes de motor e conectores com pronta-entrega. Gostaria de receber o catálogo específico para suas colheitadeiras?",
+      stockStatus: "available_confirmed",
+      status: "new",
+      createdAt: "2026-10-13T10:00:00-03:00"
+    },
+    {
+      id: "ALT-002",
+      title: "Plantio de Soja e Demanda por Kits de Reparo em Sorriso / MT",
+      reason: "Pico de operação de tratores e plantadeiras na região de Sorriso. Alta demanda por kits de manutenção preventiva para evitar máquinas paradas.",
+      eligibleSegment: "Grãos (Soja/Milho)",
+      eligibleRegion: "Sorriso / MT",
+      targetAudienceCount: 1,
+      sourceCalendarId: "CAL-002",
+      suggestedAction: "commercial_contact",
+      targetProducts: ["DEMO-MW-003"],
+      draftSubject: "Disponibilidade de Kits de Reparo Rápido para Safra de Grãos",
+      draftMessage: "Olá! Temos lotes de kits de reparo rápido DEMO-MW-003 disponíveis para envio imediato para suporte às plantadeiras na região de Sorriso.",
+      stockStatus: "available_confirmed",
+      status: "new",
+      createdAt: "2026-10-13T11:30:00-03:00"
+    }
+  ],
+  campaigns: [
+    {
+      id: "CMP-001",
+      title: "Entressafra Canavieira SP 2026",
+      objective: "Cultivar relacionamento com usinas e frotas canavieiras com catálogo técnico focado na colheitadeira CH570",
+      targetSegment: "Cana de açúcar",
+      targetRegion: "Ribeirão Preto / SP",
+      channel: "email",
+      status: "draft",
+      audienceCount: 1,
+      excludedUnsubscribedCount: 0,
+      subject: "MegaWhip: Catálogo Técnico e Disponibilidade para Entressafra Canavieira",
+      messageBody: "Olá! Com o início da janela de revisão preventiva da safra canavieira em sua região, preparamos o catálogo técnico com chicotes reforçados para colheitadeiras e tratores pesados com estoque disponível no ERP.",
+      attachedCatalogSkuList: ["DEMO-MW-001", "DEMO-MW-002"],
+      approvedBy: null,
+      approvedAt: null,
+      sentCount: 0,
+      responseCount: 0,
+      createdOpportunitiesCount: 0,
+      createdAt: "2026-10-13T12:00:00-03:00"
     }
   ],
   quotes: [
@@ -810,7 +1125,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       channel: "whatsapp",
       direction: "inbound",
       authorId: null,
-      body: "Olá, gostaria de uma cotação para itens do catálogo demonstrativo.",
+      body: "Olá, gostaria de uma cotação para itens do catálogo demonstrativo para nossa frota de cana em Ribeirão Preto.",
       deliveryStatus: "received",
       createdAt: "2026-10-09T14:00:00-03:00",
       quoteVersionId: null,
@@ -954,8 +1269,8 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       opportunityId: "O001",
       ownerId: "U002",
       type: "follow_up",
-      title: "Retornar ao comprador",
-      dueAt: "2026-10-09T10:00:00-03:00",
+      title: "Retornar ao comprador da Usina",
+      dueAt: "2026-10-14T10:00:00-03:00",
       status: "open",
       automationKey: null
     },
@@ -965,7 +1280,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       ownerId: "U003",
       type: "follow_up",
       title: "Retornar ao comprador",
-      dueAt: "2026-10-09T10:00:00-03:00",
+      dueAt: "2026-10-14T10:00:00-03:00",
       status: "open",
       automationKey: null
     },
@@ -975,7 +1290,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       ownerId: "U002",
       type: "follow_up",
       title: "Retornar ao comprador",
-      dueAt: "2026-10-12T10:00:00-03:00",
+      dueAt: "2026-10-15T10:00:00-03:00",
       status: "open",
       automationKey: null
     },
@@ -985,7 +1300,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       ownerId: "U003",
       type: "technical_review",
       title: "Confirmar aplicação técnica",
-      dueAt: "2026-10-12T10:00:00-03:00",
+      dueAt: "2026-10-15T10:00:00-03:00",
       status: "open",
       automationKey: null
     },
@@ -995,7 +1310,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       ownerId: "U002",
       type: "follow_up",
       title: "Retornar ao comprador",
-      dueAt: "2026-10-12T10:00:00-03:00",
+      dueAt: "2026-10-15T10:00:00-03:00",
       status: "open",
       automationKey: null
     },
@@ -1005,7 +1320,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       ownerId: "U003",
       type: "follow_up",
       title: "Retornar ao comprador",
-      dueAt: "2026-10-12T10:00:00-03:00",
+      dueAt: "2026-10-15T10:00:00-03:00",
       status: "open",
       automationKey: null
     }
@@ -1119,27 +1434,48 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
   knowledgeDocuments: [
     {
       id: "K001",
-      title: "Catálogo demonstrativo",
+      title: "Catálogo Técnico & Políticas Comerciais",
+      layer: "approved_knowledge",
       version: 1,
       status: "approved",
       approvedBy: "U004",
-      content: "SKUs DEMO são fictícios. Não afirmar aplicação em máquina real. Preços exclusivamente para demonstração."
+      content: "SKUs DEMO são peças padrão. Preços para validação e alçada comercial máxima de 5% (500 bps). Descontos superiores exigem aprovação do gestor."
     },
     {
       id: "K002",
-      title: "Triagem comercial demonstrativa",
+      title: "Triagem Comercial & Segmentação",
+      layer: "approved_knowledge",
       version: 1,
       status: "approved",
       approvedBy: "U001",
-      content: "Perguntar referência, quantidade, aplicação e prazo. Sem referência técnica confirmada, encaminhar ao técnico."
+      content: "Perguntar segmento de atuação (Cana, Grãos, etc.), região, máquina confirmada e urgência. Sem segmento confirmado, manter pendência de qualificação."
     },
     {
       id: "K003",
-      title: "Rascunho não aprovado",
+      title: "Rascunho Não Homologado",
+      layer: "approved_knowledge",
       version: 1,
       status: "draft",
       approvedBy: null,
-      content: "Este documento não deve alimentar sugestões."
+      content: "Este documento está em rascunho e não deve fundamentar nenhuma recomendação do assistente."
+    },
+    {
+      id: "K004",
+      title: "Calendário Técnico Canavieiro SP",
+      layer: "operational_rules",
+      version: 1,
+      status: "approved",
+      approvedBy: "U004",
+      content: "Região de Ribeirão Preto / SP: Entressafra e manutenção pesada de Outubro a Dezembro. Foco em colheitadeiras John Deere CH570 e transbordos."
+    },
+    {
+      id: "K005",
+      title: "Diretrizes de Sincronização ERP COBOL/Delphi",
+      layer: "live_data",
+      version: 1,
+      status: "approved",
+      approvedBy: "U005",
+      content: "Estoque é de autoridade oficial do ERP. Pedidos ganhos são despachados com confirmação assíncrona. Em caso de timeout, verificar status antes de retransmitir."
     }
   ],
   automationRules: [
@@ -1209,8 +1545,24 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       id: "I4",
       channel: "erp",
       mode: "mock",
-      state: "undefined",
-      lastSyncAt: null,
+      state: "connected",
+      lastSyncAt: "2026-10-13T12:00:00-03:00",
+      lastError: null
+    },
+    {
+      id: "I5",
+      channel: "instagram",
+      mode: "mock",
+      state: "connected",
+      lastSyncAt: "2026-10-13T11:00:00-03:00",
+      lastError: null
+    },
+    {
+      id: "I6",
+      channel: "landing_page",
+      mode: "mock",
+      state: "connected",
+      lastSyncAt: "2026-10-13T11:00:00-03:00",
       lastError: null
     }
   ],
@@ -1222,7 +1574,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       message: "Cotação MW-DEMO-2026-002 aguarda aprovação de desconto de 8%.",
       linkRoute: "/cotacoes",
       read: false,
-      createdAt: "2026-10-09T14:30:00-03:00"
+      createdAt: "2026-10-13T14:30:00-03:00"
     },
     {
       id: "N002",
@@ -1231,7 +1583,16 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
       message: "Comprador Demo 01 enviou mensagem pelo WhatsApp.",
       linkRoute: "/atendimento",
       read: false,
-      createdAt: "2026-10-09T14:00:00-03:00"
+      createdAt: "2026-10-13T14:00:00-03:00"
+    },
+    {
+      id: "N003",
+      recipientId: "U002",
+      title: "Alerta de Inteligência de Mercado",
+      message: "Janela de entressafra canavieira detectada para clientes em Ribeirão Preto / SP.",
+      linkRoute: "/inteligencia",
+      read: false,
+      createdAt: "2026-10-13T10:00:00-03:00"
     }
   ],
   scenarios: [
@@ -1250,7 +1611,16 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     { id: "C13", enabled: true },
     { id: "C14", enabled: true },
     { id: "C15", enabled: true },
-    { id: "C16", enabled: true }
+    { id: "C16", enabled: true },
+    // Novas validações da Seção 13
+    { id: "C17", enabled: true },
+    { id: "C18", enabled: true },
+    { id: "C19", enabled: true },
+    { id: "C20", enabled: true },
+    { id: "C21", enabled: true },
+    { id: "C22", enabled: true },
+    { id: "C23", enabled: true },
+    { id: "C24", enabled: true }
   ],
   expectedInitialMetrics: {
     openOpportunities: 6,
@@ -1259,7 +1629,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
     wonValueCents: 120000,
     lostOpportunities: 1,
     closedWinRate: 0.5,
-    overdueTasks: 2
+    overdueTasks: 0
   },
   demoNewLead: {
     eventId: "scenario-new-lead-001",
@@ -1280,6 +1650,7 @@ export const INITIAL_CRM_DATA: CrmDatabase = {
   },
   simulatedErrors: {
     failWhatsApp: false,
-    failEmail: false
+    failEmail: false,
+    erpTimeout: false
   }
 };

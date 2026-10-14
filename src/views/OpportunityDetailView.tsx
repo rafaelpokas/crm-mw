@@ -40,7 +40,8 @@ export const OpportunityDetailView: React.FC<OpportunityDetailViewProps> = ({
     assignOwner,
     createQuoteForOpportunity,
     completeTask,
-    createTask
+    createTask,
+    dispatchOrderToErp
   } = useCrm();
 
   const [activeTab, setActiveTab] = useState<'summary' | 'conversations' | 'quotes' | 'tasks' | 'files' | 'timeline'>('summary');
@@ -205,6 +206,40 @@ export const OpportunityDetailView: React.FC<OpportunityDetailViewProps> = ({
                 <span>Marcar Perda</span>
               </button>
             </>
+          ) : opp.stage === 'won' ? (
+            <div className="flex items-center space-x-2">
+              {opp.erpSyncStatus === 'confirmed' ? (
+                <span className="bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-lg font-bold text-xs flex items-center space-x-1 border border-emerald-300">
+                  <CheckCircle size={14} />
+                  <span>Pedido ERP: {opp.erpOrderId}</span>
+                </span>
+              ) : (
+                <button
+                  onClick={async () => {
+                    const quote = oppQuotes[0];
+                    if (quote) {
+                      setActionError(null);
+                      const res = await dispatchOrderToErp(quote.id);
+                      if (res.ok) {
+                        setActionSuccess(`Pedido ${res.data?.erpOrderId} despachado e confirmado no ERP COBOL!`);
+                      } else {
+                        setActionError(res.error?.message || 'Falha ao despachar para o ERP.');
+                      }
+                    }
+                  }}
+                  className="bg-blue-700 hover:bg-blue-800 text-white px-3.5 py-1.5 rounded-lg font-bold flex items-center space-x-1.5 shadow-xs transition"
+                >
+                  <Send size={14} />
+                  <span>Despachar Pedido ao ERP COBOL</span>
+                </button>
+              )}
+              <button
+                onClick={handleReopen}
+                className="bg-[#223237] text-white px-3 py-1.5 rounded-lg font-semibold"
+              >
+                Reabrir (Gestor)
+              </button>
+            </div>
           ) : (
             <button
               onClick={handleReopen}
