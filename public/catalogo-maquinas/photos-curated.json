@@ -1,0 +1,574 @@
+{
+  "ch570": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/ch570-studio.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch570/colhedora_cana_ch570_estudio_large_2196219ca6a0741c5ca5a7873b035dae617b872d.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch570/",
+        "caption": "CH570 · cena de apresentação editada a partir de foto oficial",
+        "edited": true,
+        "points": {
+          "motor": [
+            53,
+            40
+          ],
+          "cabine": [
+            65,
+            45
+          ],
+          "elevador": [
+            32,
+            43
+          ],
+          "divisor": [
+            76,
+            75
+          ],
+          "extrator": [
+            46,
+            42
+          ],
+          "chassi": [
+            56,
+            67
+          ],
+          "transmissao": [
+            51,
+            80
+          ],
+          "eletrica": [
+            57,
+            56
+          ],
+          "corte": [
+            70,
+            84
+          ],
+          "colheita": [
+            77,
+            76
+          ]
+        }
+      }
+    ]
+  },
+  "ch670": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/ch670-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch670/colhedora_cana_ch670_campo_large_279455049b9e8dff4f9a7e8bc3578826a2df4a1e.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch670/",
+        "bytes": 1001023,
+        "caption": "John Deere CH670 — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            69,
+            48
+          ],
+          "cabine": [
+            47,
+            35
+          ],
+          "elevador": [
+            85,
+            36
+          ],
+          "divisor": [
+            41,
+            73
+          ],
+          "extrator": [
+            76,
+            43
+          ],
+          "chassi": [
+            60,
+            65
+          ],
+          "transmissao": [
+            67,
+            82
+          ],
+          "eletrica": [
+            58,
+            48
+          ],
+          "corte": [
+            33,
+            83
+          ]
+        }
+      }
+    ]
+  },
+  "ch950": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/ch950-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch950/r3g003117_OB_colhedora_cana_john_deere_modelo_ch950_canavial_large_da98dff8fa052b44546597aee842e43e54145489.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch950/",
+        "bytes": 629432,
+        "caption": "John Deere CH950 — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            59,
+            42
+          ],
+          "cabine": [
+            47,
+            37
+          ],
+          "elevador": [
+            67,
+            29
+          ],
+          "divisor": [
+            45,
+            70
+          ],
+          "extrator": [
+            63,
+            36
+          ],
+          "chassi": [
+            53,
+            61
+          ],
+          "transmissao": [
+            58,
+            69
+          ],
+          "eletrica": [
+            56,
+            51
+          ],
+          "corte": [
+            39,
+            79
+          ]
+        }
+      }
+    ]
+  },
+  "cp770": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/cp770-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-4/products/harvesting/cotton/cp770_r4h000787_1024x576_large_0ab1dd7e590e9fed1d4eabdef7759e172c8f2b41.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-algod%C3%A3o-cp770/",
+        "bytes": 412783,
+        "caption": "John Deere CP770 — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            22,
+            36
+          ],
+          "cabine": [
+            61,
+            44
+          ],
+          "chassi": [
+            35,
+            64
+          ],
+          "colheita": [
+            63,
+            77
+          ],
+          "transmissao": [
+            34,
+            79
+          ],
+          "eletrica": [
+            49,
+            59
+          ]
+        }
+      }
+    ]
+  },
+  "m4025": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/m4025-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4025/r3c006443_NK_pulverizador_m4025_no_campo_large_84eefb7ea054c055fb5eaf24b8815ee69ce1d468.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4025/",
+        "bytes": 821575,
+        "caption": "John Deere M4025 — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            80,
+            58
+          ],
+          "cabine": [
+            74,
+            49
+          ],
+          "chassi": [
+            71,
+            63
+          ],
+          "barra": [
+            39,
+            64
+          ],
+          "transmissao": [
+            69,
+            67
+          ],
+          "eletrica": [
+            68,
+            53
+          ]
+        }
+      }
+    ]
+  },
+  "m4030": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/m4030-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4030/r3c006527_NK_pulverizador_m4040_foto_campo_large_a2eaf51d94ec68d24b553c08a4161ea9ce3db8b4.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4030/",
+        "bytes": 483696,
+        "caption": "John Deere M4030 — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            64,
+            54
+          ],
+          "cabine": [
+            57,
+            44
+          ],
+          "chassi": [
+            51,
+            63
+          ],
+          "barra": [
+            26,
+            66
+          ],
+          "eletrica": [
+            51,
+            52
+          ]
+        }
+      }
+    ]
+  },
+  "m4040": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/m4040-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4040/r3c006532_NK_pulverizador_m4040_foto_no_campo_large_d9cbff51c830d4771f86fefdc7714f2c6714af63.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4040/",
+        "bytes": 742618,
+        "caption": "John Deere M4040 — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            59,
+            58
+          ],
+          "cabine": [
+            55,
+            49
+          ],
+          "chassi": [
+            53,
+            65
+          ],
+          "barra": [
+            34,
+            60
+          ],
+          "eletrica": [
+            51,
+            54
+          ]
+        }
+      }
+    ]
+  },
+  "8320r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8320r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8320r/trator_8320r_campo1_large_d899b47aff1685ae910d115d7dae180f7e173feb.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8320r/",
+        "bytes": 738679,
+        "caption": "John Deere 8320R — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            65,
+            48
+          ],
+          "cabine": [
+            39,
+            35
+          ],
+          "chassi": [
+            42,
+            65
+          ],
+          "transmissao": [
+            35,
+            74
+          ],
+          "eletrica": [
+            47,
+            51
+          ]
+        }
+      }
+    ]
+  },
+  "8270r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8270r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8270r/trator_8270r_campo1_large_7fe6233eb8650448dcf45abdc446972cf76dfef7.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8270r/",
+        "bytes": 1000653,
+        "caption": "John Deere 8270R — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            60,
+            52
+          ],
+          "cabine": [
+            42,
+            39
+          ],
+          "chassi": [
+            41,
+            65
+          ],
+          "transmissao": [
+            30,
+            70
+          ],
+          "eletrica": [
+            46,
+            52
+          ]
+        }
+      }
+    ]
+  },
+  "8345r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8345r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8345r/trator_8345r_campo1_large_15fde918f1ebcc80a95949949ac94cb23feee283.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8345r/",
+        "bytes": 777091,
+        "caption": "John Deere 8345R — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            62,
+            52
+          ],
+          "cabine": [
+            43,
+            38
+          ],
+          "chassi": [
+            42,
+            65
+          ],
+          "transmissao": [
+            30,
+            72
+          ],
+          "eletrica": [
+            48,
+            51
+          ]
+        }
+      }
+    ]
+  },
+  "8370r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8370r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8370r/trator_8370r_campo1_large_082af444b417b3939718808b7d1ebf3e647a159e.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8370r/",
+        "bytes": 940235,
+        "caption": "John Deere 8370R — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            62,
+            52
+          ],
+          "cabine": [
+            43,
+            38
+          ],
+          "chassi": [
+            42,
+            65
+          ],
+          "transmissao": [
+            30,
+            72
+          ],
+          "eletrica": [
+            48,
+            51
+          ]
+        }
+      }
+    ]
+  },
+  "8400r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8400r-0.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8400r/8400r_campo_large_7b13780a09551c33c057712d2c40f25f24c91db8.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8400r/",
+        "bytes": 1291325,
+        "caption": "John Deere 8400R — fotografia oficial do modelo",
+        "points": {
+          "motor": [
+            62,
+            52
+          ],
+          "cabine": [
+            43,
+            38
+          ],
+          "chassi": [
+            42,
+            65
+          ],
+          "transmissao": [
+            30,
+            72
+          ],
+          "eletrica": [
+            48,
+            51
+          ]
+        }
+      }
+    ]
+  },
+  "db74": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db74-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db74acq_maxemerge_photo_field_large_a4bad61b9bd1f0c541611806b31f81ca3b1ee2a8.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-74-maxemerge-45-a-49-linhas/",
+        "bytes": 291164,
+        "caption": "John Deere DB74 — fotografia oficial do modelo",
+        "points": {
+          "chassi": [
+            58,
+            58
+          ],
+          "colheita": [
+            61,
+            65
+          ],
+          "eletrica": [
+            65,
+            61
+          ]
+        }
+      }
+    ]
+  },
+  "db40": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db40-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db40acq_maxemerge_photo_field_large_28fbbcb841dc716da0e444c6ad5c7f76b4ed04bb.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-40-maxemerge-23-a-27-linhas/",
+        "bytes": 267608,
+        "caption": "John Deere DB40 — fotografia oficial do modelo",
+        "points": {
+          "chassi": [
+            58,
+            58
+          ],
+          "colheita": [
+            61,
+            65
+          ],
+          "eletrica": [
+            65,
+            61
+          ]
+        }
+      }
+    ]
+  },
+  "db50": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db50-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db50acq_maxemerge_photo_field_large_2bd0436e35543a0f06db96277a4d0d9fbcf9ddbb.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-50-maxemerge-31-a-35-linhas/",
+        "bytes": 176974,
+        "caption": "John Deere DB50 — fotografia oficial do modelo",
+        "points": {
+          "chassi": [
+            58,
+            58
+          ],
+          "colheita": [
+            61,
+            65
+          ],
+          "eletrica": [
+            65,
+            61
+          ]
+        }
+      }
+    ]
+  },
+  "db90": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db90-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db90/db90acq_maxemerge_photo_field_large_d6ae23fc0dbe7b17ef96c4161c7cf72985b1a93d.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-90-maxemerge-55-a-61-linhas/",
+        "bytes": 359747,
+        "caption": "John Deere DB90 — fotografia oficial do modelo",
+        "points": {
+          "chassi": [
+            58,
+            58
+          ],
+          "colheita": [
+            61,
+            65
+          ],
+          "eletrica": [
+            65,
+            61
+          ]
+        }
+      }
+    ]
+  }
+}

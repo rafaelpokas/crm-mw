@@ -6,3 +6,15 @@ coverage/
 *.log
 .env*
 !.env.example
+
+test-results/
+playwright-report/
+
+.catalog-cache/
+megawhip-catalogo-maquinas.zip
+
+megawhip-catalogo-3d.zip
+.netlify/
+
+# Documentação interna do projeto permanece local
+docs/

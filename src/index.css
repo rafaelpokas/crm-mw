@@ -1,1 +1,292 @@
 @import "tailwindcss";
+:root {
+  font-family: Inter, Arial, sans-serif;
+  color: #223237;
+  background: #f5f6f0;
+  font-size: 14px;
+}
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+:focus-visible {
+  outline: 3px solid #729900 !important;
+  outline-offset: 3px;
+}
+button:not([class]),
+.panel button:not([class]) {
+  background: #223237;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+}
+input:not([type="checkbox"]),
+select,
+textarea {
+  max-width: 100%;
+}
+.page {
+  padding: 24px;
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  gap: 20px;
+}
+.page h1 {
+  font-size: 25px;
+  font-weight: 750;
+}
+.panel {
+  background: white;
+  border: 1px solid #dae0d7;
+  border-radius: 12px;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.panel h2 {
+  font-size: 17px;
+  font-weight: 700;
+}
+.panel h3 {
+  font-size: 15px;
+  font-weight: 700;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.field {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+}
+.field input,
+.field textarea,
+.field select,
+.panel select,
+.panel input:not([type="checkbox"]) {
+  border: 1px solid #bac4bc;
+  padding: 9px;
+  border-radius: 7px;
+  background: #fafbf8;
+  color: #223237;
+}
+.field textarea {
+  min-width: 250px;
+}
+.panel p {
+  line-height: 1.6;
+}
+.panel pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  max-height: 300px;
+  overflow: auto;
+}
+.panel table {
+  width: 100%;
+  text-align: left;
+}
+.panel th,
+.panel td {
+  padding: 8px;
+  border-bottom: 1px solid #e3e8e0;
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+.metric strong {
+  font-size: 30px;
+}
+.metric span {
+  color: #53636a;
+  font-size: 12px;
+}
+.stage-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px;
+  background: #f5f6f0;
+  border-radius: 7px;
+  text-align: left;
+}
+.stage-row meter {
+  flex: 1;
+  accent-color: #a6c83f;
+}
+.conversation-card {
+  display: grid;
+  width: 100%;
+  text-align: left;
+  background: #f5f6f0;
+  padding: 12px;
+  border-radius: 8px;
+  gap: 5px;
+  color: #223237;
+}
+.conversation-card.selected {
+  background: #e8f0ce;
+  box-shadow: inset 4px 0 #94b531;
+}
+.conversation-card span,
+.conversation-card small {
+  font-size: 11px;
+}
+.inbox-layout {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.messages {
+  max-height: 45vh;
+  min-height: 150px;
+  overflow-y: auto;
+  display: grid;
+  gap: 12px;
+  padding: 8px;
+}
+.message {
+  padding: 12px;
+  background: #f0f4e7;
+  border-radius: 10px;
+  max-width: 90%;
+  overflow-wrap: anywhere;
+}
+.message.outbound {
+  justify-self: end;
+  background: #e7edf0;
+}
+.message.note {
+  background: #fff3cc;
+}
+.message small {
+  font-size: 10px;
+  color: #53636a;
+}
+.message p {
+  white-space: pre-wrap;
+}
+.warning,
+.storage-error {
+  padding: 12px;
+  background: #fff1ce;
+  color: #654c00;
+  border-radius: 8px;
+}
+.storage-error {
+  margin: 15px;
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #15252ba8;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal {
+  width: 550px;
+  max-height: 90vh;
+  overflow: auto;
+}
+.mobile-menu {
+  display: none;
+}
+.sidebar-shell {
+  flex-shrink: 0;
+}
+.assistant {
+  background: #f5f8eb;
+}
+[role="status"]:empty {
+  display: none;
+}
+@media (max-width: 900px) {
+  .sidebar-shell {
+    display: none;
+  }
+  .sidebar-shell.is-open {
+    display: block;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 60;
+    background: #223237;
+    box-shadow: 20px 0 80px #0008;
+  }
+  .mobile-menu {
+    display: block;
+    background: #223237;
+    color: white;
+    padding: 10px;
+    text-align: left;
+  }
+  .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .page {
+    padding: 14px;
+  }
+  .inbox-layout {
+    display: block;
+    padding: 12px;
+  }
+  .conversation-detail {
+    display: none;
+  }
+  .show-conversation .inbox-list {
+    display: none;
+  }
+  .show-conversation .conversation-detail {
+    display: grid;
+  }
+  .stage-row {
+    flex-wrap: wrap;
+  }
+  .panel {
+    padding: 14px;
+  }
+  header .text-xs {
+    font-size: 10px;
+  }
+  .flex-1 {
+    min-width: 0;
+  }
+  .overflow-hidden table {
+    display: block;
+    overflow: auto;
+  }
+  .modal .field textarea {
+    min-width: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.experience{min-height:100vh;background:#f3f4ec;color:#223237;font-family:inherit}.experience header{display:flex;justify-content:space-between;align-items:center;padding:24px 6%;border-bottom:1px solid #d5dacb}.experience header img{width:170px}.experience main{max-width:1280px;margin:auto;padding:60px 6%}.experience h1{font-size:clamp(36px,5vw,72px);line-height:1.05;letter-spacing:-.045em;font-weight:750;margin:20px 0}.experience main>p{font-size:18px;max-width:700px}.experience-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin:40px 0}.experience-grid>a,.experience-grid>section{padding:28px;border:1px solid #cad1c0;border-radius:18px;background:#fff}.experience-grid>a:first-child{background:#223237;color:#f5f6f0}.experience-grid h2{font-size:27px;font-weight:700;margin:24px 0 12px}.experience-grid p{min-height:72px}.experience-grid b{display:block;margin-top:20px;color:#719d25}.experience-grid>a:first-child b{color:#b1d448}.experience label{display:block;margin:14px 0}.experience input,.experience select{display:block;width:100%;padding:12px;background:#f5f6f0;border:1px solid #bbc5af;border-radius:8px;margin-top:6px}.experience small{display:block}.experience-action{display:block;padding:14px 22px;background:#b1d448;color:#223237;border-radius:8px;font-weight:700;margin:20px 0}.experience button:disabled{opacity:.5}.experience footer{padding:24px 6%;border-top:1px solid #d5dacb;color:#53636a}.experience-note{font-size:14px!important;color:#53636a}.experience a:focus-visible,.experience button:focus-visible{outline:3px solid #78a41e;outline-offset:4px}

@@ -1,298 +1,199 @@
-import React, { useState, useMemo } from 'react';
-import { useCrm } from '../context/CrmContext';
-import {
-  CalendarCheck,
-  Plus,
-  Filter,
-  CheckCircle,
-  Clock,
-  AlertTriangle,
-  ChevronRight,
-  Check,
-  Calendar,
-  User
-} from 'lucide-react';
-import { formatDate } from '../utils/formatters';
-import { Task, TaskType } from '../data/types';
-
-interface TasksViewProps {
-  navigateTo: (route: string) => void;
-}
-
-export const TasksView: React.FC<TasksViewProps> = ({ navigateTo }) => {
-  const { db, currentUser, completeTask, createTask } = useCrm();
-
-  const [statusFilter, setStatusFilter] = useState<'open' | 'completed' | 'all'>('open');
-  const [selectedOwner, setSelectedOwner] = useState<string>('all');
-  const [newTaskOpen, setNewTaskOpen] = useState(false);
-
-  // Form states
-  const [taskTitle, setTaskTitle] = useState('');
-  const [taskOppId, setTaskOppId] = useState<string>(db.opportunities[0]?.id || '');
-  const [taskType, setTaskType] = useState<TaskType>('follow_up');
-  const [taskDue, setTaskDue] = useState('2026-10-14T10:00');
-
-  const filteredTasks = useMemo(() => {
-    const clockTime = new Date(db.meta.clock).getTime();
-    return db.tasks
-      .filter(t => {
-        if (statusFilter === 'open' && t.status !== 'open') return false;
-        if (statusFilter === 'completed' && t.status !== 'completed') return false;
-        if (selectedOwner !== 'all' && t.ownerId !== selectedOwner) return false;
-        return true;
-      })
-      .sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
-  }, [db.tasks, statusFilter, selectedOwner, db.meta.clock]);
-
-  const handleCreateTask = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!taskTitle.trim()) return;
-
-    await createTask({
-      opportunityId: taskOppId,
-      title: taskTitle,
-      dueAt: `${taskDue}:00-03:00`,
-      type: taskType
-    });
-
-    setTaskTitle('');
-    setNewTaskOpen(false);
+import { useQueryState } from "../hooks/useQueryState";
+import React, { useState } from "react";
+import { useCrm } from "../context/CrmContext";
+import { formatDate } from "../utils/formatters";
+export const TasksView = ({
+  navigateTo,
+}: {
+  navigateTo: (s: string) => void;
+}) => {
+  const { db, currentUser, createTask, updateTask, completeTask } = useCrm();
+  const [status, setStatus] = useQueryState<string>("status", "open"),
+    [owner, setOwner] = useQueryState<string>("owner", "all"),
+    [feedback, setFeedback] = useState(""),
+    [title, setTitle] = useState(""),
+    [opportunityId, setOpp] = useState(db.opportunities[0]?.id || ""),
+    [due, setDue] = useState(db.meta.clock.slice(0, 10) + "T10:00"),
+    [type, setType] = useState("follow_up");
+  const report = async (p: Promise<any>) => {
+    const r = await p;
+    setFeedback(r.ok ? "Tarefa atualizada." : r.error?.message || "Falha");
+    return r;
   };
-
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6 text-xs text-[#223237]">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-[#dae0d7] shadow-xs">
-        <div>
-          <h1 className="text-xl font-bold text-[#223237] flex items-center space-x-2">
-            <span>Agenda Comercial & Follow-ups (T12)</span>
-            <span className="text-xs font-normal bg-[#B1D448]/20 text-[#223237] px-2 py-0.5 rounded border border-[#B1D448]/40">
-              {filteredTasks.length} tarefas
-            </span>
-          </h1>
-          <p className="text-xs text-[#53636A] mt-1">
-            Controle de retornos a compradores, aprovações de gestor e validações técnicas de engenharia.
-          </p>
+    <div className="page">
+      <h1>Agenda comercial</h1>
+      <form
+        className="panel"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const r = await report(
+            createTask({
+              opportunityId,
+              title,
+              dueAt: due + ":00-03:00",
+              type,
+            }),
+          );
+          if (r.ok) setTitle("");
+        }}
+      >
+        <h2>Nova tarefa</h2>
+        <div className="row">
+          <label className="field">
+            Título
+            <input
+              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+          <label className="field">
+            Negociação
+            <select
+              required
+              value={opportunityId}
+              onChange={(e) => setOpp(e.target.value)}
+            >
+              {db.opportunities.map((o) => (
+                <option value={o.id} key={o.id}>
+                  {o.title}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field">
+            Prazo
+            <input
+              required
+              type="datetime-local"
+              value={due}
+              onChange={(e) => setDue(e.target.value)}
+            />
+          </label>
+          <label className="field">
+            Tipo
+            <select value={type} onChange={(e) => setType(e.target.value)}>
+              <option value="follow_up">Retorno</option>
+              <option value="technical_review">Análise técnica</option>
+              <option value="quote_draft">Preparar cotação</option>
+            </select>
+          </label>
+          <button>Criar tarefa</button>
         </div>
-
-        <button
-          onClick={() => setNewTaskOpen(true)}
-          className="bg-[#223237] hover:bg-[#2d3f45] text-white px-3.5 py-2 rounded-lg font-semibold flex items-center space-x-1.5 transition"
-        >
-          <Plus size={15} className="text-[#B1D448]" />
-          <span>Nova Tarefa</span>
-        </button>
-      </div>
-
-      {/* Filters Bar */}
-      <div className="flex items-center space-x-3 flex-wrap">
-        <div className="flex space-x-1 bg-white p-1 rounded-lg border border-[#dae0d7]">
-          <button
-            onClick={() => setStatusFilter('open')}
-            className={`px-3 py-1 rounded-md font-semibold transition ${
-              statusFilter === 'open' ? 'bg-[#223237] text-white' : 'text-[#53636A] hover:bg-[#F5F6F0]'
-            }`}
-          >
-            Pendentes / Abertas
-          </button>
-          <button
-            onClick={() => setStatusFilter('completed')}
-            className={`px-3 py-1 rounded-md font-semibold transition ${
-              statusFilter === 'completed' ? 'bg-[#223237] text-white' : 'text-[#53636A] hover:bg-[#F5F6F0]'
-            }`}
-          >
-            Concluídas
-          </button>
-          <button
-            onClick={() => setStatusFilter('all')}
-            className={`px-3 py-1 rounded-md font-semibold transition ${
-              statusFilter === 'all' ? 'bg-[#223237] text-white' : 'text-[#53636A] hover:bg-[#F5F6F0]'
-            }`}
-          >
-            Todas
-          </button>
-        </div>
-
-        <div className="flex items-center space-x-1 bg-white px-3 py-1.5 rounded-lg border border-[#dae0d7]">
-          <Filter size={13} className="text-[#53636A]" />
-          <select
-            value={selectedOwner}
-            onChange={e => setSelectedOwner(e.target.value)}
-            className="bg-transparent text-xs text-[#223237] focus:outline-hidden"
-          >
-            <option value="all">Todos os Responsáveis</option>
-            {db.users.map(u => (
-              <option key={u.id} value={u.id}>{u.name}</option>
+      </form>
+      <p role="status">{feedback}</p>
+      <div className="row">
+        <label>
+          Status
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value="all">Todos</option>
+            <option value="open">Abertas</option>
+            <option value="completed">Concluídas</option>
+            <option value="cancelled">Canceladas</option>
+          </select>
+        </label>
+        <label>
+          Responsável
+          <select value={owner} onChange={(e) => setOwner(e.target.value)}>
+            <option value="all">Todos</option>
+            {db.users.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.name}
+              </option>
             ))}
           </select>
-        </div>
+        </label>
       </div>
-
-      {/* Tasks List */}
-      <div className="bg-white rounded-xl border border-[#dae0d7] shadow-xs overflow-hidden">
-        <div className="divide-y divide-[#dae0d7]/70">
-          {filteredTasks.length === 0 ? (
-            <div className="p-8 text-center text-[#53636A]">
-              Nenhuma tarefa encontrada com os filtros selecionados.
-            </div>
-          ) : (
-            filteredTasks.map(task => {
-              const clockTime = new Date(db.meta.clock).getTime();
-              const dueTime = new Date(task.dueAt).getTime();
-              const isOverdue = task.status === 'open' && dueTime < clockTime;
-              const opp = db.opportunities.find(o => o.id === task.opportunityId);
-              const owner = db.users.find(u => u.id === task.ownerId);
-
-              return (
-                <div
-                  key={task.id}
-                  className={`p-4 flex items-center justify-between gap-4 transition ${
-                    isOverdue ? 'bg-red-50/30' : 'hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="flex items-start space-x-3">
-                    <button
-                      onClick={() => completeTask(task.id)}
-                      disabled={task.status === 'completed'}
-                      className={`w-5 h-5 rounded-md flex items-center justify-center border transition mt-0.5 ${
-                        task.status === 'completed'
-                          ? 'bg-emerald-600 border-emerald-600 text-white'
-                          : 'border-[#dae0d7] hover:border-[#B1D448] text-transparent hover:text-gray-300'
-                      }`}
-                    >
-                      <Check size={12} />
-                    </button>
-
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-2">
-                        <span className={`font-bold text-xs ${task.status === 'completed' ? 'line-through text-gray-400' : 'text-[#223237]'}`}>
-                          {task.title}
-                        </span>
-
-                        {isOverdue && (
-                          <span className="bg-red-100 text-red-800 px-1.5 py-0.2 rounded font-bold text-[10px] flex items-center space-x-1">
-                            <AlertTriangle size={10} />
-                            <span>Atrasada</span>
-                          </span>
-                        )}
-
-                        {task.automationKey && (
-                          <span className="bg-blue-50 text-blue-800 px-1.5 py-0.2 rounded font-semibold text-[10px]">
-                            Automação {task.automationKey.split('-')[0]}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="text-[11px] text-[#53636A] flex items-center space-x-3">
-                        {opp && (
-                          <span
-                            onClick={() => navigateTo(`/oportunidades/${opp.id}`)}
-                            className="text-[#223237] hover:underline cursor-pointer font-medium"
-                          >
-                            Oportunidade: {opp.title} ({opp.id})
-                          </span>
-                        )}
-                        <span>•</span>
-                        <span>Responsável: <strong>{owner?.name}</strong></span>
-                        <span>•</span>
-                        <span>Vencimento: {formatDate(task.dueAt, true)}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {opp && (
-                    <button
-                      onClick={() => navigateTo(`/oportunidades/${opp.id}`)}
-                      className="text-[#223237] hover:text-[#B1D448] font-bold text-xs flex items-center space-x-1 shrink-0"
-                    >
-                      <span>Abrir Oportunidade</span>
-                      <ChevronRight size={13} />
-                    </button>
-                  )}
-                </div>
-              );
-            })
-          )}
-        </div>
-      </div>
-
-      {/* New Task Modal */}
-      {newTaskOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl border border-[#dae0d7] shadow-2xl p-5 max-w-md w-full space-y-4">
-            <h3 className="font-bold text-sm text-[#223237]">Agendar Nova Tarefa Comercial</h3>
-
-            <form onSubmit={handleCreateTask} className="space-y-3">
-              <div>
-                <label className="block text-[#53636A] font-semibold mb-1">Título da Ação *</label>
-                <input
-                  type="text"
-                  required
-                  value={taskTitle}
-                  onChange={e => setTaskTitle(e.target.value)}
-                  placeholder="Ex: Ligar para confirmar aprovação do comprador..."
-                  className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#53636A] font-semibold mb-1">Oportunidade Vinculada</label>
-                <select
-                  value={taskOppId}
-                  onChange={e => setTaskOppId(e.target.value)}
-                  className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs bg-white"
-                >
-                  {db.opportunities.map(o => (
-                    <option key={o.id} value={o.id}>{o.id} - {o.title}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[#53636A] font-semibold mb-1">Tipo de Tarefa</label>
-                  <select
-                    value={taskType}
-                    onChange={e => setTaskType(e.target.value as any)}
-                    className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs bg-white"
+      {db.tasks
+        .filter(
+          (t) =>
+            (status === "all" || t.status === status) &&
+            (owner === "all" || t.ownerId === owner),
+        )
+        .sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt))
+        .map((t) => (
+          <div className="panel" key={t.id}>
+            <h2>{t.title}</h2>
+            <p>
+              {formatDate(t.dueAt)} ·{" "}
+              {db.users.find((u) => u.id === t.ownerId)?.name ||
+                "Sem responsável"}{" "}
+              · {t.status}{" "}
+              {t.status === "open" &&
+              Date.parse(t.dueAt) < Date.parse(db.meta.clock)
+                ? "· Atrasada"
+                : ""}
+            </p>
+            {t.outcome && <p>{t.outcome}</p>}
+            <div className="row">
+              <button
+                onClick={() =>
+                  navigateTo(
+                    t.opportunityId
+                      ? `/oportunidades/${t.opportunityId}`
+                      : "/leads",
+                  )
+                }
+              >
+                {t.opportunityId ? "Abrir negociação" : "Abrir lead"}
+              </button>
+              {t.status === "open" && (
+                <>
+                  <button
+                    onClick={() => {
+                      const outcome = prompt("Resultado da tarefa");
+                      if (outcome) report(completeTask(t.id, outcome));
+                    }}
                   >
-                    <option value="follow_up">Follow-up Comercial</option>
-                    <option value="technical_review">Revisão Técnica</option>
-                    <option value="quote_draft">Elaborar Cotação</option>
-                    <option value="manager_approval">Aprovação Gestor</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-[#53636A] font-semibold mb-1">Data / Hora</label>
-                  <input
-                    type="datetime-local"
-                    value={taskDue}
-                    onChange={e => setTaskDue(e.target.value)}
-                    className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs bg-white"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-end space-x-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setNewTaskOpen(false)}
-                  className="px-3 py-1.5 border border-[#dae0d7] rounded-lg text-xs hover:bg-gray-50"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-1.5 bg-[#223237] hover:bg-[#2d3f45] text-white rounded-lg text-xs font-bold"
-                >
-                  Salvar Tarefa
-                </button>
-              </div>
-            </form>
+                    Concluir
+                  </button>
+                  <button
+                    onClick={() => {
+                      const value = prompt(
+                        "Novo prazo (AAAA-MM-DD HH:MM)",
+                        t.dueAt.slice(0, 16).replace("T", " "),
+                      );
+                      if (value)
+                        report(
+                          updateTask(t.id, {
+                            dueAt: value.replace(" ", "T") + ":00-03:00",
+                          }),
+                        );
+                    }}
+                  >
+                    Reagendar
+                  </button>
+                  <button
+                    onClick={() => {
+                      const value = prompt("Título da tarefa", t.title);
+                      if (value) report(updateTask(t.id, { title: value }));
+                    }}
+                  >
+                    Editar
+                  </button>
+                  {["manager", "admin"].includes(currentUser.role) && (
+                    <select
+                      aria-label="Responsável da tarefa"
+                      value={t.ownerId}
+                      onChange={(e) =>
+                        report(updateTask(t.id, { ownerId: e.target.value }))
+                      }
+                    >
+                      {db.users
+                        .filter((u) => u.active)
+                        .map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {u.name}
+                          </option>
+                        ))}
+                    </select>
+                  )}
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        ))}
     </div>
   );
 };

@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import { useCrm } from '../context/CrmContext';
+import { useQueryState } from "../hooks/useQueryState";
+import React, { useState, useMemo } from "react";
+import { useCrm } from "../context/CrmContext";
 import {
   Users,
   Plus,
@@ -11,34 +12,52 @@ import {
   ExternalLink,
   ChevronRight,
   UserCheck,
-  Check
-} from 'lucide-react';
-import { formatDate } from '../utils/formatters';
-import { LeadSource, LeadStatus } from '../data/types';
+  Check,
+} from "lucide-react";
+import { formatDate } from "../utils/formatters";
+import { LeadSource, LeadStatus } from "../data/types";
 
 interface LeadsViewProps {
   navigateTo: (route: string) => void;
-  initialMode?: 'list' | 'new';
+  initialMode?: "list" | "new";
 }
 
-export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 'list' }) => {
-  const { db, currentUser, createLead, assignOwner } = useCrm();
+export const LeadsView: React.FC<LeadsViewProps> = ({
+  navigateTo,
+  initialMode = "list",
+}) => {
+  const {
+    db,
+    currentUser,
+    createLead,
+    assignOwner,
+    assignLead,
+    qualifyLead,
+    convertLead,
+    updateLead,
+  } = useCrm();
 
-  const [mode, setMode] = useState<'list' | 'new'>(initialMode);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sourceFilter, setSourceFilter] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [ownerFilter, setOwnerFilter] = useState<string>('all');
+  const [mode, setMode] = useState<"list" | "new">(initialMode);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sourceFilter, setSourceFilter] = useQueryState<string>(
+    "source",
+    "all",
+  );
+  const [statusFilter, setStatusFilter] = useQueryState<string>(
+    "status",
+    "all",
+  );
+  const [ownerFilter, setOwnerFilter] = useQueryState<string>("owner", "all");
   const [selectedLeadIds, setSelectedLeadIds] = useState<string[]>([]);
-  const [batchAssignOwnerId, setBatchAssignOwnerId] = useState<string>('U002');
+  const [batchAssignOwnerId, setBatchAssignOwnerId] = useState<string>("U002");
 
   // New Lead Form State
-  const [formName, setFormName] = useState('');
-  const [formEmail, setFormEmail] = useState('');
-  const [formWhatsApp, setFormWhatsApp] = useState('');
-  const [formCompany, setFormCompany] = useState('');
-  const [formInterest, setFormInterest] = useState('');
-  const [formSource, setFormSource] = useState<LeadSource>('site');
+  const [formName, setFormName] = useState("");
+  const [formEmail, setFormEmail] = useState("");
+  const [formWhatsApp, setFormWhatsApp] = useState("");
+  const [formCompany, setFormCompany] = useState("");
+  const [formInterest, setFormInterest] = useState("");
+  const [formSource, setFormSource] = useState<LeadSource>("site");
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [formSuccess, setFormSuccess] = useState<string | null>(null);
@@ -49,21 +68,24 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
     const normEmail = formEmail.trim().toLowerCase();
     const normWa = formWhatsApp.trim();
 
-    return db.contacts.find(c =>
-      (normEmail && c.email.toLowerCase() === normEmail) ||
-      (normWa && c.whatsappMockId === normWa)
+    return db.contacts.find(
+      (c) =>
+        (normEmail && c.email.toLowerCase() === normEmail) ||
+        (normWa && c.whatsappMockId === normWa),
     );
   }, [formEmail, formWhatsApp, db.contacts]);
 
   // Filtered Leads
   const filteredLeads = useMemo(() => {
-    return db.leads.filter(lead => {
-      const contact = db.contacts.find(c => c.id === lead.contactId);
-      const company = contact ? db.companies.find(comp => comp.id === contact.companyId) : null;
+    return db.leads.filter((lead) => {
+      const contact = db.contacts.find((c) => c.id === lead.contactId);
+      const company = contact
+        ? db.companies.find((comp) => comp.id === contact.companyId)
+        : null;
 
-      if (sourceFilter !== 'all' && lead.source !== sourceFilter) return false;
-      if (statusFilter !== 'all' && lead.status !== statusFilter) return false;
-      if (ownerFilter !== 'all' && lead.ownerId !== ownerFilter) return false;
+      if (sourceFilter !== "all" && lead.source !== sourceFilter) return false;
+      if (statusFilter !== "all" && lead.status !== statusFilter) return false;
+      if (ownerFilter !== "all" && lead.ownerId !== ownerFilter) return false;
 
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -75,11 +97,19 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
 
       return true;
     });
-  }, [db.leads, db.contacts, db.companies, sourceFilter, statusFilter, ownerFilter, searchQuery]);
+  }, [
+    db.leads,
+    db.contacts,
+    db.companies,
+    sourceFilter,
+    statusFilter,
+    ownerFilter,
+    searchQuery,
+  ]);
 
   const toggleSelectLead = (id: string) => {
-    setSelectedLeadIds(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    setSelectedLeadIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
   };
 
@@ -87,23 +117,27 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
     if (selectedLeadIds.length === filteredLeads.length) {
       setSelectedLeadIds([]);
     } else {
-      setSelectedLeadIds(filteredLeads.map(l => l.id));
+      setSelectedLeadIds(filteredLeads.map((l) => l.id));
     }
   };
 
   const handleBatchAssign = async () => {
-    if (currentUser.role !== 'manager' && currentUser.role !== 'admin') {
-      alert('Apenas gestores ou administradores podem atribuir leads em lote.');
+    if (currentUser.role !== "manager" && currentUser.role !== "admin") {
+      alert("Apenas gestores ou administradores podem atribuir leads em lote.");
       return;
     }
     for (const leadId of selectedLeadIds) {
-      const lead = db.leads.find(l => l.id === leadId);
-      if (lead && lead.convertedOpportunityId) {
-        await assignOwner(lead.convertedOpportunityId, batchAssignOwnerId);
+      const lead = db.leads.find((l) => l.id === leadId);
+      if (lead) {
+        const r = await assignLead(lead.id, batchAssignOwnerId);
+        if (!r.ok) {
+          alert(r.error?.message);
+          return;
+        }
       }
     }
     setSelectedLeadIds([]);
-    alert('Leads atribuídos com sucesso ao novo responsável!');
+    alert("Leads atribuídos com sucesso ao novo responsável!");
   };
 
   const handleCreateLead = async (e: React.FormEvent) => {
@@ -112,11 +146,13 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
     setFormSuccess(null);
 
     if (!formName.trim()) {
-      setFormError('Nome do comprador é obrigatório.');
+      setFormError("Nome do comprador é obrigatório.");
       return;
     }
     if (!formEmail.trim() && !formWhatsApp.trim()) {
-      setFormError('Informe pelo menos um meio de contato (E-mail ou WhatsApp fictício).');
+      setFormError(
+        "Informe pelo menos um meio de contato (E-mail ou WhatsApp fictício).",
+      );
       return;
     }
 
@@ -127,27 +163,71 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
       whatsappMockId: formWhatsApp,
       companyName: formCompany,
       interest: formInterest,
-      source: formSource
+      duplicateChoice:
+        duplicateMatch &&
+        confirm("Vincular este lead ao contato já cadastrado?")
+          ? "link"
+          : undefined,
+      source: formSource,
     });
     setFormSubmitting(false);
 
     if (!res.ok && res.error) {
       setFormError(res.error.message);
     } else {
-      setFormSuccess('Lead cadastrado e distribuído por round-robin com sucesso!');
-      setFormName('');
-      setFormEmail('');
-      setFormWhatsApp('');
-      setFormCompany('');
-      setFormInterest('');
+      setFormSuccess("Lead cadastrado. Confira o responsável na lista.");
+      setFormName("");
+      setFormEmail("");
+      setFormWhatsApp("");
+      setFormCompany("");
+      setFormInterest("");
       setTimeout(() => {
-        setMode('list');
+        setMode("list");
       }, 1200);
     }
   };
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6 text-xs text-[#223237]">
+      <div className="row">
+        {filteredLeads
+          .filter((l) => !l.convertedOpportunityId)
+          .map((l) => (
+            <div className="panel" key={l.id}>
+              <strong>
+                {db.contacts.find((c) => c.id === l.contactId)?.name}
+              </strong>
+              <p>{l.interest || "Interesse ainda não informado"}</p>
+              <p>Origem: {l.source === "catalog" ? "Catálogo interativo" : l.source}</p><p>Segmento: {db.companies.find(c=>c.id===db.contacts.find(c=>c.id===l.contactId)?.companyId)?.segmentProfile?.mainSegment || "Pendente de qualificação"}</p><span>{l.status}</span>
+              <button
+                onClick={async () => {
+                  const interest = prompt("Interesse comercial", l.interest);
+                  if (interest !== null) {
+                    const r = await updateLead(l.id, { interest });
+                    if (!r.ok) alert(r.error?.message);
+                  }
+                }}
+              >
+                Editar interesse
+              </button>
+              <button
+                onClick={async () => {
+                  const r =
+                    l.status === "qualified"
+                      ? await convertLead(l.id)
+                      : await qualifyLead(l.id);
+                  if (!r.ok) alert(r.error?.message);
+                  else if (l.status === "qualified")
+                    navigateTo(`/oportunidades/${r.data.id}`);
+                }}
+              >
+                {l.status === "qualified"
+                  ? "Converter em oportunidade"
+                  : "Qualificar"}
+              </button>
+            </div>
+          ))}
+      </div>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-[#dae0d7] shadow-xs">
         <div>
@@ -158,14 +238,15 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
             </span>
           </h1>
           <p className="text-xs text-[#53636A] mt-1">
-            Entrada de novos compradores por site, WhatsApp, indicação ou manual com verificação de duplicidade.
+            Entrada de novos compradores por site, WhatsApp, indicação ou manual
+            com verificação de duplicidade.
           </p>
         </div>
 
         <div className="flex space-x-2">
-          {mode === 'list' ? (
+          {mode === "list" ? (
             <button
-              onClick={() => setMode('new')}
+              onClick={() => setMode("new")}
               className="bg-[#223237] hover:bg-[#2d3f45] text-white px-3.5 py-2 rounded-lg font-semibold flex items-center space-x-1.5 transition"
             >
               <Plus size={15} className="text-[#B1D448]" />
@@ -173,7 +254,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
             </button>
           ) : (
             <button
-              onClick={() => setMode('list')}
+              onClick={() => setMode("list")}
               className="bg-white border border-[#dae0d7] text-[#223237] px-3.5 py-2 rounded-lg font-semibold hover:bg-gray-50 transition"
             >
               Voltar para Lista
@@ -182,13 +263,16 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
         </div>
       </div>
 
-      {mode === 'new' ? (
+      {mode === "new" ? (
         /* T04: New Lead Form */
         <div className="bg-white p-6 rounded-xl border border-[#dae0d7] shadow-xs max-w-2xl mx-auto space-y-5">
           <div className="border-b border-[#dae0d7] pb-3">
-            <h2 className="text-base font-bold text-[#223237]">Formulário de Cadastro de Lead (T04)</h2>
+            <h2 className="text-base font-bold text-[#223237]">
+              Formulário de Cadastro de Lead
+            </h2>
             <p className="text-[#53636A] text-xs">
-              Todos os dados são fictícios para simulação da triagem e distribuição automática da MegaWhip.
+              Todos os dados são fictícios para simulação da triagem e
+              distribuição automática da MegaWhip.
             </p>
           </div>
 
@@ -203,13 +287,29 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
             </div>
           )}
 
+          {!duplicateMatch &&
+            formName.trim().length > 3 &&
+            db.contacts.some((c) =>
+              c.name.toLowerCase().includes(formName.trim().toLowerCase()),
+            ) && (
+              <p className="warning">
+                Existe um nome semelhante na base. Confira os contatos; nomes
+                semelhantes não serão mesclados automaticamente.
+              </p>
+            )}
           {duplicateMatch && (
             <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900 text-xs flex items-start space-x-2">
-              <AlertCircle size={16} className="text-amber-600 shrink-0 mt-0.5" />
+              <AlertCircle
+                size={16}
+                className="text-amber-600 shrink-0 mt-0.5"
+              />
               <div>
                 <strong>Atenção: Contato já existente encontrado!</strong>
                 <p className="mt-0.5 text-[#53636A]">
-                  O contato <strong>{duplicateMatch.name}</strong> já está cadastrado com este e-mail/WhatsApp. O sistema anexará a nova solicitação ao contato existente para manter o histórico unificado.
+                  O contato <strong>{duplicateMatch.name}</strong> já está
+                  cadastrado com este e-mail/WhatsApp. O sistema anexará a nova
+                  solicitação ao contato existente para manter o histórico
+                  unificado.
                 </p>
               </div>
             </div>
@@ -224,7 +324,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                 type="text"
                 required
                 value={formName}
-                onChange={e => setFormName(e.target.value)}
+                onChange={(e) => setFormName(e.target.value)}
                 placeholder="Ex: João da Silva Demo"
                 className="w-full p-2.5 border border-[#dae0d7] rounded-lg text-xs focus:border-[#B1D448] focus:outline-hidden"
               />
@@ -238,7 +338,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                 <input
                   type="email"
                   value={formEmail}
-                  onChange={e => setFormEmail(e.target.value)}
+                  onChange={(e) => setFormEmail(e.target.value)}
                   placeholder="comprador@example.com"
                   className="w-full p-2.5 border border-[#dae0d7] rounded-lg text-xs focus:border-[#B1D448] focus:outline-hidden"
                 />
@@ -251,7 +351,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                 <input
                   type="text"
                   value={formWhatsApp}
-                  onChange={e => setFormWhatsApp(e.target.value)}
+                  onChange={(e) => setFormWhatsApp(e.target.value)}
                   placeholder="WA-DEMO-999"
                   className="w-full p-2.5 border border-[#dae0d7] rounded-lg text-xs focus:border-[#B1D448] focus:outline-hidden font-mono"
                 />
@@ -266,7 +366,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                 <input
                   type="text"
                   value={formCompany}
-                  onChange={e => setFormCompany(e.target.value)}
+                  onChange={(e) => setFormCompany(e.target.value)}
                   placeholder="Ex: Tratores e Chicotes Agro Demo"
                   className="w-full p-2.5 border border-[#dae0d7] rounded-lg text-xs focus:border-[#B1D448] focus:outline-hidden"
                 />
@@ -278,7 +378,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                 </label>
                 <select
                   value={formSource}
-                  onChange={e => setFormSource(e.target.value as any)}
+                  onChange={(e) => setFormSource(e.target.value as any)}
                   className="w-full p-2.5 border border-[#dae0d7] rounded-lg text-xs bg-white focus:outline-hidden"
                 >
                   <option value="site">Formulário do Site</option>
@@ -298,7 +398,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
               <textarea
                 rows={3}
                 value={formInterest}
-                onChange={e => setFormInterest(e.target.value)}
+                onChange={(e) => setFormInterest(e.target.value)}
                 placeholder="Ex: 2 unidades DEMO-MW-001 e 4 conectores DEMO-MW-002 para colheitadeira..."
                 className="w-full p-2.5 border border-[#dae0d7] rounded-lg text-xs focus:border-[#B1D448] focus:outline-hidden"
               />
@@ -307,7 +407,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
             <div className="pt-2 flex justify-end space-x-2">
               <button
                 type="button"
-                onClick={() => setMode('list')}
+                onClick={() => setMode("list")}
                 className="px-4 py-2 border border-[#dae0d7] rounded-lg text-xs font-semibold hover:bg-gray-50"
               >
                 Cancelar
@@ -317,7 +417,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                 disabled={formSubmitting}
                 className="px-5 py-2 bg-[#223237] hover:bg-[#2d3f45] text-white rounded-lg text-xs font-bold transition disabled:opacity-50"
               >
-                {formSubmitting ? 'Salvando...' : 'Cadastrar e Distribuir Lead'}
+                {formSubmitting ? "Salvando..." : "Cadastrar e Distribuir Lead"}
               </button>
             </div>
           </form>
@@ -328,11 +428,14 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
           {/* Filter Bar */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="relative flex-1 max-w-sm">
-              <Search size={14} className="absolute left-3 top-2.5 text-[#53636A]" />
+              <Search
+                size={14}
+                className="absolute left-3 top-2.5 text-[#53636A]"
+              />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar por comprador, empresa ou interesse..."
                 className="w-full pl-9 pr-3 py-1.5 border border-[#dae0d7] rounded-md text-xs placeholder-[#53636A] focus:outline-hidden"
               />
@@ -341,7 +444,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
             <div className="flex items-center space-x-2 flex-wrap">
               <select
                 value={sourceFilter}
-                onChange={e => setSourceFilter(e.target.value)}
+                onChange={(e) => setSourceFilter(e.target.value)}
                 className="border border-[#dae0d7] rounded-md px-2 py-1 text-xs bg-white text-[#223237]"
               >
                 <option value="all">Todas as Origens</option>
@@ -353,15 +456,37 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
 
               <select
                 value={ownerFilter}
-                onChange={e => setOwnerFilter(e.target.value)}
+                onChange={(e) => setOwnerFilter(e.target.value)}
                 className="border border-[#dae0d7] rounded-md px-2 py-1 text-xs bg-white text-[#223237]"
               >
                 <option value="all">Todos os Responsáveis</option>
-                {db.users.filter(u => u.role === 'seller').map(u => (
-                  <option key={u.id} value={u.id}>{u.name}</option>
-                ))}
+                {db.users
+                  .filter((u) => u.role === "seller")
+                  .map((u) => (
+                    <option key={u.id} value={u.id}>
+                      {u.name}
+                    </option>
+                  ))}
               </select>
 
+              <select
+                aria-label="Status do lead"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="all">Todos os estados</option>
+                {[
+                  ["new", "Novo"],
+                  ["contacted", "Contatado"],
+                  ["qualified", "Qualificado"],
+                  ["converted", "Convertido"],
+                  ["lost", "Perdido"],
+                ].map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
               {/* Batch Actions for Manager */}
               {selectedLeadIds.length > 0 && (
                 <div className="flex items-center space-x-1 bg-amber-50 border border-amber-300 p-1 rounded-md">
@@ -370,12 +495,16 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                   </span>
                   <select
                     value={batchAssignOwnerId}
-                    onChange={e => setBatchAssignOwnerId(e.target.value)}
+                    onChange={(e) => setBatchAssignOwnerId(e.target.value)}
                     className="text-[11px] border border-amber-300 rounded px-1 py-0.5 bg-white"
                   >
-                    {db.users.filter(u => u.role === 'seller').map(u => (
-                      <option key={u.id} value={u.id}>{u.name}</option>
-                    ))}
+                    {db.users
+                      .filter((u) => u.role === "seller")
+                      .map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.name}
+                        </option>
+                      ))}
                   </select>
                   <button
                     onClick={handleBatchAssign}
@@ -395,7 +524,8 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                 <tr className="border-b border-[#dae0d7] bg-[#F5F6F0] text-[#53636A] font-bold text-[11px]">
                   <th className="py-2.5 px-3 w-8">
                     <button onClick={toggleSelectAll}>
-                      {selectedLeadIds.length === filteredLeads.length && filteredLeads.length > 0 ? (
+                      {selectedLeadIds.length === filteredLeads.length &&
+                      filteredLeads.length > 0 ? (
                         <CheckSquare size={14} className="text-[#223237]" />
                       ) : (
                         <Square size={14} className="text-gray-400" />
@@ -418,18 +548,30 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                     </td>
                   </tr>
                 ) : (
-                  filteredLeads.map(lead => {
-                    const contact = db.contacts.find(c => c.id === lead.contactId);
-                    const company = contact ? db.companies.find(comp => comp.id === contact.companyId) : null;
-                    const owner = db.users.find(u => u.id === lead.ownerId);
+                  filteredLeads.map((lead) => {
+                    const contact = db.contacts.find(
+                      (c) => c.id === lead.contactId,
+                    );
+                    const company = contact
+                      ? db.companies.find(
+                          (comp) => comp.id === contact.companyId,
+                        )
+                      : null;
+                    const owner = db.users.find((u) => u.id === lead.ownerId);
                     const isSelected = selectedLeadIds.includes(lead.id);
 
                     return (
-                      <tr key={lead.id} className={`hover:bg-[#F5F6F0]/60 transition ${isSelected ? 'bg-amber-50/40' : ''}`}>
+                      <tr
+                        key={lead.id}
+                        className={`hover:bg-[#F5F6F0]/60 transition ${isSelected ? "bg-amber-50/40" : ""}`}
+                      >
                         <td className="py-3 px-3">
                           <button onClick={() => toggleSelectLead(lead.id)}>
                             {isSelected ? (
-                              <CheckSquare size={14} className="text-[#223237]" />
+                              <CheckSquare
+                                size={14}
+                                className="text-[#223237]"
+                              />
                             ) : (
                               <Square size={14} className="text-gray-400" />
                             )}
@@ -437,9 +579,15 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                         </td>
 
                         <td className="py-3 px-3">
-                          <div className="font-bold text-[#223237]">{contact?.name || 'Comprador'}</div>
-                          <div className="text-[11px] text-[#53636A]">{company?.name || 'Empresa não informada'}</div>
-                          <div className="text-[10px] text-gray-400 font-mono">{contact?.email} • {contact?.whatsappMockId}</div>
+                          <div className="font-bold text-[#223237]">
+                            {contact?.name || "Comprador"}
+                          </div>
+                          <div className="text-[11px] text-[#53636A]">
+                            {company?.name || "Empresa não informada"}
+                          </div>
+                          <div className="text-[10px] text-gray-400 font-mono">
+                            {contact?.email} • {contact?.whatsappMockId}
+                          </div>
                         </td>
 
                         <td className="py-3 px-3">
@@ -454,7 +602,7 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
 
                         <td className="py-3 px-3">
                           <span className="font-medium text-[#223237]">
-                            {owner?.name || 'Fila sem responsável'}
+                            {owner?.name || "Fila sem responsável"}
                           </span>
                         </td>
 
@@ -465,14 +613,20 @@ export const LeadsView: React.FC<LeadsViewProps> = ({ navigateTo, initialMode = 
                         <td className="py-3 px-3 text-right">
                           {lead.convertedOpportunityId ? (
                             <button
-                              onClick={() => navigateTo(`/oportunidades/${lead.convertedOpportunityId}`)}
+                              onClick={() =>
+                                navigateTo(
+                                  `/oportunidades/${lead.convertedOpportunityId}`,
+                                )
+                              }
                               className="inline-flex items-center space-x-1 text-[#223237] hover:text-[#B1D448] font-bold text-xs"
                             >
                               <span>Ver Oportunidade</span>
                               <ChevronRight size={13} />
                             </button>
                           ) : (
-                            <span className="text-gray-400">Em qualificação</span>
+                            <span className="text-gray-400">
+                              Em qualificação
+                            </span>
                           )}
                         </td>
                       </tr>

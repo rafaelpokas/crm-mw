@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { useCrm } from '../context/CrmContext';
+import React, { useState, useMemo } from "react";
+import { useCrm } from "../context/CrmContext";
 import {
   FileText,
   Download,
@@ -15,53 +15,69 @@ import {
   ShieldAlert,
   Clock,
   Sparkles,
-  RefreshCw
-} from 'lucide-react';
-import { formatCurrency, formatBps, formatDate } from '../utils/formatters';
-import { generateQuotePdf } from '../utils/pdfGenerator';
+  RefreshCw,
+} from "lucide-react";
+import { formatCurrency, formatBps, formatDate } from "../utils/formatters";
+import { generateQuotePdf } from "../utils/pdfGenerator";
 
 interface QuoteDetailViewProps {
   quoteId: string;
   navigateTo: (route: string) => void;
 }
 
-export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navigateTo }) => {
-  const { db, currentUser, sendQuote, reviseQuote, setSimulatedError } = useCrm();
+export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({
+  quoteId,
+  navigateTo,
+}) => {
+  const { db, currentUser, sendQuote, reviseQuote, setSimulatedError } =
+    useCrm();
 
   const [sendModalOpen, setSendModalOpen] = useState(false);
-  const [selectedChannels, setSelectedChannels] = useState<('whatsapp' | 'email')[]>(['whatsapp', 'email']);
+  const [selectedChannels, setSelectedChannels] = useState<
+    ("whatsapp" | "email")[]
+  >(["whatsapp", "email"]);
   const [sending, setSending] = useState(false);
-  const [sendResult, setSendResult] = useState<{ ok: boolean; message: string; canRetryWhatsApp?: boolean } | null>(null);
+  const [sendResult, setSendResult] = useState<{
+    ok: boolean;
+    message: string;
+    canRetryWhatsApp?: boolean;
+    canRetryEmail?: boolean;
+  } | null>(null);
 
   const quote = useMemo(() => {
-    return db.quotes.find(q => q.id === quoteId);
+    return db.quotes.find((q) => q.id === quoteId);
   }, [db.quotes, quoteId]);
 
   const currentVersion = useMemo(() => {
     if (!quote) return null;
-    return db.quoteVersions.find(v => v.id === quote.currentVersionId);
+    return db.quoteVersions.find((v) => v.id === quote.currentVersionId);
   }, [db.quoteVersions, quote]);
 
   const opp = useMemo(() => {
     if (!quote) return null;
-    return db.opportunities.find(o => o.id === quote.opportunityId);
+    return db.opportunities.find((o) => o.id === quote.opportunityId);
   }, [db.opportunities, quote]);
 
   const company = useMemo(() => {
     if (!opp) return null;
-    return db.companies.find(c => c.id === opp.companyId);
+    return db.companies.find((c) => c.id === opp.companyId);
   }, [db.companies, opp]);
 
   const contact = useMemo(() => {
     if (!opp) return null;
-    return db.contacts.find(c => c.id === opp.contactId);
+    return db.contacts.find((c) => c.id === opp.contactId);
   }, [db.contacts, opp]);
 
   if (!quote || !currentVersion) {
     return (
       <div className="p-8 text-center space-y-4">
-        <h2 className="text-lg font-bold text-[#223237]">Cotação não encontrada</h2>
-        <button onClick={() => navigateTo('/cotacoes')} className="px-4 py-2 bg-[#223237] text-white rounded text-xs">
+        <h2 className="text-lg font-bold text-[#223237]">
+          Cotação não encontrada
+        </h2>
+        <button
+          onClick={() => navigateTo("/cotacoes")}
+          className="px-4 py-2 bg-[#223237] text-white rounded text-xs"
+        >
           Voltar às Cotações
         </button>
       </div>
@@ -69,37 +85,61 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
   }
 
   const handleDownloadPdf = () => {
-    generateQuotePdf(quote, currentVersion, company || undefined, contact || undefined);
+    generateQuotePdf(
+      quote,
+      currentVersion,
+      company || undefined,
+      contact || undefined,
+    );
   };
 
   const handleCreateNewRevision = async () => {
     const res = await reviseQuote(quote.id);
     if (res.ok && res.data) {
       navigateTo(`/cotacoes/${quote.id}/editar`);
+    } else {
+      setSendResult({
+        ok: false,
+        message: res.error?.message || "Não foi possível criar revisão.",
+      });
     }
   };
 
-  const handleSendQuote = async (retryChannel?: 'whatsapp' | 'email') => {
+  const handleSendQuote = async (retryChannel?: "whatsapp" | "email") => {
     setSending(true);
     setSendResult(null);
 
-    const res = await sendQuote(currentVersion.id, selectedChannels, retryChannel);
+    const res = await sendQuote(
+      currentVersion.id,
+      selectedChannels,
+      retryChannel,
+    );
     setSending(false);
 
     if (!res.ok) {
       setSendResult({
         ok: false,
-        message: res.error?.message || 'Falha ao enviar cotação.',
-        canRetryWhatsApp: db.simulatedErrors.failWhatsApp
+        message: res.data?.channels
+          ? Object.entries(res.data.channels)
+              .map(([ch, r]: any) => `${ch}: ${r.message || r.status}`)
+              .join(" · ")
+          : res.error?.message || "Falha ao enviar cotação.",
+        canRetryWhatsApp: res.data?.channels?.whatsapp?.status === "failed",
+        canRetryEmail: res.data?.channels?.email?.status === "failed",
       });
     } else {
       setSendResult({
         ok: true,
-        message: 'Cotação enviada com sucesso! Histórico atualizado e tarefa de retorno agendada (A03).'
+        message: Object.entries(res.data?.channels || {})
+          .map(
+            ([ch, r]: any) =>
+              `${ch}: ${r.status === "delivered" ? "entregue" : r.message}`,
+          )
+          .join(" · "),
+        canRetryWhatsApp: res.data?.channels?.whatsapp?.status === "failed",
+        canRetryEmail: res.data?.channels?.email?.status === "failed",
       });
-      setTimeout(() => {
-        setSendModalOpen(false);
-      }, 2500);
+      if (!res.data?.partial) setSendModalOpen(false);
     }
   };
 
@@ -109,7 +149,9 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-[#dae0d7] shadow-xs">
         <div>
           <button
-            onClick={() => navigateTo(opp ? `/oportunidades/${opp.id}` : '/cotacoes')}
+            onClick={() =>
+              navigateTo(opp ? `/oportunidades/${opp.id}` : "/cotacoes")
+            }
             className="text-[#53636A] hover:text-[#223237] font-semibold flex items-center space-x-1"
           >
             <ArrowLeft size={13} />
@@ -119,13 +161,19 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
             <h1 className="text-xl font-bold text-[#223237]">
               Cotação Comercial: {quote.number}
             </h1>
-            <span className={`px-2 py-0.5 rounded font-bold text-[11px] ${
-              currentVersion.status === 'accepted' ? 'bg-emerald-100 text-emerald-800' :
-              currentVersion.status === 'sent' ? 'bg-blue-100 text-blue-800' :
-              currentVersion.status === 'expired' ? 'bg-rose-100 text-rose-800' :
-              'bg-amber-100 text-amber-800'
-            }`}>
-              Revisão {currentVersion.revision} • {currentVersion.status.toUpperCase()}
+            <span
+              className={`px-2 py-0.5 rounded font-bold text-[11px] ${
+                currentVersion.status === "accepted"
+                  ? "bg-emerald-100 text-emerald-800"
+                  : currentVersion.status === "sent"
+                    ? "bg-blue-100 text-blue-800"
+                    : currentVersion.status === "expired"
+                      ? "bg-rose-100 text-rose-800"
+                      : "bg-amber-100 text-amber-800"
+              }`}
+            >
+              Revisão {currentVersion.revision} •{" "}
+              {currentVersion.status.toUpperCase()}
             </span>
           </div>
         </div>
@@ -139,7 +187,7 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
             <span>Baixar PDF Demonstrativo</span>
           </button>
 
-          {currentVersion.status === 'draft' ? (
+          {currentVersion.status === "draft" ? (
             <button
               onClick={() => navigateTo(`/cotacoes/${quote.id}/editar`)}
               className="bg-[#223237] hover:bg-[#2d3f45] text-white px-3.5 py-2 rounded-lg font-bold flex items-center space-x-1.5 transition"
@@ -168,16 +216,36 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
         </div>
       </div>
 
+      {quote.publishedVersionId &&
+        quote.publishedVersionId !== currentVersion.id && (
+          <div className="panel">
+            <p>
+              Há uma revisão publicada vigente. Este rascunho só a substituirá
+              depois do envio.
+            </p>
+            <button
+              onClick={() =>
+                navigateTo(`/simulador/cliente/${quote.publishedVersionId}`)
+              }
+            >
+              Ver proposta vigente
+            </button>
+          </div>
+        )}
+      {!sendModalOpen && sendResult && (
+        <p role="status">{sendResult.message}</p>
+      )}
       {/* Simulator Shortcut Banner */}
       <div className="p-3 bg-emerald-50/70 border border-emerald-300 rounded-xl flex items-center justify-between text-xs text-emerald-950">
         <div className="flex items-center space-x-2">
           <Sparkles size={16} className="text-emerald-700" />
           <span>
-            <strong>Simulador do Comprador (T21):</strong> Veja exatamente como o cliente visualiza esta cotação para download e aceite formal.
+            <strong>Simulador do Comprador:</strong> Veja exatamente como o
+            cliente visualiza esta cotação para download e aceite formal.
           </span>
         </div>
         <button
-          onClick={() => navigateTo(`/simulador/cliente/${quote.number}`)}
+          onClick={() => navigateTo(`/simulador/cliente/${currentVersion.id}`)}
           className="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1 rounded-md font-bold flex items-center space-x-1"
         >
           <span>Abrir Visão do Comprador</span>
@@ -194,7 +262,9 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
               MW
             </div>
             <div>
-              <div className="font-black text-xl tracking-wider text-[#223237]">MEGAWHIP</div>
+              <div className="font-black text-xl tracking-wider text-[#223237]">
+                MEGAWHIP
+              </div>
               <div className="text-[11px] text-[#53636A] font-semibold">
                 SISTEMAS ELÉTRICOS & CHICOTES EMBARCADOS
               </div>
@@ -202,9 +272,15 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
           </div>
 
           <div className="text-right">
-            <div className="font-mono font-bold text-base text-[#223237]">{quote.number}</div>
-            <div className="text-xs text-[#53636A]">Revisão: {currentVersion.revision}</div>
-            <div className="text-xs text-[#53636A]">Emissão: {formatDate(quote.createdAt, false)}</div>
+            <div className="font-mono font-bold text-base text-[#223237]">
+              {quote.number}
+            </div>
+            <div className="text-xs text-[#53636A]">
+              Revisão: {currentVersion.revision}
+            </div>
+            <div className="text-xs text-[#53636A]">
+              Emissão: {formatDate(quote.createdAt, false)}
+            </div>
           </div>
         </div>
 
@@ -216,17 +292,30 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
         {/* Two Info Blocks: Client & Conditions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-[#F5F6F0] rounded-lg border border-[#dae0d7] space-y-1">
-            <div className="font-bold text-[11px] uppercase tracking-wider text-[#53636A]">Dados do Cliente</div>
-            <div className="font-bold text-sm text-[#223237]">{company?.name}</div>
-            <div className="text-xs text-[#53636A]">Contato: {contact?.name}</div>
-            <div className="text-xs text-[#53636A]">E-mail: {contact?.email}</div>
-            <div className="text-xs text-[#53636A] font-mono">WhatsApp: {contact?.whatsappMockId}</div>
+            <div className="font-bold text-[11px] uppercase tracking-wider text-[#53636A]">
+              Dados do Cliente
+            </div>
+            <div className="font-bold text-sm text-[#223237]">
+              {company?.name}
+            </div>
+            <div className="text-xs text-[#53636A]">
+              Contato: {contact?.name}
+            </div>
+            <div className="text-xs text-[#53636A]">
+              E-mail: {contact?.email}
+            </div>
+            <div className="text-xs text-[#53636A] font-mono">
+              WhatsApp: {contact?.whatsappMockId}
+            </div>
           </div>
 
           <div className="p-4 bg-[#F5F6F0] rounded-lg border border-[#dae0d7] space-y-1">
-            <div className="font-bold text-[11px] uppercase tracking-wider text-[#53636A]">Condições da Proposta</div>
+            <div className="font-bold text-[11px] uppercase tracking-wider text-[#53636A]">
+              Condições da Proposta
+            </div>
             <div className="text-xs text-[#223237]">
-              Validade da Proposta: <strong>{formatDate(currentVersion.validUntil, false)}</strong>
+              Validade da Proposta:{" "}
+              <strong>{formatDate(currentVersion.validUntil, false)}</strong>
             </div>
             <div className="text-xs text-[#223237]">
               Pagamento: <strong>{currentVersion.paymentTerms}</strong>
@@ -239,7 +328,9 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
 
         {/* Items Table */}
         <div className="space-y-2">
-          <div className="font-bold text-xs text-[#223237]">Itens da Proposta</div>
+          <div className="font-bold text-xs text-[#223237]">
+            Itens da Proposta
+          </div>
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-[#dae0d7] bg-[#223237] text-white font-bold text-[11px]">
@@ -254,13 +345,28 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
             </thead>
             <tbody className="divide-y divide-[#dae0d7]/70 text-xs">
               {currentVersion.lines.map((line, idx) => (
-                <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-[#FAFAFA]'}>
-                  <td className="py-2.5 px-3 text-[#53636A]">{String(idx + 1).padStart(2, '0')}</td>
-                  <td className="py-2.5 px-3 font-mono font-bold text-[#223237]">{line.skuSnapshot}</td>
-                  <td className="py-2.5 px-3 text-[#223237]">{line.nameSnapshot}</td>
-                  <td className="py-2.5 px-3 text-right font-bold">{line.quantity}</td>
-                  <td className="py-2.5 px-3 text-right font-mono">{formatCurrency(line.unitPriceCents)}</td>
-                  <td className="py-2.5 px-3 text-right font-mono text-[#53636A]">{formatBps(line.discountBps)}</td>
+                <tr
+                  key={idx}
+                  className={idx % 2 === 0 ? "bg-white" : "bg-[#FAFAFA]"}
+                >
+                  <td className="py-2.5 px-3 text-[#53636A]">
+                    {String(idx + 1).padStart(2, "0")}
+                  </td>
+                  <td className="py-2.5 px-3 font-mono font-bold text-[#223237]">
+                    {line.skuSnapshot}
+                  </td>
+                  <td className="py-2.5 px-3 text-[#223237]">
+                    {line.nameSnapshot}
+                  </td>
+                  <td className="py-2.5 px-3 text-right font-bold">
+                    {line.quantity}
+                  </td>
+                  <td className="py-2.5 px-3 text-right font-mono">
+                    {formatCurrency(line.unitPriceCents)}
+                  </td>
+                  <td className="py-2.5 px-3 text-right font-mono text-[#53636A]">
+                    {formatBps(line.discountBps)}
+                  </td>
                   <td className="py-2.5 px-3 text-right font-mono font-bold text-[#223237]">
                     {formatCurrency(line.netCents)}
                   </td>
@@ -275,16 +381,27 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
           <div className="w-72 bg-[#F5F6F0] p-4 rounded-xl border border-[#dae0d7] space-y-2 text-xs">
             <div className="flex justify-between">
               <span className="text-[#53636A]">Subtotal Bruto:</span>
-              <span className="font-mono">{formatCurrency(currentVersion.lines.reduce((a, b) => a + b.grossCents, 0))}</span>
+              <span className="font-mono">
+                {formatCurrency(
+                  currentVersion.lines.reduce((a, b) => a + b.grossCents, 0),
+                )}
+              </span>
             </div>
             <div className="flex justify-between text-emerald-700">
               <span>Desconto Comercial:</span>
-              <span className="font-mono">-{formatCurrency(currentVersion.lines.reduce((a, b) => a + b.discountCents, 0))}</span>
+              <span className="font-mono">
+                -
+                {formatCurrency(
+                  currentVersion.lines.reduce((a, b) => a + b.discountCents, 0),
+                )}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-[#53636A]">Frete:</span>
               <span className="font-mono">
-                {currentVersion.freightPending ? 'A definir' : formatCurrency(currentVersion.freightCents)}
+                {currentVersion.freightPending
+                  ? "A definir"
+                  : formatCurrency(currentVersion.freightCents)}
               </span>
             </div>
             <div className="pt-2 border-t border-[#dae0d7] flex justify-between items-baseline font-bold">
@@ -298,13 +415,59 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
 
         {/* Technical & Commercial Notes */}
         <div className="p-4 bg-[#F5F6F0] rounded-lg border border-[#dae0d7] text-[11px] text-[#53636A] space-y-1">
-          <strong className="text-[#223237] block">Avisos Técnicos e Notas Legais:</strong>
-          <div>• Proposta comercial emitida em ambiente de protótipo MegaWhip para validação de produto.</div>
-          <div>• Chicotes fabricados com condutores automotivos de alta resistência, conectores selados e proteção antichamas.</div>
-          <div>• Revisões posteriores substituem integralmente o teor deste documento.</div>
+          <strong className="text-[#223237] block">
+            Avisos Técnicos e Notas Legais:
+          </strong>
+          <div>
+            • Proposta comercial emitida em ambiente de protótipo MegaWhip para
+            validação de produto.
+          </div>
+          <div>
+            • Aplicações e condições técnicas devem ser confirmadas pela equipe
+            responsável.
+          </div>
+          <div>
+            • Uma nova revisão substitui a anterior somente após sua publicação.
+          </div>
         </div>
       </div>
 
+      <section className="panel">
+        <h2>Histórico de revisões</h2>
+        {db.quoteVersions
+          .filter((v) => v.quoteId === quote.id)
+          .sort((a, b) => b.revision - a.revision)
+          .map((v) => (
+            <div className="row" key={v.id}>
+              <span>
+                Revisão {v.revision} · {v.status} ·{" "}
+                {formatCurrency(v.totalCents)}
+                {v.id === quote.publishedVersionId
+                  ? " · Publicada vigente"
+                  : ""}
+              </span>
+              <button
+                onClick={() =>
+                  generateQuotePdf(
+                    quote,
+                    v,
+                    company || undefined,
+                    contact || undefined,
+                  )
+                }
+              >
+                PDF da revisão {v.revision}
+              </button>
+              {v.sentAt && (
+                <button
+                  onClick={() => navigateTo(`/simulador/cliente/${v.id}`)}
+                >
+                  Ver link da revisão {v.revision}
+                </button>
+              )}
+            </div>
+          ))}
+      </section>
       {/* MULTICHANNEL SEND MODAL (C07) */}
       {sendModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
@@ -315,66 +478,105 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
             </h3>
 
             <p className="text-xs text-[#53636A]">
-              Selecione os canais de envio simulados. O histórico da oportunidade será atualizado com os comprovantes independentes de cada canal.
+              Selecione os canais de envio simulados. O histórico da
+              oportunidade será atualizado com os comprovantes independentes de
+              cada canal.
             </p>
 
             <div className="space-y-2">
               <label className="flex items-center space-x-2 p-2.5 rounded-lg border border-[#dae0d7] hover:bg-gray-50 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={selectedChannels.includes('whatsapp')}
-                  onChange={e => {
-                    if (e.target.checked) setSelectedChannels(prev => [...prev, 'whatsapp']);
-                    else setSelectedChannels(prev => prev.filter(c => c !== 'whatsapp'));
+                  checked={selectedChannels.includes("whatsapp")}
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedChannels((prev) => [...prev, "whatsapp"]);
+                    else
+                      setSelectedChannels((prev) =>
+                        prev.filter((c) => c !== "whatsapp"),
+                      );
                   }}
                 />
                 <MessageSquare size={16} className="text-emerald-600" />
                 <div className="flex-1">
-                  <div className="font-bold text-xs text-[#223237]">WhatsApp Comercial</div>
-                  <div className="text-[10px] text-[#53636A]">Destino: {contact?.whatsappMockId}</div>
+                  <div className="font-bold text-xs text-[#223237]">
+                    WhatsApp Comercial
+                  </div>
+                  <div className="text-[10px] text-[#53636A]">
+                    Destino: {contact?.whatsappMockId}
+                  </div>
                 </div>
               </label>
 
               <label className="flex items-center space-x-2 p-2.5 rounded-lg border border-[#dae0d7] hover:bg-gray-50 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={selectedChannels.includes('email')}
-                  onChange={e => {
-                    if (e.target.checked) setSelectedChannels(prev => [...prev, 'email']);
-                    else setSelectedChannels(prev => prev.filter(c => c !== 'email'));
+                  checked={selectedChannels.includes("email")}
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setSelectedChannels((prev) => [...prev, "email"]);
+                    else
+                      setSelectedChannels((prev) =>
+                        prev.filter((c) => c !== "email"),
+                      );
                   }}
                 />
                 <Mail size={16} className="text-blue-600" />
                 <div className="flex-1">
-                  <div className="font-bold text-xs text-[#223237]">E-mail Corporativo</div>
-                  <div className="text-[10px] text-[#53636A]">Destino: {contact?.email}</div>
+                  <div className="font-bold text-xs text-[#223237]">
+                    E-mail Corporativo
+                  </div>
+                  <div className="text-[10px] text-[#53636A]">
+                    Destino: {contact?.email}
+                  </div>
                 </div>
               </label>
             </div>
 
             {/* Error simulation toggle hint for C07 */}
             <div className="bg-[#F5F6F0] p-2.5 rounded border border-[#dae0d7] flex items-center justify-between text-[11px]">
-              <span className="text-[#53636A]">Simular falha no WhatsApp (C07):</span>
+              <span className="text-[#53636A]">
+                Simular falha no WhatsApp (C07):
+              </span>
               <button
                 type="button"
-                onClick={() => setSimulatedError('failWhatsApp', !db.simulatedErrors.failWhatsApp)}
+                onClick={() =>
+                  setSimulatedError(
+                    "failWhatsApp",
+                    !db.simulatedErrors.failWhatsApp,
+                  )
+                }
                 className={`px-2 py-0.5 rounded font-bold ${
-                  db.simulatedErrors.failWhatsApp ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700'
+                  db.simulatedErrors.failWhatsApp
+                    ? "bg-red-600 text-white"
+                    : "bg-gray-200 text-gray-700"
                 }`}
               >
-                {db.simulatedErrors.failWhatsApp ? 'Falha Ativa' : 'Normal'}
+                {db.simulatedErrors.failWhatsApp ? "Falha Ativa" : "Normal"}
               </button>
             </div>
 
             {sendResult && (
-              <div className={`p-3 rounded-lg text-xs ${
-                sendResult.ok ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-700 border border-red-200'
-              }`}>
+              <div
+                className={`p-3 rounded-lg text-xs ${
+                  sendResult.ok
+                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                    : "bg-red-50 text-red-700 border border-red-200"
+                }`}
+              >
                 {sendResult.message}
+                {sendResult.canRetryEmail && (
+                  <button
+                    disabled={sending}
+                    onClick={() => handleSendQuote("email")}
+                  >
+                    Tentar novamente apenas e-mail
+                  </button>
+                )}
                 {sendResult.canRetryWhatsApp && (
                   <div className="mt-2 pt-2 border-t border-red-200 flex justify-end">
                     <button
-                      onClick={() => handleSendQuote('whatsapp')}
+                      onClick={() => handleSendQuote("whatsapp")}
                       className="px-3 py-1 bg-red-700 text-white rounded font-bold hover:bg-red-800"
                     >
                       Tentar Novamente (Apenas WhatsApp)
@@ -396,7 +598,7 @@ export const QuoteDetailView: React.FC<QuoteDetailViewProps> = ({ quoteId, navig
                 disabled={sending || selectedChannels.length === 0}
                 className="px-5 py-2 bg-[#223237] hover:bg-[#2d3f45] text-white rounded-lg text-xs font-bold transition disabled:opacity-50"
               >
-                {sending ? 'Enviando...' : 'Confirmar Envio'}
+                {sending ? "Enviando..." : "Confirmar Envio"}
               </button>
             </div>
           </div>

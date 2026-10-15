@@ -19,6 +19,7 @@ import {
   FileSpreadsheet
 } from 'lucide-react';
 import { formatDate } from '../utils/formatters';
+import { audience } from "../domain/ecosystem";
 import { Campaign } from '../data/types';
 
 interface CampaignsViewProps {
@@ -75,6 +76,7 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
       approvedAt: null
     });
 
+    if (!res.ok) setFeedbackMsg(res.error?.message || "Não foi possível concluir.");
     if (res.ok) {
       setFeedbackMsg(`Campanha "${title}" criada em rascunho. Aguarda aprovação do colaborador.`);
       setNewModalOpen(false);
@@ -85,13 +87,15 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
 
   const handleApprove = async (id: string) => {
     const res = await approveCampaign(id);
+    if (!res.ok) setFeedbackMsg(res.error?.message || "Não foi possível concluir.");
     if (res.ok) {
-      setFeedbackMsg('Campanha aprovada formalmente! Pronta para agendamento e envio.');
+      setFeedbackMsg('Campanha aprovada formalmente! Pronta para simular o envio.');
     }
   };
 
   const handleExecute = async (id: string) => {
     const res = await executeCampaign(id);
+    if (!res.ok) setFeedbackMsg(res.error?.message || "Não foi possível concluir.");
     if (res.ok) {
       setFeedbackMsg(`Campanha disparada para ${res.data?.sent} contato(s) elegível(is) no canal selecionado.`);
     }
@@ -110,8 +114,9 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
           { sku: 'DEMO-MW-002', quantity: 4 }
         ]
       });
-      if (res.ok) {
-        setFeedbackMsg(`Solicitação do Catálogo recebida com sucesso! Máquina ${simMachine} e 2 SKUs transportados para a negociação.`);
+      if (!res.ok) setFeedbackMsg(res.error?.message || "Não foi possível concluir.");
+    if (res.ok) {
+        setFeedbackMsg(`Solicitação do Catálogo recebida com sucesso! Máquina ${simMachine} e 2 SKUs transportados para o lead.`);
       }
     } else {
       const res = await createLead({
@@ -119,11 +124,13 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
         email: simEmail,
         whatsappMockId: simWa,
         source: simSource,
+        companyName: `Empresa de ${simName}`,
         segment: simSegment || undefined,
         campaign: simSource === 'instagram' ? 'ad-instagram-entressafra' : 'lp-graos-safra',
         interest: `Entrada via ${simSource}: interesse em chicotes elétricos reforçados`
       });
-      if (res.ok) {
+      if (!res.ok) setFeedbackMsg(res.error?.message || "Não foi possível concluir.");
+    if (res.ok) {
         setFeedbackMsg(`Lead capturado via ${simSource} com sucesso! ${!simSegment ? '⚠️ Sem segmento informado: triagem prioritária gerada.' : `Segmento: ${simSegment}.`}`);
       }
     }
@@ -139,7 +146,7 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
               <Send size={18} />
             </span>
             <h1 className="text-xl font-bold text-[#223237]">
-              Módulo de Campanhas, Lançamentos & Captação (Substituição RD Station)
+              Campanhas e captação
             </h1>
           </div>
           <p className="text-xs text-[#53636A] mt-1">
@@ -219,9 +226,10 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
                     <div>Segmento: <strong className="text-[#223237]">{camp.targetSegment}</strong></div>
                     <div>Região: <strong className="text-[#223237]">{camp.targetRegion}</strong></div>
                     <div>Canal: <strong className="text-[#223237] capitalize">{camp.channel}</strong></div>
-                    <div>Público Elegível: <strong className="text-[#223237]">{camp.audienceCount} clientes</strong></div>
+                    <div>Público elegível atual: <strong className="text-[#223237]">{audience(db,camp).length} clientes</strong></div>
                   </div>
 
+                  <details><summary>Revisar mensagem e destinatários</summary><p className="whitespace-pre-wrap py-3">{camp.messageBody}</p><ul>{audience(db,camp).map(c=><li key={c.id}>{c.name} · {camp.channel === "email" ? c.email : c.whatsappMockId}</li>)}</ul></details>
                   {camp.subject && (
                     <div className="p-2 bg-[#F5F6F0] rounded text-[11px] text-[#53636A]">
                       <strong>Assunto:</strong> {camp.subject}
@@ -251,13 +259,13 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
                         className="px-3 py-1.5 bg-emerald-700 text-white rounded font-bold hover:bg-emerald-800 flex items-center space-x-1"
                       >
                         <Play size={13} />
-                        <span>Disparar Campanha</span>
+                        <span>Simular envio</span>
                       </button>
                     )}
 
                     {camp.status === 'completed' && (
                       <span className="text-emerald-700 font-bold text-xs">
-                        ✓ Disparada ({camp.sentCount} envios)
+                        ✓ Simulação concluída ({camp.sentCount} envios)
                       </span>
                     )}
                   </div>
@@ -271,7 +279,7 @@ export const CampaignsView: React.FC<CampaignsViewProps> = ({ navigateTo }) => {
         <div className="bg-white rounded-xl border border-[#dae0d7] shadow-xs p-6 max-w-2xl mx-auto space-y-4">
           <div className="border-b border-[#dae0d7] pb-3">
             <h2 className="text-base font-bold text-[#223237]">
-              Simulador de Captação Multiorigem (RD Station Replacement)
+              Simulador de captação multiorigem
             </h2>
             <p className="text-xs text-[#53636A]">
               Teste a entrada de novos leads e clientes recorrentes por Landing Pages, Instagram e Catálogo de Peças.

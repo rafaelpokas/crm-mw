@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useCrm } from '../../context/CrmContext';
+import React, { useState } from "react";
+import { useCrm } from "../../context/CrmContext";
 import {
   Bell,
   Search,
@@ -10,9 +10,9 @@ import {
   UserCheck,
   CheckCircle,
   ExternalLink,
-  ShieldAlert
-} from 'lucide-react';
-import { formatDate } from '../../utils/formatters';
+  ShieldAlert,
+} from "lucide-react";
+import { formatDate } from "../../utils/formatters";
 
 interface TopBarProps {
   onOpenSearch: () => void;
@@ -27,7 +27,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenNewLead,
   onOpenDemoCenter,
   currentRoute,
-  navigateTo
+  navigateTo,
 }) => {
   const {
     db,
@@ -35,14 +35,16 @@ export const TopBar: React.FC<TopBarProps> = ({
     setCurrentUserId,
     markNotificationRead,
     markAllNotificationsRead,
-    advanceClock
+    advanceClock,
   } = useCrm();
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifMenu, setShowNotifMenu] = useState(false);
   const [clockAdvancing, setClockAdvancing] = useState(false);
 
-  const unreadNotifs = db.notifications.filter(n => !n.read && (n.recipientId === currentUser.id || currentUser.role === 'admin' || currentUser.role === 'manager'));
+  const unreadNotifs = db.notifications.filter(
+    (n) => !n.read && n.recipientId === currentUser.id,
+  );
 
   const handleAdvanceOneDay = async () => {
     setClockAdvancing(true);
@@ -61,14 +63,18 @@ export const TopBar: React.FC<TopBarProps> = ({
         >
           <Search size={14} className="text-[#B1D448]" />
           <span>Buscar geral...</span>
-          <kbd className="bg-[#1b282c] px-1.5 py-0.5 rounded text-[10px] text-gray-400 font-mono">⌘K</kbd>
+          <kbd className="bg-[#1b282c] px-1.5 py-0.5 rounded text-[10px] text-gray-400 font-mono">
+            ⌘K
+          </kbd>
         </button>
 
         {/* Discreet Demo Banner */}
         <div className="hidden md:flex items-center space-x-1.5 bg-[#1b282c] border border-[#2d3f45] px-2.5 py-1 rounded text-[11px] text-[#B1D448]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#B1D448] animate-pulse"></span>
           <span className="font-medium">Demonstração</span>
-          <span className="text-gray-400">• dados fictícios • envios simulados</span>
+          <span className="text-gray-400">
+            • dados fictícios • envios simulados
+          </span>
         </div>
       </div>
 
@@ -86,7 +92,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             className="ml-2 bg-[#2d3f45] hover:bg-[#384c54] text-[#B1D448] hover:text-white px-1.5 py-0.5 rounded text-[10px] font-semibold transition"
             title="Avançar relógio em 1 dia (testa vencimentos A04)"
           >
-            {clockAdvancing ? '...' : '+1 dia'}
+            {clockAdvancing ? "..." : "+1 dia"}
           </button>
         </div>
 
@@ -130,7 +136,9 @@ export const TopBar: React.FC<TopBarProps> = ({
           {showNotifMenu && (
             <div className="absolute right-0 mt-2 w-80 bg-[#1e2c31] border border-[#2d3f45] rounded-lg shadow-xl py-2 z-50 text-xs">
               <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#2d3f45]">
-                <span className="font-semibold text-gray-200">Notificações</span>
+                <span className="font-semibold text-gray-200">
+                  Notificações
+                </span>
                 {unreadNotifs.length > 0 && (
                   <button
                     onClick={markAllNotificationsRead}
@@ -142,9 +150,11 @@ export const TopBar: React.FC<TopBarProps> = ({
               </div>
               <div className="max-h-64 overflow-y-auto divide-y divide-[#2d3f45]/50">
                 {db.notifications.length === 0 ? (
-                  <div className="p-4 text-center text-gray-400">Nenhuma notificação recente.</div>
+                  <div className="p-4 text-center text-gray-400">
+                    Nenhuma notificação recente.
+                  </div>
                 ) : (
-                  db.notifications.map(n => (
+                  db.notifications.map((n) => (
                     <div
                       key={n.id}
                       onClick={() => {
@@ -154,13 +164,19 @@ export const TopBar: React.FC<TopBarProps> = ({
                           setShowNotifMenu(false);
                         }
                       }}
-                      className={`p-3 cursor-pointer hover:bg-[#25363c] transition ${!n.read ? 'bg-[#25363c]/50' : 'opacity-70'}`}
+                      className={`p-3 cursor-pointer hover:bg-[#25363c] transition ${!n.read ? "bg-[#25363c]/50" : "opacity-70"}`}
                     >
                       <div className="flex items-start justify-between">
-                        <span className="font-semibold text-gray-200">{n.title}</span>
-                        <span className="text-[10px] text-gray-400">{formatDate(n.createdAt, false)}</span>
+                        <span className="font-semibold text-gray-200">
+                          {n.title}
+                        </span>
+                        <span className="text-[10px] text-gray-400">
+                          {formatDate(n.createdAt, false)}
+                        </span>
                       </div>
-                      <p className="text-gray-300 mt-1 leading-relaxed">{n.message}</p>
+                      <p className="text-gray-300 mt-1 leading-relaxed">
+                        {n.message}
+                      </p>
                     </div>
                   ))
                 )}
@@ -182,8 +198,18 @@ export const TopBar: React.FC<TopBarProps> = ({
               {currentUser.name.charAt(0)}
             </div>
             <div className="text-left hidden md:block">
-              <div className="text-gray-200 font-medium leading-none text-[11px]">{currentUser.name}</div>
-              <div className="text-[10px] text-gray-400 capitalize">{currentUser.role === 'seller' ? 'Vendedor' : currentUser.role === 'manager' ? 'Gestor' : currentUser.role === 'technical' ? 'Técnico' : 'Admin'}</div>
+              <div className="text-gray-200 font-medium leading-none text-[11px]">
+                {currentUser.name}
+              </div>
+              <div className="text-[10px] text-gray-400 capitalize">
+                {currentUser.role === "seller"
+                  ? "Vendedor"
+                  : currentUser.role === "manager"
+                    ? "Gestor"
+                    : currentUser.role === "technical"
+                      ? "Técnico"
+                      : "Admin"}
+              </div>
             </div>
             <ChevronDown size={12} className="text-gray-400" />
           </button>
@@ -194,24 +220,34 @@ export const TopBar: React.FC<TopBarProps> = ({
                 Alternar Perfil para Teste de Permissões:
               </div>
               <div className="divide-y divide-[#2d3f45]/50">
-                {db.users.map(u => (
-                  <button
-                    key={u.id}
-                    onClick={() => {
-                      setCurrentUserId(u.id);
-                      setShowUserMenu(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-[#25363c] transition ${u.id === currentUser.id ? 'bg-[#25363c] text-[#B1D448]' : 'text-gray-200'}`}
-                  >
-                    <div>
-                      <div className="font-medium">{u.name}</div>
-                      <div className="text-[10px] text-gray-400 capitalize">
-                        {u.role === 'seller' ? 'Vendedor (alçada 5%)' : u.role === 'manager' ? 'Gestor (aprovação)' : u.role === 'technical' ? 'Apoio Técnico' : 'Administrador'}
+                {db.users
+                  .filter((u) => u.active)
+                  .map((u) => (
+                    <button
+                      key={u.id}
+                      onClick={() => {
+                        setCurrentUserId(u.id);
+                        setShowUserMenu(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-[#25363c] transition ${u.id === currentUser.id ? "bg-[#25363c] text-[#B1D448]" : "text-gray-200"}`}
+                    >
+                      <div>
+                        <div className="font-medium">{u.name}</div>
+                        <div className="text-[10px] text-gray-400 capitalize">
+                          {u.role === "seller"
+                            ? "Vendedor (alçada 5%)"
+                            : u.role === "manager"
+                              ? "Gestor (aprovação)"
+                              : u.role === "technical"
+                                ? "Apoio Técnico"
+                                : "Administrador"}
+                        </div>
                       </div>
-                    </div>
-                    {u.id === currentUser.id && <CheckCircle size={14} className="text-[#B1D448]" />}
-                  </button>
-                ))}
+                      {u.id === currentUser.id && (
+                        <CheckCircle size={14} className="text-[#B1D448]" />
+                      )}
+                    </button>
+                  ))}
               </div>
               <div className="px-3 pt-2 mt-1 border-t border-[#2d3f45] text-[10px] text-gray-400">
                 Perfis simulam regras de alçada e visualização sem login real.

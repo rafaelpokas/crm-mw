@@ -15,6 +15,7 @@ import {
   ArrowRight,
   HelpCircle
 } from 'lucide-react';
+import { audience } from "../domain/ecosystem";
 import { formatDate } from '../utils/formatters';
 
 interface MarketIntelligenceViewProps {
@@ -31,21 +32,20 @@ export const MarketIntelligenceView: React.FC<MarketIntelligenceViewProps> = ({ 
 
   const handleApproveAlert = async (alertId: string) => {
     const res = await approveMarketAlert(alertId);
+    if (!res.ok) setFeedbackMsg(res.error?.message || "Não foi possível concluir.");
     if (res.ok) {
       setFeedbackMsg(`Alerta ${alertId} aprovado com sucesso! Campanha gerada em rascunho na Central de Campanhas.`);
     }
   };
 
   const handleDismissAlert = async (alertId: string) => {
-    await dismissMarketAlert(alertId);
-    setFeedbackMsg(`Alerta ${alertId} dispensado.`);
+    const res=await dismissMarketAlert(alertId);
+    setFeedbackMsg(res.ok?"Alerta dispensado.":res.error?.message||"Falha.");
   };
 
   const handleTestExpiredCalendar = async () => {
     const res = await executeScenario('C22');
-    if (!res.ok) {
-      alert(res.error?.message);
-    }
+    setFeedbackMsg(res.ok?"Calendário vencido bloqueou a campanha.":res.error?.message||"Falha na verificação.");
   };
 
   return (
@@ -58,11 +58,11 @@ export const MarketIntelligenceView: React.FC<MarketIntelligenceViewProps> = ({ 
               <Sparkles size={18} />
             </span>
             <h1 className="text-xl font-bold text-[#223237]">
-              Central de Inteligência de Mercado & Calendários Sazonais
+              Inteligência de mercado
             </h1>
           </div>
           <p className="text-xs text-[#53636A] mt-1">
-            Combinação de perfis confirmados por segmento, calendários regionais validados e disponibilidade no ERP para gerar oportunidades acionáveis.
+            Cenários fictícios de segmento e calendário. Fontes, safras e disponibilidade precisam de validação antes do uso real.
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export const MarketIntelligenceView: React.FC<MarketIntelligenceViewProps> = ({ 
                   </div>
 
                   <div className="text-[10px] text-gray-400">
-                    Público elegível: {alert.targetAudienceCount} conta(s)
+                    Público elegível: {audience(db,{targetSegment:alert.eligibleSegment,targetRegion:alert.eligibleRegion,channel:"email"} as any).length} conta(s)
                   </div>
                 </div>
               );
@@ -150,7 +150,7 @@ export const MarketIntelligenceView: React.FC<MarketIntelligenceViewProps> = ({ 
                     <h2 className="text-base font-bold text-[#223237]">{activeAlert.title}</h2>
                   </div>
                   <div className="text-xs text-[#53636A] mt-1">
-                    Detectado pelo Assistente de Inteligência em {formatDate(activeAlert.createdAt, false)}
+                    Alerta demonstrativo registrado em {formatDate(activeAlert.createdAt, false)}
                   </div>
                 </div>
 
@@ -204,7 +204,7 @@ export const MarketIntelligenceView: React.FC<MarketIntelligenceViewProps> = ({ 
                     <span className="text-[10px] text-[#53636A] block">Estoque no ERP:</span>
                     <div className="flex items-center space-x-1 text-emerald-700 font-bold text-xs mt-0.5">
                       <Database size={13} />
-                      <span>Confirmado no ERP COBOL</span>
+                      <span>Consulta demonstrativa; confirmar disponibilidade</span>
                     </div>
                   </div>
                 </div>
@@ -239,17 +239,17 @@ export const MarketIntelligenceView: React.FC<MarketIntelligenceViewProps> = ({ 
           <div>
             <h2 className="text-base font-bold text-[#223237] flex items-center space-x-2">
               <Calendar size={16} className="text-[#B1D448]" />
-              <span>Calendários Sazonais Homologados pela Engenharia Técnica</span>
+              <span>Calendários sazonais demonstrativos</span>
             </h2>
             <p className="text-xs text-[#53636A]">
-              Fontes validadas com período de referência e validade. Calendários vencidos bloqueiam sugestões sazonais automáticas.
+              Exemplos fictícios com período de referência e validade. Calendários vencidos bloqueiam sugestões sazonais automáticas.
             </p>
           </div>
 
           <button
             onClick={handleTestExpiredCalendar}
             className="border border-amber-300 text-amber-900 bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-lg text-xs font-semibold"
-            title="Testa bloqueio de afirmação sazonal para calendário vencido (C22)"
+            title="Testa bloqueio de afirmação sazonal para calendário vencido"
           >
             Testar Bloqueio de Calendário Vencido (C22)
           </button>

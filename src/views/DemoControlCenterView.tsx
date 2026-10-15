@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useCrm } from '../context/CrmContext';
+import React, { useState } from "react";
+import { useCrm } from "../context/CrmContext";
 import {
   Sparkles,
   RotateCcw,
@@ -12,42 +12,116 @@ import {
   ShieldAlert,
   Send,
   MessageSquare,
-  FileText
-} from 'lucide-react';
-import { formatDate } from '../utils/formatters';
+  FileText,
+} from "lucide-react";
+import { formatDate } from "../utils/formatters";
 
 interface DemoControlCenterViewProps {
   navigateTo: (route: string) => void;
 }
 
 const SCENARIO_DESCRIPTIONS = [
-  { id: 'C01', title: 'C01 - Criar lead do site', desc: 'Gera novo lead via formulário, cria contato único, atribui vendedor por round-robin (A01) e agenda tarefa de primeiro contato.', route: '/leads' },
-  { id: 'C02', title: 'C02 - Repetir evento de origem', desc: 'Simula reenvio idempotente com o mesmo eventId. O sistema reconhece a chave e não duplica o registro.', route: '/leads' },
-  { id: 'C03', title: 'C03 - Cálculo Canônico da Cotação', desc: 'Monta cotação de 2 chicotes (DEMO-MW-001 @ R$ 850) + 4 conectores (DEMO-MW-002 @ R$ 120) com 5% desc e R$ 80 frete = R$ 2.151,00 exato.', route: '/cotacoes/Q001' },
-  { id: 'C04', title: 'C04 - Gestor aprova desconto de 8%', desc: 'Gestor (U001) aprova a solicitação AP001 de 8% de desconto, liberando o envio da revisão de R$ 2.085,60.', route: '/cotacoes' },
-  { id: 'C05', title: 'C05 - Vendedor tenta autoaprovar Q002', desc: 'Vendedor (U002) tenta aprovar o próprio desconto de 8%. Ação é bloqueada com erro de permissão sem alterar os dados.', route: '/cotacoes' },
-  { id: 'C06', title: 'C06 - Alterar quantidade após aprovação', desc: 'Modifica quantidade em cotação já aprovada. A aprovação é imediatamente invalidada e volta para status pendente.', route: '/cotacoes/Q002/editar' },
-  { id: 'C07', title: 'C07 - Envio multicanal com falha WhatsApp', desc: 'Simula envio por WhatsApp e E-mail com falha no WhatsApp. E-mail é entregue; retry afeta exclusivamente o WhatsApp.', route: '/cotacoes/Q001' },
-  { id: 'C08', title: 'C08 - Receber pedido de desconto (8%)', desc: 'Injeta resposta do comprador solicitando 8% de desconto. Oportunidade avança para Negociação e follow-up automático é suspenso.', route: '/atendimento' },
-  { id: 'C09', title: 'C09 - Pergunta técnica sem referência', desc: 'Comprador pergunta sobre equipamento sem código. O assistente recusa inventar dados e transfere para o Técnico Demo (U004).', route: '/atendimento' },
-  { id: 'C10', title: 'C10 - Tentar aceitar cotação vencida', desc: 'Simula tentativa de aceite na cotação Q004 com validade vencida. O sistema bloqueia o aceite e sugere nova revisão.', route: '/simulador/cliente/MW-DEMO-2026-004' },
-  { id: 'C11', title: 'C11 - Tentar aceitar revisão substituída', desc: 'Comprador tenta aceitar uma versão antiga já substituída por uma revisão mais nova. Aceite é bloqueado.', route: '/simulador/cliente/MW-DEMO-2026-003' },
-  { id: 'C12', title: 'C12 - Confirmar Ganho após aceite', desc: 'Oportunidade com cotação formalmente aceita é confirmada como GANHA. Tarefas pendentes são concluídas e métricas atualizadas.', route: '/oportunidades/O007' },
-  { id: 'C13', title: 'C13 - Marcar perda sem motivo', desc: 'Tentativa de marcar perda sem preencher a justificativa obrigatória é barrada pela validação comercial.', route: '/oportunidades/O001' },
-  { id: 'C14', title: 'C14 - Mensagem ambígua de cliente com 2 negociações', desc: 'Contato com duas oportunidades ativas envia mensagem genérica. O sistema solicita associação correta ao vendedor.', route: '/atendimento' },
-  { id: 'C15', title: 'C15 - WhatsApp fora da janela de 24h', desc: 'Tentativa de enviar texto livre após 24h sem resposta do cliente é bloqueada, exigindo envio de modelo aprovado.', route: '/atendimento' },
-  { id: 'C16', title: 'C16 - Reset Completo da Demonstração', desc: 'Restaura a base exata do seed JSON inicial, relógio para 09/10/2026 às 15:00 e zera todas as mutações.', route: '/visao-geral' },
-  { id: 'C17', title: 'C17 - Lead Instagram sem segmento', desc: 'Gera lead de mídia social sem segmento comercial definido, criando pendência na fila de qualificação.', route: '/leads' },
-  { id: 'C18', title: 'C18 - Lead LP de Grãos com campanha', desc: 'Gera lead com campanha associada (lp-graos-plantio-2026) e sugere catálogo pertinente de grãos.', route: '/leads' },
-  { id: 'C19', title: 'C19 - Alerta de mercado regional cana', desc: 'Aprova alerta de inteligência com janela regional e cria rascunho de campanha para clientes elegíveis.', route: '/relatorios' },
-  { id: 'C20', title: 'C20 - Retorno de cliente pelo catálogo', desc: 'Cliente existente envia nova seleção pelo catálogo web; sistema anexa ao histórico sem duplicar cadastro.', route: '/atendimento' },
-  { id: 'C21', title: 'C21 - Cliente multissegmento atualizado', desc: 'Atualiza perfil da empresa E001 para registrar múltiplos segmentos agrícolas (Cana + Grãos + Citros).', route: '/clientes/E001' },
-  { id: 'C22', title: 'C22 - Bloqueio de ação sazonal vencida', desc: 'Tenta acionar inteligência sazonal com calendário técnico vencido (CAL-003); sistema barra até atualização.', route: '/relatorios' },
-  { id: 'C23', title: 'C23 - Descadastro de marketing (Opt-out)', desc: 'Registra opt-out de marketing para contato C001, suspendendo disparos de automação de campanhas.', route: '/clientes/E001' },
-  { id: 'C24', title: 'C24 - Despacho de pedido ao ERP COBOL', desc: 'Despacha pedido da cotação ganha Q005 ao ERP legado com protocolo de sincronização e conciliação.', route: '/oportunidades/O007' }
+  {
+    id: "C01",
+    title: "C01 - Criar lead do site",
+    desc: "Gera novo lead via formulário, cria contato único, atribui vendedor por round-robin (A01) e agenda tarefa de primeiro contato.",
+    route: "/leads",
+  },
+  {
+    id: "C02",
+    title: "C02 - Repetir evento de origem",
+    desc: "Simula reenvio idempotente com o mesmo eventId. O sistema reconhece a chave e não duplica o registro.",
+    route: "/leads",
+  },
+  {
+    id: "C03",
+    title: "C03 - Cálculo Canônico da Cotação",
+    desc: "Monta cotação de 2 chicotes (DEMO-MW-001 @ R$ 850) + 4 conectores (DEMO-MW-002 @ R$ 120) com 5% desc e R$ 80 frete = R$ 2.151,00 exato.",
+    route: "/cotacoes/Q001",
+  },
+  {
+    id: "C04",
+    title: "C04 - Gestor aprova desconto de 8%",
+    desc: "Gestor (U001) aprova a solicitação AP001 de 8% de desconto, liberando o envio da revisão de R$ 2.085,60.",
+    route: "/cotacoes",
+  },
+  {
+    id: "C05",
+    title: "C05 - Vendedor tenta autoaprovar Q002",
+    desc: "Vendedor (U002) tenta aprovar o próprio desconto de 8%. Ação é bloqueada com erro de permissão sem alterar os dados.",
+    route: "/cotacoes",
+  },
+  {
+    id: "C06",
+    title: "C06 - Alterar quantidade após aprovação",
+    desc: "Modifica quantidade em cotação já aprovada. A aprovação é imediatamente invalidada e volta para status pendente.",
+    route: "/cotacoes/Q002/editar",
+  },
+  {
+    id: "C07",
+    title: "C07 - Envio multicanal com falha WhatsApp",
+    desc: "Simula envio por WhatsApp e E-mail com falha no WhatsApp. E-mail é entregue; retry afeta exclusivamente o WhatsApp.",
+    route: "/cotacoes/Q001",
+  },
+  {
+    id: "C08",
+    title: "C08 - Receber pedido de desconto (8%)",
+    desc: "Injeta resposta do comprador solicitando 8% de desconto. Oportunidade avança para Negociação e follow-up automático é suspenso.",
+    route: "/atendimento",
+  },
+  {
+    id: "C09",
+    title: "C09 - Pergunta técnica sem referência",
+    desc: "Comprador pergunta sobre equipamento sem código. O assistente recusa inventar dados e transfere para o Técnico Demo (U004).",
+    route: "/atendimento",
+  },
+  {
+    id: "C10",
+    title: "C10 - Tentar aceitar cotação vencida",
+    desc: "Simula tentativa de aceite na cotação Q004 com validade vencida. O sistema bloqueia o aceite e sugere nova revisão.",
+    route: "/simulador/cliente/Q004-V1",
+  },
+  {
+    id: "C11",
+    title: "C11 - Tentar aceitar revisão substituída",
+    desc: "Comprador tenta aceitar uma versão antiga já substituída por uma revisão mais nova. Aceite é bloqueado.",
+    route: "/simulador/cliente/Q003-V1",
+  },
+  {
+    id: "C12",
+    title: "C12 - Confirmar Ganho após aceite",
+    desc: "Oportunidade com cotação formalmente aceita é confirmada como GANHA. Tarefas pendentes são concluídas e métricas atualizadas.",
+    route: "/oportunidades/O002",
+  },
+  {
+    id: "C13",
+    title: "C13 - Marcar perda sem motivo",
+    desc: "Tentativa de marcar perda sem preencher a justificativa obrigatória é barrada pela validação comercial.",
+    route: "/oportunidades/O001",
+  },
+  {
+    id: "C14",
+    title: "C14 - Mensagem ambígua de cliente com 2 negociações",
+    desc: "Contato com duas oportunidades ativas envia mensagem genérica. O sistema solicita associação correta ao vendedor.",
+    route: "/atendimento",
+  },
+  {
+    id: "C15",
+    title: "C15 - WhatsApp fora da janela de 24h",
+    desc: "Tentativa de enviar texto livre após 24h sem resposta do cliente é bloqueada, exigindo envio de modelo aprovado.",
+    route: "/atendimento",
+  },
+  {
+    id: "C16",
+    title: "C16 - Reset Completo da Demonstração",
+    desc: "Restaura a base exata do seed JSON inicial, relógio para 09/10/2026 às 15:00 e zera todas as mutações.",
+    route: "/visao-geral",
+  },
 ];
 
-export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ navigateTo }) => {
+export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({
+  navigateTo,
+}) => {
   const {
     db,
     currentUser,
@@ -58,16 +132,30 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
     setSimulatedError,
     advanceClock,
     resetDemo,
-    executeScenario
+    executeScenario,
   } = useCrm();
 
-  const [executingScenarioId, setExecutingScenarioId] = useState<string | null>(null);
-  const [feedback, setFeedback] = useState<{ id: string; ok: boolean; msg: string } | null>(null);
+  const [executingScenarioId, setExecutingScenarioId] = useState<string | null>(
+    null,
+  );
+  const [feedback, setFeedback] = useState<{
+    id: string;
+    ok: boolean;
+    msg: string;
+  } | null>(null);
 
   const handleRun = async (scenarioId: string, targetRoute?: string) => {
     setExecutingScenarioId(scenarioId);
     setFeedback(null);
 
+    if (
+      !confirm(
+        "Executar este cenário com uma base inicial independente? As alterações atuais serão substituídas.",
+      )
+    ) {
+      setExecutingScenarioId(null);
+      return;
+    }
     const res = await executeScenario(scenarioId);
     setExecutingScenarioId(null);
 
@@ -75,7 +163,7 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
       setFeedback({
         id: scenarioId,
         ok: true,
-        msg: `Cenário ${scenarioId} executado com sucesso!`
+        msg: `Cenário ${scenarioId} executado com sucesso!`,
       });
       if (targetRoute) {
         setTimeout(() => {
@@ -86,18 +174,22 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
       setFeedback({
         id: scenarioId,
         ok: false,
-        msg: res.error?.message || 'Falha ao executar cenário.'
+        msg: res.error?.message || "Falha ao executar cenário.",
       });
     }
   };
 
-  const handleFullReset = () => {
-    if (confirm('Deseja realmente restaurar a base inicial da demonstração? Todos os dados sintéticos voltarão ao estado original do seed.')) {
-      resetDemo();
+  const handleFullReset = async () => {
+    if (
+      confirm(
+        "Deseja realmente restaurar a base inicial da demonstração? Todos os dados sintéticos voltarão ao estado original do seed.",
+      )
+    ) {
+      await resetDemo();
       setFeedback({
-        id: 'C16',
+        id: "C16",
         ok: true,
-        msg: 'Base de dados restaurada com sucesso para o estado inicial!'
+        msg: "Base de dados restaurada com sucesso para o estado inicial!",
       });
     }
   };
@@ -112,11 +204,13 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
               <Sparkles size={18} />
             </span>
             <h1 className="text-xl font-black tracking-wide">
-              Central de Demonstração & Cenários C01 a C16 (T20)
+              Central de Demonstração & Cenários C01 a C16
             </h1>
           </div>
           <p className="text-xs text-gray-300 mt-1 max-w-2xl leading-relaxed">
-            Painel exclusivo do apresentador para validação rápida do fluxo de ponta a ponta na reunião com a MegaWhip. Execute os 16 cenários com 1 clique e inspecione as telas resultantes.
+            Painel exclusivo do apresentador para validação rápida do fluxo de
+            ponta a ponta na reunião com a MegaWhip. Execute os 16 cenários com
+            1 clique e inspecione as telas resultantes.
           </p>
         </div>
 
@@ -130,10 +224,18 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
       </div>
 
       {feedback && (
-        <div className={`p-4 rounded-xl text-xs font-semibold flex items-center space-x-2 ${
-          feedback.ok ? 'bg-emerald-50 text-emerald-800 border border-emerald-300' : 'bg-red-50 text-red-700 border border-red-300'
-        }`}>
-          {feedback.ok ? <CheckCircle size={16} /> : <AlertTriangle size={16} />}
+        <div
+          className={`p-4 rounded-xl text-xs font-semibold flex items-center space-x-2 ${
+            feedback.ok
+              ? "bg-emerald-50 text-emerald-800 border border-emerald-300"
+              : "bg-red-50 text-red-700 border border-red-300"
+          }`}
+        >
+          {feedback.ok ? (
+            <CheckCircle size={16} />
+          ) : (
+            <AlertTriangle size={16} />
+          )}
           <span>{feedback.msg}</span>
         </div>
       )}
@@ -148,12 +250,20 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
           </div>
           <select
             value={currentUser.id}
-            onChange={e => setCurrentUserId(e.target.value)}
+            onChange={(e) => setCurrentUserId(e.target.value)}
             className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs bg-[#F5F6F0]"
           >
-            {db.users.map(u => (
+            {db.users.map((u) => (
               <option key={u.id} value={u.id}>
-                {u.name} ({u.role === 'seller' ? 'Vendedor' : u.role === 'manager' ? 'Gestor' : u.role === 'technical' ? 'Técnico' : 'Admin'})
+                {u.name} (
+                {u.role === "seller"
+                  ? "Vendedor"
+                  : u.role === "manager"
+                    ? "Gestor"
+                    : u.role === "technical"
+                      ? "Técnico"
+                      : "Admin"}
+                )
               </option>
             ))}
           </select>
@@ -198,21 +308,27 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
             <button
               onClick={() => setLatencyEnabled(!latencyEnabled)}
               className={`px-2.5 py-0.5 rounded font-bold text-[11px] ${
-                latencyEnabled ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-700'
+                latencyEnabled
+                  ? "bg-emerald-600 text-white"
+                  : "bg-gray-200 text-gray-700"
               }`}
             >
-              {latencyEnabled ? 'Ativada' : 'Instantâneo'}
+              {latencyEnabled ? "Ativada" : "Instantâneo"}
             </button>
           </div>
           <div className="flex items-center justify-between text-xs">
             <span>Simular Erro WhatsApp:</span>
             <button
-              onClick={() => setSimulatedError('failWhatsApp', !simulatedErrors.failWhatsApp)}
+              onClick={() =>
+                setSimulatedError("failWhatsApp", !simulatedErrors.failWhatsApp)
+              }
               className={`px-2.5 py-0.5 rounded font-bold text-[11px] ${
-                simulatedErrors.failWhatsApp ? 'bg-rose-700 text-white' : 'bg-gray-200 text-gray-700'
+                simulatedErrors.failWhatsApp
+                  ? "bg-rose-700 text-white"
+                  : "bg-gray-200 text-gray-700"
               }`}
             >
-              {simulatedErrors.failWhatsApp ? 'Ativo (C07)' : 'Desativado'}
+              {simulatedErrors.failWhatsApp ? "Ativo (C07)" : "Desativado"}
             </button>
           </div>
         </div>
@@ -226,13 +342,14 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
               Catálogo de Cenários Obrigatórios (C01 a C16)
             </h2>
             <p className="text-[#53636A] text-xs">
-              Clique em "Executar Cenário" para injetar o evento correspondente na base de dados e validar o comportamento.
+              Clique em "Executar Cenário" para injetar o evento correspondente
+              na base de dados e validar o comportamento.
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {SCENARIO_DESCRIPTIONS.map(sc => {
+          {SCENARIO_DESCRIPTIONS.map((sc) => {
             const isExecuting = executingScenarioId === sc.id;
 
             return (
@@ -242,7 +359,9 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-xs text-[#223237]">{sc.title}</span>
+                    <span className="font-bold text-xs text-[#223237]">
+                      {sc.title}
+                    </span>
                     <span className="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-[#dae0d7]">
                       {sc.id}
                     </span>
@@ -253,7 +372,9 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
                 </div>
 
                 <div className="pt-2 flex items-center justify-between border-t border-[#dae0d7]/50">
-                  <span className="text-[10px] text-gray-400">Rota vinculada: {sc.route}</span>
+                  <span className="text-[10px] text-gray-400">
+                    Rota vinculada: {sc.route}
+                  </span>
 
                   <button
                     onClick={() => handleRun(sc.id, sc.route)}
@@ -261,7 +382,7 @@ export const DemoControlCenterView: React.FC<DemoControlCenterViewProps> = ({ na
                     className="px-3 py-1.5 bg-[#223237] hover:bg-[#2d3f45] text-white rounded-lg font-bold text-xs flex items-center space-x-1.5 transition disabled:opacity-50"
                   >
                     <Play size={11} className="text-[#B1D448]" />
-                    <span>{isExecuting ? 'Executando...' : 'Executar'}</span>
+                    <span>{isExecuting ? "Executando..." : "Executar"}</span>
                   </button>
                 </div>
               </div>

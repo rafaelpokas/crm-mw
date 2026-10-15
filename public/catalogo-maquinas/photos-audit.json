@@ -1,0 +1,200 @@
+{
+  "db50": {
+    "images": [
+      {
+        "file": "assets/machines/db50-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db50acq_maxemerge_photo_field_large_2bd0436e35543a0f06db96277a4d0d9fbcf9ddbb.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-50-maxemerge-31-a-35-linhas/",
+        "caption": "John Deere DB50 — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "chassi": [
+            50,
+            62
+          ],
+          "barra": [
+            37,
+            69
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "db40": {
+    "images": [
+      {
+        "file": "assets/machines/db40-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db40acq_maxemerge_photo_field_large_28fbbcb841dc716da0e444c6ad5c7f76b4ed04bb.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-40-maxemerge-23-a-27-linhas/",
+        "caption": "John Deere DB40 — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "chassi": [
+            49,
+            55
+          ],
+          "barra": [
+            27,
+            60
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "8345r": {
+    "images": [
+      {
+        "file": "assets/machines/8345r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8345r/trator_8345r_campo1_large_15fde918f1ebcc80a95949949ac94cb23feee283.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8345r/",
+        "caption": "John Deere 8345R — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "cabine": [
+            61,
+            44
+          ],
+          "chassi": [
+            61,
+            65
+          ],
+          "motor": [
+            67,
+            54
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "m4040": {
+    "images": [
+      {
+        "file": "assets/machines/m4040-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4040/r3c006532_NK_pulverizador_m4040_foto_no_campo_large_d9cbff51c830d4771f86fefdc7714f2c6714af63.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4040/",
+        "caption": "John Deere M4040 — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "cabine": [
+            40,
+            49
+          ],
+          "chassi": [
+            42,
+            58
+          ],
+          "barra": [
+            69,
+            58
+          ],
+          "motor": [
+            37,
+            53
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "8370r": {
+    "images": [
+      {
+        "file": "assets/machines/8370r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8370r/trator_8370r_campo1_large_082af444b417b3939718808b7d1ebf3e647a159e.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8370r/",
+        "caption": "John Deere 8370R — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "cabine": [
+            51,
+            35
+          ],
+          "chassi": [
+            69,
+            67
+          ],
+          "motor": [
+            62,
+            43
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "8400r": {
+    "images": [
+      {
+        "file": "assets/machines/8400r-0.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8400r/8400r_campo_large_7b13780a09551c33c057712d2c40f25f24c91db8.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8400r/",
+        "caption": "John Deere 8400R — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "cabine": [
+            49,
+            39
+          ],
+          "chassi": [
+            70,
+            73
+          ],
+          "motor": [
+            62,
+            48
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "db90": {
+    "images": [
+      {
+        "file": "assets/machines/db90-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db90/db90acq_maxemerge_photo_field_large_d6ae23fc0dbe7b17ef96c4161c7cf72985b1a93d.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-90-maxemerge-55-a-61-linhas/",
+        "caption": "John Deere DB90 — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "chassi": [
+            58,
+            46
+          ],
+          "barra": [
+            40,
+            53
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "8270r": {
+    "images": [
+      {
+        "file": "assets/machines/8270r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8270r/trator_8270r_campo1_large_7fe6233eb8650448dcf45abdc446972cf76dfef7.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8270r/",
+        "caption": "John Deere 8270R — fotografia oficial; conjuntos visíveis conferidos",
+        "points": {
+          "cabine": [
+            32,
+            48
+          ],
+          "chassi": [
+            36,
+            58
+          ],
+          "motor": [
+            28,
+            53
+          ]
+        }
+      }
+    ],
+    "brand": "John Deere"
+  },
+  "m4030": {
+    "brand": "John Deere",
+    "images": [],
+    "reject": true,
+    "reason": "Imagem m4030-2 tem máquina desfocada e parcialmente encoberta por pessoa; arquivo oficial nomeia M4040 dentro do caminho M4030. Identificação visual do modelo não é possível; não reutilizar para M4030."
+  }
+}

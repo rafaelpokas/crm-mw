@@ -1,0 +1,38 @@
+import { chromium } from '@playwright/test';
+import fs from 'node:fs/promises';
+const browser=await chromium.launch({channel:'chrome',headless:true,timeout:20000,args:['--no-sandbox','--disable-gpu','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const page=await browser.newPage({viewport:{width:1500,height:1060}});
+page.on('console',m=>{if(m.type()==='error')console.log('Browser error',m.text());});
+page.on('response',r=>{if(r.status()>=400)console.log('HTTP',r.status(),r.url());});
+page.on('pageerror',e=>console.log('Page error',e.message));
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:3000/catalogo-3d/index.html',{waitUntil:'domcontentloaded'});
+console.log('Page loaded');
+await page.waitForTimeout(3000);
+console.log('State',await page.evaluate(()=>({url:location.href,products:document.querySelectorAll('.product').length,canvas:document.querySelectorAll('canvas').length,machines:document.getElementById('machines').innerHTML,text:document.getElementById('result-count').textContent})));
+await page.screenshot({path:'test-results/catalogo-debug.png'});
+await page.waitForSelector('.product',{timeout:120000});
+await page.screenshot({path:'test-results/catalogo-3d-desktop.png',fullPage:true});
+console.log('Initial',await page.locator('#result-count').innerText());
+if(await page.locator('canvas').count()!==1)throw Error('Missing 3D canvas');
+if(await page.locator('#viewer-error').isVisible())throw Error('WebGL unavailable');
+await page.locator('#xray').click();
+if(await page.locator('#xray').getAttribute('aria-pressed')!=='true')throw Error('X-ray failed');
+await page.locator('#explode').click();await page.locator('#tour').click();await page.waitForTimeout(900);await page.locator('#tour').click();await page.locator('#reset').click();
+await page.locator('#search').fill('AXT20383');
+if(await page.locator('.product').count()!==1)throw Error('Search failed');
+await page.locator('.product').click();
+await page.locator('#add-product').click();
+await page.locator('#detail .close').click();await page.locator('#quote').click();
+if(await page.locator('.selected-row').count()!==1)throw Error('Selection failed');
+const dl=page.waitForEvent('download');await page.locator('#download').click();console.log('Download',(await dl).suggestedFilename());await page.locator('#selection .close').click();
+await page.locator('#clear').click();
+for(const id of ['algodao','graos','trator','pulverizador','plantadeira','escavadeira','carregadeira']){await page.locator(`[data-group="${id}"]`).click();console.log(id,await page.locator('.product').count());if(await page.locator('.product').count()===0)throw Error('Empty machine '+id);}
+await page.locator('[data-group="cana"]').click();await page.locator('#xray').click();await page.locator('#explode').click();
+await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/catalogo-3d-mobile.png',fullPage:true});
+if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2))throw Error('Mobile overflow');
+console.log('Errors',errors);if(errors.length)throw Error(errors.join('\n'));
+const catalog=JSON.parse(await fs.readFile('public/catalogo-3d/catalog.json','utf8'));
+console.log('Catalog stats',JSON.stringify({total:catalog.items.length,verified:catalog.items.filter(p=>p.verified).length,photos:catalog.items.filter(p=>p.localImage).length,sample:catalog.items.find(p=>p.pn==='AXT20383')}));
+await browser.close();
+

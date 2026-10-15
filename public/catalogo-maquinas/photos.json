@@ -1,0 +1,412 @@
+{
+  "ch670": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/ch670-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch670/colhedora_cana_ch670_campo_large_279455049b9e8dff4f9a7e8bc3578826a2df4a1e.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch670/",
+        "bytes": 1001023
+      },
+      {
+        "file": "assets/machines/ch670-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch670/colhedora_cana_ch670_campo2_large_45ec514c3a964899428f83fdd0bc485568b26802.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch670/",
+        "bytes": 727532
+      },
+      {
+        "file": "assets/machines/ch670-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch670/colhedora_cana_ch670_estudio_large_8ee4f6a7c25d01859f3b902a94b9a7f54f460429.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch670/",
+        "bytes": 443712
+      },
+      {
+        "file": "assets/machines/ch670-3.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch670/colhedora_cana_ch670_econoflow_large_69033b4f1d90587b6c8839d11fb71a362b7536e0.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch670/",
+        "bytes": 916883
+      }
+    ]
+  },
+  "ch950": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/ch950-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch950/r3g003117_OB_colhedora_cana_john_deere_modelo_ch950_canavial_large_da98dff8fa052b44546597aee842e43e54145489.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch950/",
+        "bytes": 629432
+      },
+      {
+        "file": "assets/machines/ch950-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch950/r3g003346_colhedora_cana_john_deere_modelo_ch950_canavial_vista_de_cima_large_06aaed3fd452ca228587750fb5812c027b7b2040.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch950/",
+        "bytes": 571130
+      },
+      {
+        "file": "assets/machines/ch950-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch950/r3g003118_OB_colhedora_cana_john_deere_modelo_ch950_canavial_ao_anoitecer_large_2c87fd598915d2c8122e91f5e7a05e690b4fd446.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch950/",
+        "bytes": 270030
+      },
+      {
+        "file": "assets/machines/ch950-3.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch950/ep4-melhores-momentos-298x130.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch950/",
+        "bytes": 19019
+      }
+    ]
+  },
+  "ch570": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/ch570-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch570/colhedora_cana_ch570_campo_large_5d61d1f5352cde012b9e2fd3803852785fa1c820.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch570/",
+        "bytes": 890433
+      },
+      {
+        "file": "assets/machines/ch570-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch570/colhedora_cana_ch570_campo2_large_7fe9c06e82da3153bd9c1bae7fa6d1c9ab50aa34.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch570/",
+        "bytes": 751873
+      },
+      {
+        "file": "assets/machines/ch570-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch570/colhedora_cana_ch570_estudio_large_2196219ca6a0741c5ca5a7873b035dae617b872d.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch570/",
+        "bytes": 402280
+      },
+      {
+        "file": "assets/machines/ch570-3.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/sugar-cane-harvester/ch570/colhedora_cana_ch570_econoflow_large_450e0556b84bf99544e4c3e40baf46483f1d0684.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-cana/ch570/",
+        "bytes": 620442
+      }
+    ]
+  },
+  "m4030": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/m4030-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4030/r3c006475_NK__pulverizador_m4040_foto_campo_large_2d6a851457645f834819c50ff4c5d0f5f4f1b8dc.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4030/",
+        "bytes": 905732
+      },
+      {
+        "file": "assets/machines/m4030-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4030/r3c006484_NK_pulverizador_m4040_foto_campo_de_noite_large_f7184bcbe6502542c8ccad59ae09d4f34bcf6aab.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4030/",
+        "bytes": 733215
+      },
+      {
+        "file": "assets/machines/m4030-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4030/r3c006527_NK_pulverizador_m4040_foto_campo_large_a2eaf51d94ec68d24b553c08a4161ea9ce3db8b4.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4030/",
+        "bytes": 483696
+      },
+      {
+        "file": "assets/machines/m4030-3.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4030/r3c006481_NK__pulverizador_m4040_foto_campo_barra_de_carbono_large_cb30bfd1ef0783fdf38a558f81db83b950df5b1e.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4030/",
+        "bytes": 561764
+      }
+    ]
+  },
+  "m4040": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/m4040-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4040/r3c006532_NK_pulverizador_m4040_foto_no_campo_large_d9cbff51c830d4771f86fefdc7714f2c6714af63.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4040/",
+        "bytes": 742618
+      },
+      {
+        "file": "assets/machines/m4040-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4040/r3c006562_NK_pulverizador_m4040_foto_no_campo_large_32234006b015bdd437023b3f9cb1d56fe284b623.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4040/",
+        "bytes": 582161
+      },
+      {
+        "file": "assets/machines/m4040-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4040/r3c006571_NK_pulverizador_m4040_foto_no_campo_acessoria_concessionario_large_ed871b441ed1b5c1e776df7d4d07b558eac697e6.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4040/",
+        "bytes": 469826
+      },
+      {
+        "file": "assets/machines/m4040-3.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4040/r3c006531_NK_pulverizador_m4040_foto_no_campo_large_475c87a6d7b39d14322e3c6ce8f2e0695021fb67.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4040/",
+        "bytes": 872904
+      }
+    ]
+  },
+  "m4025": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/m4025-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4025/r3c006424_NK_pulverizador_m4025_no_campo_large_1ac5c4900fda9450f8d3c4ea729fbdd58a1da84b.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4025/",
+        "bytes": 757522
+      },
+      {
+        "file": "assets/machines/m4025-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4025/r3c006440_NK_pulverizador_m4025_no_campo_large_49f5741e3140109d57d85c0717b5a86daefdddf9.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4025/",
+        "bytes": 1297053
+      },
+      {
+        "file": "assets/machines/m4025-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4025/r3c006443_NK_pulverizador_m4025_no_campo_large_84eefb7ea054c055fb5eaf24b8815ee69ce1d468.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4025/",
+        "bytes": 821575
+      },
+      {
+        "file": "assets/machines/m4025-3.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/nutrient-application/sprayer-m4025/r3c006433_NK_pulverizador_m4025_no_campo_large_5fe3e3a8a5c6edf937a76103d7e23c1d5d86848f.jpg",
+        "source": "https://www.deere.com.br/pt/tratos-culturais/pulverizador-m4025/",
+        "bytes": 512693
+      }
+    ]
+  },
+  "8320r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8320r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8320r/trator_8320r_campo1_large_d899b47aff1685ae910d115d7dae180f7e173feb.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8320r/",
+        "bytes": 738679
+      },
+      {
+        "file": "assets/machines/8320r-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8320r/trator_8320r_campo2_large_7c4985b740656d51951cefd0828df9c2bb182eeb.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8320r/",
+        "bytes": 762289
+      },
+      {
+        "file": "assets/machines/8320r-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8320r/trator_8320r_campo3_large_5b74875efd9f0d29c1ddde8602fcbedc6f171def.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8320r/",
+        "bytes": 1192495
+      },
+      {
+        "file": "assets/machines/8320r-3.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8320r/trator_8320r_estudio_large_82a334b02611cefaecdeef941cd08c9033bdc0e6.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8320r/",
+        "bytes": 592664
+      }
+    ]
+  },
+  "8270r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8270r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8270r/trator_8270r_campo1_large_7fe6233eb8650448dcf45abdc446972cf76dfef7.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8270r/",
+        "bytes": 1000653
+      },
+      {
+        "file": "assets/machines/8270r-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8270r/trator_8270r_campo2_large_a288f2069d763f701bb50d889eb1ec63287deaf9.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8270r/",
+        "bytes": 770507
+      },
+      {
+        "file": "assets/machines/8270r-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8270r/trator_8270r_campo3_large_521da77e81d978fe2a845546ebcc3646480d49cc.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8270r/",
+        "bytes": 851711
+      },
+      {
+        "file": "assets/machines/8270r-3.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8270r/trator_8270r_estudio_large_678743356798a53e3097752b862e08d3ac2c235a.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8270r/",
+        "bytes": 752122
+      }
+    ]
+  },
+  "8345r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8345r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8345r/trator_8345r_campo1_large_15fde918f1ebcc80a95949949ac94cb23feee283.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8345r/",
+        "bytes": 777091
+      },
+      {
+        "file": "assets/machines/8345r-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8345r/trator_8345r_campo2_large_0f90fc4ad4c082d5a524f983d7f56dbb1c9c4f82.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8345r/",
+        "bytes": 899875
+      },
+      {
+        "file": "assets/machines/8345r-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8345r/trator_8345r_campo3_large_02e32f5fbbafa196bceec52af70aa60b0b50c3ec.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8345r/",
+        "bytes": 954479
+      },
+      {
+        "file": "assets/machines/8345r-3.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8345r/trator_8345r_estudio_large_390e65d8ff65b63af5ae365ac633e33f9332a5d3.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8345r/",
+        "bytes": 574996
+      }
+    ]
+  },
+  "8370r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8370r-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8370r/trator_8370r_campo1_large_082af444b417b3939718808b7d1ebf3e647a159e.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8370r/",
+        "bytes": 940235
+      },
+      {
+        "file": "assets/machines/8370r-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8370r/trator_8370r_campo2_large_68b5fb1f45b78ccb2d4a0cbd60b2ef7c870e92bc.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8370r/",
+        "bytes": 836090
+      },
+      {
+        "file": "assets/machines/8370r-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8370r/trator_8370r_campo3_large_0655fd769ff98e82df6a115e8b9e44b89a4b6d77.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8370r/",
+        "bytes": 889414
+      },
+      {
+        "file": "assets/machines/8370r-3.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8370r/trator_8370r_estudio_large_af34ce4b888984d33c92eaf86f375876b1ff681d.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8370r/",
+        "bytes": 642803
+      }
+    ]
+  },
+  "8400r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8400r-0.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8400r/8400r_campo_large_7b13780a09551c33c057712d2c40f25f24c91db8.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8400r/",
+        "bytes": 1291325
+      },
+      {
+        "file": "assets/machines/8400r-1.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8400r/8400r_campo2_large_c908b45c1ff69b2ea6027544f8fc0c398ccae343.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8400r/",
+        "bytes": 1395601
+      },
+      {
+        "file": "assets/machines/8400r-2.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8400r/estudio_8400r_large_492de84890c6fcd17eef28529ed21e74afd05861.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8400r/",
+        "bytes": 543811
+      },
+      {
+        "file": "assets/machines/8400r-3.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8400r/8400r_poetica_large_af8bf311e18467165545e732081e3018450b1e9e.png",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8400r/",
+        "bytes": 875360
+      }
+    ]
+  },
+  "cp770": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/cp770-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-4/products/harvesting/cotton/cp770_r4h000787_1024x576_large_0ab1dd7e590e9fed1d4eabdef7759e172c8f2b41.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-algod%C3%A3o-cp770/",
+        "bytes": 412783
+      }
+    ]
+  },
+  "db74": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db74-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db74acq_maxemerge_photo_field_large_a4bad61b9bd1f0c541611806b31f81ca3b1ee2a8.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-74-maxemerge-45-a-49-linhas/",
+        "bytes": 291164
+      },
+      {
+        "file": "assets/machines/db74-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/r3g007510_db74acq_maxemerge_5e_photo_field_large_2285766f3ac236531d3abc8d06b0d9c3561f0b86.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-74-maxemerge-45-a-49-linhas/",
+        "bytes": 393271
+      }
+    ]
+  },
+  "db40": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db40-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db40acq_maxemerge_photo_field_large_28fbbcb841dc716da0e444c6ad5c7f76b4ed04bb.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-40-maxemerge-23-a-27-linhas/",
+        "bytes": 267608
+      },
+      {
+        "file": "assets/machines/db40-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db40acq_maxemerge_photo_field_2_large_503bd52107827a36712a0ce081e1e16022d28cc8.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-40-maxemerge-23-a-27-linhas/",
+        "bytes": 423759
+      },
+      {
+        "file": "assets/machines/db40-2.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/r3g007502_db40acq_maxemerge_5e_photo_field_large_24bf50342e72c928f5237760a9c459309ca9fcbc.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-40-maxemerge-23-a-27-linhas/",
+        "bytes": 338679
+      },
+      {
+        "file": "assets/machines/db40-3.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db40/plantadeira_db40_estudio_large_e3af0e8887e92fead8dbce22515a697396adb277.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-40-maxemerge-23-a-27-linhas/",
+        "bytes": 403996
+      }
+    ]
+  },
+  "db50": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db50-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db50acq_maxemerge_photo_field_large_2bd0436e35543a0f06db96277a4d0d9fbcf9ddbb.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-50-maxemerge-31-a-35-linhas/",
+        "bytes": 176974
+      },
+      {
+        "file": "assets/machines/db50-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/r3g007511_db50acq_maxemerge_5e_photo_field_large_9d0091d1334185401d1c70ffac32c3f94c0c313a.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-50-maxemerge-31-a-35-linhas/",
+        "bytes": 362678
+      }
+    ]
+  },
+  "db90": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db90-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db90/db90acq_maxemerge_photo_field_large_d6ae23fc0dbe7b17ef96c4161c7cf72985b1a93d.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-90-maxemerge-55-a-61-linhas/",
+        "bytes": 359747
+      },
+      {
+        "file": "assets/machines/db90-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/r3g006994_db90acq_maxemerge_5e_photo_field_large_027c8ccca712ac707757708fc31ac8a2513156af.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-90-maxemerge-55-a-61-linhas/",
+        "bytes": 520137
+      }
+    ]
+  }
+}

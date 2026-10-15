@@ -1,4 +1,4 @@
-export type UserRole = 'manager' | 'seller' | 'technical' | 'admin';
+export type UserRole = "manager" | "seller" | "technical" | "admin";
 
 export interface User {
   id: string;
@@ -7,20 +7,8 @@ export interface User {
   active: boolean;
 }
 
-export interface CompanySegmentProfile {
-  mainSegment: string;
-  additionalSegments: string[];
-  crop: string[];
-  supplyChainRole: string;
-  region: string;
-  confirmedMachines: string[];
-  qualificationStatus: 'pending_segment' | 'partial' | 'confirmed';
-  confidence: 'hypothesis' | 'confirmed';
-  lastValidatedAt?: string;
-  validationSource?: string;
-}
-
 export interface Company {
+  segmentProfile?: CompanySegmentProfile;
   id: string;
   name: string;
   segment: string;
@@ -28,46 +16,28 @@ export interface Company {
   state: string;
   document: string | null;
   fictitious: boolean;
-  segmentProfile?: CompanySegmentProfile;
-}
-
-export interface Touchpoint {
-  id: string;
-  contactId: string;
-  companyId?: string;
-  channel: 'instagram' | 'landing_page' | 'catalog' | 'site' | 'whatsapp' | 'email';
-  campaign?: string;
-  pageOrAd?: string;
-  details: string;
-  selectedProducts?: { sku: string; quantity: number }[];
-  machineModel?: string;
-  createdAt: string;
+  createdBy?: string;
 }
 
 export interface Contact {
+  unsubscribedFromMarketing?: boolean;
   id: string;
   companyId: string;
   name: string;
   email: string;
   whatsappMockId: string;
-  preferredChannel: 'whatsapp' | 'email';
+  preferredChannel: "whatsapp" | "email";
   doNotContact: boolean;
-  unsubscribedFromMarketing?: boolean;
+  createdBy?: string;
 }
 
-export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'converted' | 'lost';
-export type LeadSource =
-  | 'site'
-  | 'whatsapp'
-  | 'email'
-  | 'referral'
-  | 'event'
-  | 'manual'
-  | 'instagram'
-  | 'landing_page'
-  | 'catalog';
+export type LeadStatus =
+  "new" | "contacted" | "qualified" | "converted" | "lost";
+export type LeadSource = "instagram" | "landing_page" | "catalog" |
+  "site" | "whatsapp" | "email" | "referral" | "event" | "manual";
 
 export interface Lead {
+ catalogContext?: {machineModel?: string; selectedItems?: {sku: string; quantity: number}[]};
   id: string;
   contactId: string;
   source: LeadSource;
@@ -77,31 +47,35 @@ export interface Lead {
   ownerId: string | null;
   createdAt: string;
   convertedOpportunityId: string | null;
-  catalogContext?: {
-    machineModel?: string;
-    selectedItems?: { sku: string; quantity: number }[];
-  };
 }
 
-export type OpportunityStage = 'new' | 'qualification' | 'quoting' | 'quote_sent' | 'negotiation' | 'won' | 'lost';
-export type TechnicalStatus = 'pending' | 'approved_demo' | 'rejected_demo';
+export type OpportunityStage =
+  | "new"
+  | "qualification"
+  | "quoting"
+  | "quote_sent"
+  | "negotiation"
+  | "won"
+  | "lost";
+export type TechnicalStatus = "pending" | "approved_demo" | "rejected_demo";
 
 export interface Opportunity {
+ erpSyncStatus?: "not_sent" | "waiting_dispatch" | "processing" | "confirmed" | "failed" | "needs_review";
+ erpOrderId?: string;
   id: string;
   companyId: string;
   contactId: string;
   title: string;
   stage: OpportunityStage;
   ownerId: string | null;
-  estimatedValueCents: number;
+  estimatedValueCents: number | null;
+  technicalOwnerId?: string | null;
   technicalStatus: TechnicalStatus;
   createdAt: string;
   stageEnteredAt: string;
   closedAt: string | null;
   lostReason: string | null;
   version: number;
-  erpSyncStatus?: 'not_sent' | 'waiting_dispatch' | 'processing' | 'confirmed' | 'failed' | 'needs_review';
-  erpOrderId?: string;
 }
 
 export interface Product {
@@ -123,7 +97,7 @@ export interface QuoteLine {
   skuSnapshot: string;
   nameSnapshot: string;
   quantity: number;
-  unitPriceCents: number;
+  unitPriceCents: number | null;
   discountBps: number;
   grossCents: number;
   discountCents: number;
@@ -131,8 +105,17 @@ export interface QuoteLine {
   technicalNote?: string;
 }
 
-export type QuoteStatus = 'draft' | 'ready' | 'sent' | 'accepted' | 'rejected' | 'expired' | 'superseded' | 'cancelled';
-export type ApprovalStatus = 'not_required' | 'pending' | 'approved' | 'rejected';
+export type QuoteStatus =
+  | "draft"
+  | "ready"
+  | "sent"
+  | "accepted"
+  | "rejected"
+  | "expired"
+  | "superseded"
+  | "cancelled";
+export type ApprovalStatus =
+  "not_required" | "pending" | "approved" | "rejected";
 
 export interface QuoteVersion {
   id: string;
@@ -159,22 +142,25 @@ export interface Quote {
   number: string;
   opportunityId: string;
   currentVersionId: string;
+  publishedVersionId?: string | null;
+  draftVersionId?: string | null;
   createdAt: string;
 }
 
 export interface Approval {
   id: string;
   quoteVersionId: string;
+  snapshot?: string;
   requestedBy: string;
   decidedBy: string | null;
-  status: 'pending' | 'approved' | 'rejected';
+  status: "pending" | "approved" | "rejected";
   reason: string;
   requestedAt: string;
   decidedAt: string | null;
 }
 
-export type ConversationState = 'waiting_team' | 'waiting_client' | 'closed';
-export type AiMode = 'off' | 'copilot' | 'auto_triage' | 'paused';
+export type ConversationState = "waiting_team" | "waiting_client" | "closed";
+export type AiMode = "off" | "copilot" | "auto_triage" | "paused";
 
 export interface Conversation {
   id: string;
@@ -185,15 +171,18 @@ export interface Conversation {
   aiMode: AiMode;
   lastInboundAt: string;
   unreadCount: number;
+  technicalOwnerId?: string | null;
+  candidateOpportunityIds?: string[];
 }
 
-export type DeliveryStatus = 'queued' | 'sent' | 'delivered' | 'read' | 'failed' | 'received';
+export type DeliveryStatus =
+  "queued" | "sent" | "delivered" | "read" | "failed" | "received";
 
 export interface Message {
   id: string;
   conversationId: string;
-  channel: 'whatsapp' | 'email' | 'internal_note';
-  direction: 'inbound' | 'outbound';
+  channel: "whatsapp" | "email" | "internal_note";
+  direction: "inbound" | "outbound";
   authorId: string | null;
   body: string;
   deliveryStatus: DeliveryStatus;
@@ -203,11 +192,13 @@ export interface Message {
   providerEventId: string | null;
 }
 
-export type TaskType = 'follow_up' | 'technical_review' | 'quote_draft' | 'manager_approval' | 'market_outreach' | 'qualification';
-export type TaskStatus = 'open' | 'completed' | 'cancelled';
+export type TaskType =
+  "follow_up" | "technical_review" | "quote_draft" | "manager_approval";
+export type TaskStatus = "open" | "completed" | "cancelled";
 
 export interface Task {
   id: string;
+  leadId?: string;
   opportunityId: string;
   ownerId: string;
   type: TaskType;
@@ -215,11 +206,24 @@ export interface Task {
   dueAt: string;
   status: TaskStatus;
   automationKey: string | null;
+  outcome?: string;
 }
 
 export interface Activity {
   id: string;
-  entityType: 'lead' | 'opportunity' | 'quote' | 'approval' | 'conversation' | 'task' | 'erp' | 'campaign' | 'market_alert';
+  entityType:
+    | "lead"
+    | "opportunity"
+    | "quote"
+    | "approval"
+    | "conversation"
+    | "task"
+    | "settings"
+    | "company"
+    | "contact"
+    | "product"
+    | "knowledge"
+    | "attachment";
   entityId: string;
   actorId: string;
   action: string;
@@ -230,11 +234,11 @@ export interface Activity {
 }
 
 export interface KnowledgeDocument {
+ layer?: "approved_knowledge" | "live_data" | "relationship_memory" | "operational_rules" | "execution_memory";
   id: string;
   title: string;
-  layer: 'approved_knowledge' | 'live_data' | 'relationship_memory' | 'operational_rules' | 'execution_memory';
   version: number;
-  status: 'draft' | 'approved' | 'inactive';
+  status: "draft" | "approved" | "inactive";
   approvedBy: string | null;
   content: string;
 }
@@ -252,16 +256,16 @@ export interface AutomationRun {
   ruleId: string;
   entityId: string;
   eventKey: string;
-  status: 'success' | 'ignored' | 'failed';
+  status: "success" | "ignored" | "failed";
   reason: string;
   createdAt: string;
 }
 
 export interface Integration {
   id: string;
-  channel: 'site' | 'whatsapp' | 'email' | 'erp' | 'instagram' | 'landing_page';
-  mode: 'mock';
-  state: 'connected' | 'disconnected' | 'error' | 'undefined';
+  channel: "site" | "whatsapp" | "email" | "erp" | "instagram" | "landing_page";
+  mode: "mock";
+  state: "connected" | "disconnected" | "error" | "undefined";
   lastSyncAt: string | null;
   lastError: string | null;
 }
@@ -276,7 +280,124 @@ export interface NotificationItem {
   createdAt: string;
 }
 
-// --- NEW ECOSYSTEM ENTITIES (13/10/2026 UPDATE) ---
+export interface CrmRules {
+ erpApiTimeoutMs?: number;
+  sellerDiscountLimitBps: number;
+  quantityMax: number;
+  defaultLatencyMs: number;
+  followUpBusinessDays: number;
+  excludeWeekends: boolean;
+  holidayCalendar: null;
+  realIntegrationsEnabled: boolean;
+}
+
+export interface Attachment {
+  id: string;
+  opportunityId: string;
+  name: string;
+  type: string;
+  size: number;
+  createdAt: string;
+}
+export interface CrmDatabase {
+ touchpoints: Touchpoint[];
+ erpStock: ErpStockItem[];
+ erpOrderSyncs: ErpOrderSync[];
+ marketCalendar: MarketCalendarItem[];
+ marketAlerts: MarketIntelligenceAlert[];
+ campaigns: Campaign[];
+  attachments?: Attachment[];
+  receipts?: Record<string, any>;
+  lastAssignedSellerId?: string | null;
+  meta: {
+    schemaVersion: number;
+    name: string;
+    synthetic: boolean;
+    clock: string;
+    timezone: string;
+    currency: string;
+    locale: string;
+    defaultUserId: string;
+    notice: string;
+  };
+  rules: CrmRules;
+  users: User[];
+  companies: Company[];
+  contacts: Contact[];
+  leads: Lead[];
+  opportunities: Opportunity[];
+  products: Product[];
+  quotes: Quote[];
+  quoteVersions: QuoteVersion[];
+  approvals: Approval[];
+  conversations: Conversation[];
+  messages: Message[];
+  tasks: Task[];
+  activities: Activity[];
+  knowledgeDocuments: KnowledgeDocument[];
+  automationRules: AutomationRule[];
+  automationRuns: AutomationRun[];
+  integrations: Integration[];
+  notifications: NotificationItem[];
+  scenarios: { id: string; enabled: boolean }[];
+  expectedInitialMetrics: {
+    openOpportunities: number;
+    openValueCents: number;
+    wonOpportunities: number;
+    wonValueCents: number;
+    lostOpportunities: number;
+    closedWinRate: number;
+    overdueTasks: number;
+  };
+  demoNewLead: {
+    eventId: string;
+    name: string;
+    company: string;
+    email: string;
+    whatsappMockId: string;
+    source: LeadSource;
+    interest: string;
+    technicalStatus: TechnicalStatus;
+  };
+  demoResponses: {
+    summary: string;
+    clarification: string;
+    handoff: string;
+    discountRequest: string;
+    acceptance: string;
+  };
+  simulatedErrors: {
+    failWhatsApp: boolean;
+    failEmail: boolean;
+ erpTimeout?: boolean;
+  };
+}
+
+export interface CompanySegmentProfile {
+  mainSegment: string;
+  additionalSegments: string[];
+  crop: string[];
+  supplyChainRole: string;
+  region: string;
+  confirmedMachines: string[];
+  qualificationStatus: 'pending_segment' | 'partial' | 'confirmed';
+  confidence: 'hypothesis' | 'confirmed';
+  lastValidatedAt?: string;
+  validationSource?: string;
+}
+
+export interface Touchpoint {
+  id: string;
+  contactId: string;
+  companyId?: string;
+  channel: 'instagram' | 'landing_page' | 'catalog' | 'site' | 'whatsapp' | 'email';
+  campaign?: string;
+  pageOrAd?: string;
+  details: string;
+  selectedProducts?: { sku: string; quantity: number }[];
+  machineModel?: string;
+  createdAt: string;
+}
 
 export interface ErpStockItem {
   sku: string;
@@ -333,6 +454,10 @@ export interface MarketIntelligenceAlert {
 }
 
 export interface Campaign {
+  sourceCalendarId?: string;
+ approvalSnapshot?: string;
+ approvedContactIds?: string[];
+ deliveries?: {contactId: string; status: "sent" | "failed" | "excluded"; reason?: string}[];
   id: string;
   title: string;
   objective: string;
@@ -352,86 +477,4 @@ export interface Campaign {
   responseCount: number;
   createdOpportunitiesCount: number;
   createdAt: string;
-}
-
-export interface CrmRules {
-  sellerDiscountLimitBps: number;
-  quantityMax: number;
-  defaultLatencyMs: number;
-  followUpBusinessDays: number;
-  excludeWeekends: boolean;
-  holidayCalendar: null;
-  realIntegrationsEnabled: boolean;
-  erpApiTimeoutMs?: number;
-}
-
-export interface CrmDatabase {
-  meta: {
-    schemaVersion: number;
-    name: string;
-    synthetic: boolean;
-    clock: string;
-    timezone: string;
-    currency: string;
-    locale: string;
-    defaultUserId: string;
-    notice: string;
-  };
-  rules: CrmRules;
-  users: User[];
-  companies: Company[];
-  contacts: Contact[];
-  touchpoints: Touchpoint[];
-  leads: Lead[];
-  opportunities: Opportunity[];
-  products: Product[];
-  quotes: Quote[];
-  quoteVersions: QuoteVersion[];
-  approvals: Approval[];
-  conversations: Conversation[];
-  messages: Message[];
-  tasks: Task[];
-  activities: Activity[];
-  knowledgeDocuments: KnowledgeDocument[];
-  automationRules: AutomationRule[];
-  automationRuns: AutomationRun[];
-  integrations: Integration[];
-  notifications: NotificationItem[];
-  erpStock: ErpStockItem[];
-  erpOrderSyncs: ErpOrderSync[];
-  marketCalendar: MarketCalendarItem[];
-  marketAlerts: MarketIntelligenceAlert[];
-  campaigns: Campaign[];
-  scenarios: { id: string; enabled: boolean }[];
-  expectedInitialMetrics: {
-    openOpportunities: number;
-    openValueCents: number;
-    wonOpportunities: number;
-    wonValueCents: number;
-    lostOpportunities: number;
-    closedWinRate: number;
-    overdueTasks: number;
-  };
-  demoNewLead: {
-    eventId: string;
-    name: string;
-    company: string;
-    email: string;
-    whatsappMockId: string;
-    source: LeadSource;
-    interest: string;
-    technicalStatus: TechnicalStatus;
-  };
-  demoResponses: {
-    summary: string;
-    clarification: string;
-    handoff: string;
-    discountRequest: string;
-    acceptance: string;
-  };
-  simulatedErrors: {
-    failWhatsApp: boolean;
-    failEmail: boolean;
-    erpTimeout: boolean;
-  };
 }

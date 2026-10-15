@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { useCrm } from '../context/CrmContext';
+import React, { useState, useMemo, useEffect } from "react";
+import { useCrm } from "../context/CrmContext";
 import {
   FileSpreadsheet,
   ArrowLeft,
@@ -12,53 +12,60 @@ import {
   Eye,
   ShieldAlert,
   Clock,
-  Sparkles
-} from 'lucide-react';
-import { formatCurrency, formatBps, formatDate } from '../utils/formatters';
-import { calculateLineNet, calculateQuoteTotals } from '../utils/calculations';
-import { QuoteLine } from '../data/types';
+  Sparkles,
+} from "lucide-react";
+import { formatCurrency, formatBps, formatDate } from "../utils/formatters";
+import { calculateLineNet, calculateQuoteTotals } from "../utils/calculations";
+import { QuoteLine } from "../data/types";
 
 interface QuoteEditorViewProps {
   quoteId: string;
   navigateTo: (route: string) => void;
 }
 
-export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navigateTo }) => {
+export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({
+  quoteId,
+  navigateTo,
+}) => {
   const { db, currentUser, saveQuoteDraft, requestApproval } = useCrm();
 
   const quote = useMemo(() => {
-    return db.quotes.find(q => q.id === quoteId);
+    return db.quotes.find((q) => q.id === quoteId);
   }, [db.quotes, quoteId]);
 
   const currentVersion = useMemo(() => {
     if (!quote) return null;
-    return db.quoteVersions.find(v => v.id === quote.currentVersionId);
+    return db.quoteVersions.find(
+      (v) => v.id === (quote.draftVersionId || quote.currentVersionId),
+    );
   }, [db.quoteVersions, quote]);
 
   const opp = useMemo(() => {
     if (!quote) return null;
-    return db.opportunities.find(o => o.id === quote.opportunityId);
+    return db.opportunities.find((o) => o.id === quote.opportunityId);
   }, [db.opportunities, quote]);
 
   const company = useMemo(() => {
     if (!opp) return null;
-    return db.companies.find(c => c.id === opp.companyId);
+    return db.companies.find((c) => c.id === opp.companyId);
   }, [db.companies, opp]);
 
   const contact = useMemo(() => {
     if (!opp) return null;
-    return db.contacts.find(c => c.id === opp.contactId);
+    return db.contacts.find((c) => c.id === opp.contactId);
   }, [db.contacts, opp]);
 
   // Form lines state
   const [lines, setLines] = useState<QuoteLine[]>([]);
   const [freightCents, setFreightCents] = useState<number>(8000);
   const [freightPending, setFreightPending] = useState<boolean>(false);
-  const [paymentTerms, setPaymentTerms] = useState<string>('');
-  const [deliveryTerms, setDeliveryTerms] = useState<string>('');
-  const [validUntilDate, setValidUntilDate] = useState<string>('');
+  const [paymentTerms, setPaymentTerms] = useState<string>("");
+  const [deliveryTerms, setDeliveryTerms] = useState<string>("");
+  const [validUntilDate, setValidUntilDate] = useState<string>("");
 
-  const [approvalReason, setApprovalReason] = useState<string>('Desconto excepcional comercial');
+  const [approvalReason, setApprovalReason] = useState<string>(
+    "Desconto excepcional comercial",
+  );
   const [showApprovalModal, setShowApprovalModal] = useState<boolean>(false);
 
   const [saving, setSaving] = useState(false);
@@ -71,22 +78,53 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
       setLines(JSON.parse(JSON.stringify(currentVersion.lines)));
       setFreightCents(currentVersion.freightCents || 0);
       setFreightPending(currentVersion.freightPending || false);
-      setPaymentTerms(currentVersion.paymentTerms || 'Condição demonstrativa a confirmar');
-      setDeliveryTerms(currentVersion.deliveryTerms || 'Prazo demonstrativo sujeito à validação');
-      setValidUntilDate(currentVersion.validUntil ? currentVersion.validUntil.split('T')[0] : '2026-10-16');
+      setPaymentTerms(
+        currentVersion.paymentTerms || "Condição demonstrativa a confirmar",
+      );
+      setDeliveryTerms(
+        currentVersion.deliveryTerms ||
+          "Prazo demonstrativo sujeito à validação",
+      );
+      setValidUntilDate(
+        currentVersion.validUntil
+          ? currentVersion.validUntil.split("T")[0]
+          : "2026-10-16",
+      );
     }
   }, [currentVersion]);
 
+  useEffect(() => {
+    const before = (e: BeforeUnloadEvent) => {
+      if ((window as any).__crmDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", before);
+    return () => {
+      window.removeEventListener("beforeunload", before);
+      (window as any).__crmDirty = false;
+    };
+  }, []);
   // Dynamic calculations
   const totals = useMemo(() => {
-    return calculateQuoteTotals(lines, freightPending ? 0 : freightCents);
+    return calculateQuoteTotals(
+      lines,
+      freightPending ? 0 : freightCents,
+      db.rules.sellerDiscountLimitBps,
+    );
   }, [lines, freightCents, freightPending]);
 
   if (!quote || !currentVersion) {
     return (
       <div className="p-8 text-center space-y-4">
-        <h2 className="text-lg font-bold text-[#223237]">Cotação não encontrada</h2>
-        <button onClick={() => navigateTo('/cotacoes')} className="px-4 py-2 bg-[#223237] text-white rounded text-xs">
+        <h2 className="text-lg font-bold text-[#223237]">
+          Cotação não encontrada
+        </h2>
+        <button
+          onClick={() => navigateTo("/cotacoes")}
+          className="px-4 py-2 bg-[#223237] text-white rounded text-xs"
+        >
           Voltar às Cotações
         </button>
       </div>
@@ -94,16 +132,25 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
   }
 
   // Update line field
-  const handleUpdateLine = (index: number, field: keyof QuoteLine, value: any) => {
-    setLines(prev => {
+  const handleUpdateLine = (
+    index: number,
+    field: keyof QuoteLine,
+    value: any,
+  ) => {
+    (window as any).__crmDirty = true;
+    setLines((prev) => {
       const updated = [...prev];
       const item = { ...updated[index], [field]: value };
 
-      if (field === 'quantity' || field === 'unitPriceCents' || field === 'discountBps') {
+      if (
+        field === "quantity" ||
+        field === "unitPriceCents" ||
+        field === "discountBps"
+      ) {
         const netCalc = calculateLineNet(
-          Number(item.quantity) || 1,
+          Number(item.quantity),
           item.unitPriceCents !== null ? Number(item.unitPriceCents) : 0,
-          Number(item.discountBps) || 0
+          Number(item.discountBps) || 0,
         );
         item.grossCents = netCalc.grossCents;
         item.discountCents = netCalc.discountCents;
@@ -117,10 +164,10 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
 
   // Add line from catalog
   const handleAddProduct = (productId: string) => {
-    const prod = db.products.find(p => p.id === productId);
+    const prod = db.products.find((p) => p.id === productId);
     if (!prod) return;
 
-    const unitPrice = prod.unitPriceCents !== null ? prod.unitPriceCents : 0;
+    const unitPrice = prod.unitPriceCents;
     const netCalc = calculateLineNet(1, unitPrice, 0);
 
     const newLine: QuoteLine = {
@@ -132,14 +179,16 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
       discountBps: 0,
       grossCents: netCalc.grossCents,
       discountCents: netCalc.discountCents,
-      netCents: netCalc.netCents
+      netCents: netCalc.netCents,
     };
 
-    setLines(prev => [...prev, newLine]);
+    (window as any).__crmDirty = true;
+    setLines((prev) => [...prev, newLine]);
   };
 
   const handleRemoveLine = (index: number) => {
-    setLines(prev => prev.filter((_, i) => i !== index));
+    (window as any).__crmDirty = true;
+    setLines((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSaveDraft = async () => {
@@ -148,37 +197,60 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
     setSaveSuccess(null);
 
     const res = await saveQuoteDraft(currentVersion.id, {
+      version: currentVersion.version,
       lines,
       freightCents,
       freightPending,
       paymentTerms,
       deliveryTerms,
-      validUntil: `${validUntilDate}T23:59:59-03:00`
+      validUntil: `${validUntilDate}T23:59:59-03:00`,
     });
 
     setSaving(false);
     if (!res.ok && res.error) {
       setSaveError(res.error.message);
     } else {
-      setSaveSuccess('Rascunho da cotação salvo e totais recalculados com sucesso!');
+      (window as any).__crmDirty = false;
+      setSaveSuccess(
+        "Rascunho da cotação salvo e totais recalculados com sucesso!",
+      );
       setTimeout(() => setSaveSuccess(null), 3000);
     }
   };
 
   const handleRequestApproval = async () => {
     setSaving(true);
-    const res = await requestApproval(currentVersion.id, approvalReason);
+    const saved = await saveQuoteDraft(currentVersion.id, {
+      version: currentVersion.version,
+      lines,
+      freightCents,
+      freightPending,
+      paymentTerms,
+      deliveryTerms,
+      validUntil: `${validUntilDate}T23:59:59-03:00`,
+    });
+    const res = saved.ok
+      ? await requestApproval(currentVersion.id, approvalReason)
+      : saved;
     setSaving(false);
     setShowApprovalModal(false);
     if (!res.ok && res.error) {
       setSaveError(res.error.message);
     } else {
-      setSaveSuccess('Solicitação de aprovação enviada com sucesso para o Gestor!');
+      (window as any).__crmDirty = false;
+      setSaveSuccess(
+        "Solicitação de aprovação enviada com sucesso para o Gestor!",
+      );
     }
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6 text-xs text-[#223237]">
+    <div
+      onChange={() => {
+        (window as any).__crmDirty = true;
+      }}
+      className="p-6 max-w-7xl mx-auto space-y-6 text-xs text-[#223237]"
+    >
       {/* Top Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-[#dae0d7] shadow-xs">
         <div>
@@ -194,11 +266,13 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
               Editor de Cotação: {quote.number}
             </h1>
             <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold text-[11px]">
-              Revisão {currentVersion.revision} • {currentVersion.status.toUpperCase()}
+              Revisão {currentVersion.revision} •{" "}
+              {currentVersion.status.toUpperCase()}
             </span>
           </div>
           <p className="text-[11px] text-[#53636A]">
-            Cliente: <strong>{company?.name}</strong> • Contato: {contact?.name} • Oportunidade: {opp?.id}
+            Cliente: <strong>{company?.name}</strong> • Contato: {contact?.name}{" "}
+            • Oportunidade: {opp?.id}
           </p>
         </div>
 
@@ -209,7 +283,7 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
             className="bg-[#223237] hover:bg-[#2d3f45] text-white px-4 py-2 rounded-lg font-bold flex items-center space-x-1.5 transition"
           >
             <Save size={14} className="text-[#B1D448]" />
-            <span>{saving ? 'Salvando...' : 'Salvar Rascunho'}</span>
+            <span>{saving ? "Salvando..." : "Salvar Rascunho"}</span>
           </button>
 
           <button
@@ -240,26 +314,36 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
         <div className="lg:col-span-2 space-y-4">
           <div className="bg-white p-5 rounded-xl border border-[#dae0d7] shadow-xs space-y-4">
             <div className="flex items-center justify-between border-b border-[#dae0d7] pb-3">
-              <h2 className="font-bold text-sm text-[#223237]">Itens da Proposta Comercial</h2>
+              <h2 className="font-bold text-sm text-[#223237]">
+                Itens da Proposta Comercial
+              </h2>
 
               {/* Add item dropdown */}
               <div className="flex items-center space-x-2">
-                <span className="text-[#53636A] text-[11px]">Adicionar produto:</span>
+                <span className="text-[#53636A] text-[11px]">
+                  Adicionar produto:
+                </span>
                 <select
-                  onChange={e => {
+                  onChange={(e) => {
                     if (e.target.value) {
                       handleAddProduct(e.target.value);
-                      e.target.value = '';
+                      e.target.value = "";
                     }
                   }}
                   className="bg-[#F5F6F0] border border-[#dae0d7] rounded-md px-2 py-1 text-xs"
                 >
                   <option value="">Selecione do Catálogo...</option>
-                  {db.products.filter(p => p.active).map(p => (
-                    <option key={p.id} value={p.id}>
-                      {p.sku} - {p.name} ({p.unitPriceCents ? formatCurrency(p.unitPriceCents) : 'Sob Consulta'})
-                    </option>
-                  ))}
+                  {db.products
+                    .filter((p) => p.active)
+                    .map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.sku} - {p.name} (
+                        {p.unitPriceCents
+                          ? formatCurrency(p.unitPriceCents)
+                          : "Sob Consulta"}
+                        )
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -281,8 +365,12 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                   {lines.map((line, idx) => (
                     <tr key={idx} className="hover:bg-gray-50">
                       <td className="py-3 px-2">
-                        <div className="font-mono font-bold text-[#223237]">{line.skuSnapshot}</div>
-                        <div className="text-[11px] text-[#53636A]">{line.nameSnapshot}</div>
+                        <div className="font-mono font-bold text-[#223237]">
+                          {line.skuSnapshot}
+                        </div>
+                        <div className="text-[11px] text-[#53636A]">
+                          {line.nameSnapshot}
+                        </div>
                       </td>
 
                       <td className="py-3 px-2">
@@ -291,17 +379,36 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                           min="1"
                           max="9999"
                           value={line.quantity}
-                          onChange={e => handleUpdateLine(idx, 'quantity', parseInt(e.target.value) || 1)}
+                          onChange={(e) =>
+                            handleUpdateLine(
+                              idx,
+                              "quantity",
+                              Number(e.target.value),
+                            )
+                          }
                           className="w-16 p-1 border border-[#dae0d7] rounded text-center font-bold"
                         />
                       </td>
 
                       <td className="py-3 px-2 font-mono">
-                        {line.unitPriceCents !== null ? (
-                          formatCurrency(line.unitPriceCents)
-                        ) : (
-                          <span className="text-amber-700 font-bold">Sob consulta</span>
-                        )}
+                        <input
+                          aria-label={`Preço em centavos ${line.skuSnapshot}`}
+                          type="number"
+                          min="0"
+                          step="1"
+                          value={line.unitPriceCents ?? ""}
+                          placeholder="Sob consulta"
+                          onChange={(e) =>
+                            handleUpdateLine(
+                              idx,
+                              "unitPriceCents",
+                              e.target.value === ""
+                                ? null
+                                : Number(e.target.value),
+                            )
+                          }
+                          className="w-24 p-1 border rounded"
+                        />
                       </td>
 
                       <td className="py-3 px-2">
@@ -312,14 +419,22 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                             max="100"
                             step="0.5"
                             value={line.discountBps / 100}
-                            onChange={e => handleUpdateLine(idx, 'discountBps', Math.round((parseFloat(e.target.value) || 0) * 100))}
+                            onChange={(e) =>
+                              handleUpdateLine(
+                                idx,
+                                "discountBps",
+                                Math.round(
+                                  (parseFloat(e.target.value) || 0) * 100,
+                                ),
+                              )
+                            }
                             className="w-16 p-1 border border-[#dae0d7] rounded text-center"
                           />
                           <span className="text-[#53636A]">%</span>
                         </div>
-                        {line.discountBps > 500 && (
+                        {line.discountBps > db.rules.sellerDiscountLimitBps && (
                           <div className="text-[10px] text-amber-700 font-bold mt-0.5">
-                            Excede 5%
+                            Acima da alçada
                           </div>
                         )}
                       </td>
@@ -342,14 +457,6 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                 </tbody>
               </table>
             </div>
-
-            {/* Canonical calculation demo hint */}
-            <div className="bg-[#F5F6F0] p-3 rounded-lg border border-[#dae0d7] text-[11px] text-[#53636A] space-y-1">
-              <strong className="text-[#223237] block">Cenário Canônico da Especificação:</strong>
-              <div>2 × Chicote Padrão (R$ 850,00) + 4 × Conector (R$ 120,00) = R$ 2.180,00 bruto.</div>
-              <div>Com 5% de desconto (500 bps) + R$ 80,00 frete: <strong>Total R$ 2.151,00</strong>.</div>
-              <div>Com 8% de desconto (800 bps) + R$ 80,00 frete: <strong>Total R$ 2.085,60</strong> (exige alçada gestor).</div>
-            </div>
           </div>
 
           {/* Commercial Terms & Conditions */}
@@ -366,7 +473,7 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                 <input
                   type="date"
                   value={validUntilDate}
-                  onChange={e => setValidUntilDate(e.target.value)}
+                  onChange={(e) => setValidUntilDate(e.target.value)}
                   className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs bg-white"
                 />
               </div>
@@ -380,14 +487,18 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                     type="number"
                     disabled={freightPending}
                     value={freightCents / 100}
-                    onChange={e => setFreightCents(Math.round((parseFloat(e.target.value) || 0) * 100))}
+                    onChange={(e) =>
+                      setFreightCents(
+                        Math.round((parseFloat(e.target.value) || 0) * 100),
+                      )
+                    }
                     className="flex-1 p-2 border border-[#dae0d7] rounded-lg text-xs disabled:bg-gray-100"
                   />
                   <label className="flex items-center space-x-1 text-[11px] text-[#53636A] shrink-0">
                     <input
                       type="checkbox"
                       checked={freightPending}
-                      onChange={e => setFreightPending(e.target.checked)}
+                      onChange={(e) => setFreightPending(e.target.checked)}
                     />
                     <span>Frete a definir</span>
                   </label>
@@ -403,7 +514,7 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                 <input
                   type="text"
                   value={paymentTerms}
-                  onChange={e => setPaymentTerms(e.target.value)}
+                  onChange={(e) => setPaymentTerms(e.target.value)}
                   className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs"
                 />
               </div>
@@ -415,7 +526,7 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                 <input
                   type="text"
                   value={deliveryTerms}
-                  onChange={e => setDeliveryTerms(e.target.value)}
+                  onChange={(e) => setDeliveryTerms(e.target.value)}
                   className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs"
                 />
               </div>
@@ -433,23 +544,29 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
             <div className="space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-[#53636A]">Subtotal Bruto:</span>
-                <span className="font-mono font-semibold">{formatCurrency(totals.totalGrossCents)}</span>
+                <span className="font-mono font-semibold">
+                  {formatCurrency(totals.totalGrossCents)}
+                </span>
               </div>
 
               <div className="flex justify-between text-emerald-700">
                 <span>Desconto Total:</span>
-                <span className="font-mono font-semibold">-{formatCurrency(totals.totalDiscountCents)}</span>
+                <span className="font-mono font-semibold">
+                  -{formatCurrency(totals.totalDiscountCents)}
+                </span>
               </div>
 
               <div className="flex justify-between">
                 <span className="text-[#53636A]">Frete Calculado:</span>
                 <span className="font-mono font-semibold">
-                  {freightPending ? 'A definir' : formatCurrency(freightCents)}
+                  {freightPending ? "A definir" : formatCurrency(freightCents)}
                 </span>
               </div>
 
               <div className="pt-3 border-t border-[#dae0d7] flex justify-between items-baseline">
-                <span className="font-bold text-sm text-[#223237]">TOTAL LÍQUIDO:</span>
+                <span className="font-bold text-sm text-[#223237]">
+                  TOTAL LÍQUIDO:
+                </span>
                 <span className="font-mono text-xl font-black text-[#223237]">
                   {formatCurrency(totals.totalCents)}
                 </span>
@@ -464,18 +581,20 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
                   <span>Alçada Comercial Ultrapassada</span>
                 </div>
                 <p className="text-[11px] leading-relaxed">
-                  O desconto aplicado excede o limite de 500 bps (5,0%). É necessária autorização formal do Gestor antes do envio.
+                  O desconto aplicado excede o limite de 500 bps (5,0%). É
+                  necessária autorização formal do Gestor antes do envio.
                 </p>
 
                 <div className="text-[11px]">
-                  Status da alçada: <strong>{currentVersion.approvalStatus.toUpperCase()}</strong>
+                  Status da alçada:{" "}
+                  <strong>{currentVersion.approvalStatus.toUpperCase()}</strong>
                 </div>
 
-                {currentVersion.approvalStatus === 'pending' ? (
+                {currentVersion.approvalStatus === "pending" ? (
                   <div className="text-[11px] bg-amber-100/60 p-2 rounded text-amber-900 font-medium">
                     Aguardando decisão do Gestor Demo (U001).
                   </div>
-                ) : currentVersion.approvalStatus === 'approved' ? (
+                ) : currentVersion.approvalStatus === "approved" ? (
                   <div className="text-[11px] bg-emerald-100 p-2 rounded text-emerald-800 font-bold">
                     ✓ Desconto aprovado pelo Gestor! Envio liberado.
                   </div>
@@ -520,13 +639,14 @@ export const QuoteEditorView: React.FC<QuoteEditorViewProps> = ({ quoteId, navig
             </h3>
 
             <p className="text-xs text-[#53636A]">
-              Informe a justificativa comercial para o Gestor avaliar o desconto acima de 5%:
+              Informe a justificativa comercial para o Gestor avaliar o desconto
+              acima de 5%:
             </p>
 
             <textarea
               rows={3}
               value={approvalReason}
-              onChange={e => setApprovalReason(e.target.value)}
+              onChange={(e) => setApprovalReason(e.target.value)}
               className="w-full p-2 border border-[#dae0d7] rounded-lg text-xs"
               placeholder="Ex: Cliente fechando volume ou condição estratégica de negociação..."
             />

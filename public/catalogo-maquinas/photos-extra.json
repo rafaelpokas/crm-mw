@@ -1,0 +1,481 @@
+{
+  "a9900": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-a9900.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/9669b69c7d794e52af332e812d4ed0c0?v=0d57779e",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/colhedoras-de-cana/austoft-9000/austoft-9900",
+        "caption": "Austoft 9900 — fotografia oficial de estúdio",
+        "bytes": 61210,
+        "points": {
+          "motor": [
+            63,
+            49
+          ],
+          "cabine": [
+            48,
+            46
+          ],
+          "chassi": [
+            60,
+            76
+          ],
+          "elevador": [
+            77,
+            42
+          ],
+          "divisor": [
+            33,
+            70
+          ],
+          "colheita": [
+            42,
+            80
+          ],
+          "eletrica": [
+            47,
+            34
+          ]
+        }
+      }
+    ]
+  },
+  "a9000": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-a9000.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/ca576e441a9849c7a63e8150c33eedd0?v=47b45003",
+        "source": "https://www.caseih.com/en/africamiddleeast/products/harvesting/austoft-9000-sugar-cane-harvester",
+        "caption": "Austoft A9000 — fotografia oficial, versão com pneus",
+        "bytes": 65432,
+        "points": {
+          "motor": [
+            40,
+            45
+          ],
+          "cabine": [
+            57,
+            48
+          ],
+          "chassi": [
+            45,
+            76
+          ],
+          "elevador": [
+            24,
+            45
+          ],
+          "divisor": [
+            71,
+            73
+          ],
+          "colheita": [
+            63,
+            79
+          ],
+          "eletrica": [
+            57,
+            35
+          ]
+        }
+      }
+    ]
+  },
+  "a9900da": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-a9900da.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/90469059eed1487fbe37d659687a5107?v=40975745",
+        "source": "https://www.caseih.com/en/africamiddleeast/products/harvesting/austoft-9000-sugar-cane-harvester",
+        "caption": "Austoft A9900 DA — fotografia oficial, duplo alternado",
+        "bytes": 84628
+      }
+    ]
+  },
+  "a8810": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-a8810-alt.jpg",
+        "url": "https://tracan.com.br/wp-content/uploads/2020/04/Case-IH-8810-benefícios-da-linha-de-colhedora-de-cana.jpg",
+        "source": "https://tracan.com.br/blog/conheca-a-colhedora-de-cana-que-e-lider-de-mercado/",
+        "caption": "A8810 em operação noturna — Tracan, vista de campo com outro trator",
+        "width": 4724,
+        "height": 3150,
+        "points": {
+          "cabine": [
+            60,
+            34
+          ],
+          "elevador": [
+            42,
+            37
+          ],
+          "divisor": [
+            61,
+            59
+          ],
+          "colheita": [
+            59,
+            64
+          ],
+          "eletrica": [
+            62,
+            23
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/extra-a8810.jpg",
+        "url": "https://tracan.com.br/wp-content/uploads/2020/04/Colhedora-de-Cana-de-Açúcar-A8810-da-Case-IH-scaled.jpg",
+        "source": "https://tracan.com.br/blog/conheca-a-colhedora-de-cana-que-e-lider-de-mercado/",
+        "caption": "A8810 — fotografia real publicada pela concessionária Tracan",
+        "bytes": 252659,
+        "points": {
+          "cabine": [
+            50,
+            35
+          ],
+          "elevador": [
+            81,
+            38
+          ],
+          "divisor": [
+            31,
+            71
+          ],
+          "colheita": [
+            48,
+            73
+          ],
+          "eletrica": [
+            50,
+            23
+          ]
+        },
+        "width": 2560,
+        "height": 1707
+      }
+    ]
+  },
+  "puma-140": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-puma140.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/dabe8145c445437280dd8d31907414a0?v=411e99ab",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/tratores/puma/puma-140",
+        "caption": "Puma 140 — imagem oficial da página específica do modelo",
+        "bytes": 94684,
+        "points": {
+          "motor": [
+            56,
+            57
+          ],
+          "cabine": [
+            62,
+            51
+          ],
+          "chassi": [
+            66,
+            69
+          ],
+          "transmissao": [
+            65,
+            67
+          ],
+          "eletrica": [
+            58,
+            44
+          ]
+        },
+        "width": 1242,
+        "height": 828
+      }
+    ]
+  },
+  "puma-155": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-puma155.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/f5a0b42e3f3a472bb9d3b3772b9171ef?v=908fb5c0",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/tratores/puma/puma-155",
+        "caption": "Puma 155 — imagem oficial da página específica do modelo",
+        "bytes": 63650,
+        "points": {
+          "motor": [
+            50,
+            70
+          ],
+          "cabine": [
+            50,
+            60
+          ],
+          "chassi": [
+            50,
+            83
+          ],
+          "eletrica": [
+            50,
+            54
+          ]
+        },
+        "width": 1242,
+        "height": 828
+      }
+    ]
+  },
+  "puma-170": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-puma170.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/a0a8aa2c67d94acda635dfac3e8c9ea6?v=c5e71539",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/tratores/puma/puma-170",
+        "caption": "Puma 170 — imagem oficial da página específica do modelo",
+        "bytes": 97562,
+        "points": {
+          "motor": [
+            50,
+            69
+          ],
+          "cabine": [
+            50,
+            31
+          ],
+          "eletrica": [
+            71,
+            16
+          ]
+        },
+        "width": 1242,
+        "height": 828
+      }
+    ]
+  },
+  "puma-185": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-puma185.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/50b6e42b7e0a4f92a191eb918085346d?v=8cee3d06",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/tratores/puma/puma-185",
+        "caption": "Puma 185 — imagem oficial da página específica do modelo",
+        "bytes": 124168,
+        "points": {
+          "motor": [
+            52,
+            57
+          ],
+          "cabine": [
+            63,
+            51
+          ],
+          "chassi": [
+            68,
+            71
+          ],
+          "transmissao": [
+            65,
+            67
+          ],
+          "eletrica": [
+            64,
+            43
+          ]
+        },
+        "width": 1242,
+        "height": 828
+      }
+    ]
+  },
+  "puma-200": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-puma200.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/ae64ffaaf9ed4d85a1aa434ebb6e9311?v=1ea82b6b",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/tratores/puma/puma-200",
+        "caption": "Puma 200 — imagem oficial da página específica do modelo",
+        "bytes": 111230,
+        "points": {
+          "motor": [
+            49,
+            67
+          ],
+          "cabine": [
+            49,
+            53
+          ],
+          "chassi": [
+            49,
+            81
+          ],
+          "eletrica": [
+            49,
+            44
+          ]
+        },
+        "width": 1242,
+        "height": 828
+      }
+    ]
+  },
+  "puma-215": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-puma215.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/743dd92ad6244d748f711e17547dc528?v=490768ee",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/tratores/puma/puma-215",
+        "caption": "Puma 215 — imagem oficial da página específica do modelo",
+        "bytes": 98890,
+        "points": {
+          "motor": [
+            53,
+            65
+          ],
+          "cabine": [
+            58,
+            58
+          ],
+          "chassi": [
+            61,
+            76
+          ],
+          "transmissao": [
+            60,
+            73
+          ],
+          "eletrica": [
+            58,
+            52
+          ]
+        },
+        "width": 1242,
+        "height": 828
+      }
+    ]
+  },
+  "puma-230": {
+    "brand": "Case IH",
+    "images": [
+      {
+        "file": "assets/machines/extra-puma230.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/0dda4e1800974cf394a9128df001e57d?v=4fd24b72",
+        "source": "https://www.caseih.com/pt-br/brasil/produtos/tratores/puma/puma-230",
+        "caption": "Puma 230 — imagem oficial da página específica do modelo",
+        "bytes": 136192,
+        "points": {
+          "motor": [
+            58,
+            52
+          ],
+          "cabine": [
+            42,
+            48
+          ],
+          "chassi": [
+            44,
+            71
+          ],
+          "transmissao": [
+            42,
+            68
+          ],
+          "eletrica": [
+            44,
+            36
+          ]
+        },
+        "width": 1242,
+        "height": 828
+      }
+    ]
+  },
+  "cr585": {
+    "brand": "New Holland",
+    "images": [
+      {
+        "file": "assets/machines/extra-cr585.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/89e4f3859a674abb9a7bcad0d4be5fb9?v=f0202062",
+        "source": "https://agriculture.newholland.com/pt-br/brasil/produtos/colheitadeiras/cr",
+        "caption": "Foto apresentada no cartão oficial do modelo CR585",
+        "bytes": 17970,
+        "width": 328,
+        "height": 185,
+        "lowResolution": true
+      }
+    ]
+  },
+  "cr680": {
+    "brand": "New Holland",
+    "images": [
+      {
+        "file": "assets/machines/extra-cr680.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/344bde9ed1ff44dbbee6121c6dad9a3d?v=fc6c57cd",
+        "source": "https://agriculture.newholland.com/pt-br/brasil/produtos/colheitadeiras/cr",
+        "caption": "Foto apresentada no cartão oficial do modelo CR680",
+        "bytes": 22412,
+        "width": 328,
+        "height": 185,
+        "lowResolution": true
+      }
+    ]
+  },
+  "cr780": {
+    "brand": "New Holland",
+    "images": [
+      {
+        "file": "assets/machines/extra-cr780.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/8f2d46d8b1ea4bb289e843cce472d466?v=0e3528d2",
+        "source": "https://agriculture.newholland.com/pt-br/brasil/produtos/colheitadeiras/cr",
+        "caption": "Foto apresentada no cartão oficial do modelo CR780",
+        "bytes": 19968,
+        "width": 328,
+        "height": 185,
+        "lowResolution": true
+      }
+    ]
+  },
+  "cr790": {
+    "brand": "New Holland",
+    "images": [
+      {
+        "file": "assets/machines/extra-cr790.jpg",
+        "url": "https://cnhi-p-001-delivery.sitecorecontenthub.cloud/api/public/content/02c2513c76a94aa69adaf0f93e779bf4?v=ae40677c",
+        "source": "https://agriculture.newholland.com/pt-br/brasil/produtos/colheitadeiras/cr",
+        "caption": "Foto apresentada no cartão oficial do modelo CR790",
+        "bytes": 13604,
+        "width": 328,
+        "height": 185,
+        "lowResolution": true
+      }
+    ]
+  },
+  "qsb": {
+    "brand": "Cummins",
+    "images": [
+      {
+        "file": "assets/machines/extra-qsb-tier3.jpg",
+        "url": "https://www.cummins.com/sites/default/files/images/engines/sku/QSB67000000000000000-167/qsb6.7-rail.png",
+        "source": "https://www.cummins.com/en-na/engines/products/qsb67",
+        "caption": "Cummins QSB6.7 Tier 3 — fotografia oficial do motor em configuração ferroviária; família e cilindrada do catálogo, configuração visual específica",
+        "width": 600,
+        "height": 579,
+        "points": {
+          "motor": [
+            54,
+            54
+          ]
+        },
+        "variant": "QSB6.7 Tier 3 / Stage IIIA, configuração Rail",
+        "pointsNote": "Vista externa do bloco; módulo ECM oculto nesta fotografia."
+      }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "cp770": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/cp770-studio.png",
+        "url": "https://www.deere.com.br/assets/images/region-4/products/harvesting/cotton/cp770_r4h000787_1024x576_large_0ab1dd7e590e9fed1d4eabdef7759e172c8f2b41.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/colhedora-de-algod%C3%A3o-cp770/",
+        "caption": "CP770 · cena editada a partir de fotografia oficial",
+        "edited": true,
+        "points": {
+          "motor": [
+            28,
+            34
+          ],
+          "cabine": [
+            58,
+            43
+          ],
+          "chassi": [
+            38,
+            62
+          ],
+          "colheita": [
+            64,
+            77
+          ],
+          "transmissao": [
+            34,
+            73
+          ],
+          "eletrica": [
+            48,
+            59
+          ]
+        }
+      }
+    ]
+  },
+  "8320r": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/8320r-studio.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/large/8r-series/8320r/trator_8320r_campo1_large_d899b47aff1685ae910d115d7dae180f7e173feb.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/série-8r-270cv-400cv/8320r/",
+        "caption": "8320R · cena editada a partir de fotografia oficial",
+        "edited": true,
+        "points": {
+          "motor": [
+            64,
+            42
+          ],
+          "cabine": [
+            50,
+            29
+          ],
+          "chassi": [
+            45,
+            58
+          ],
+          "transmissao": [
+            35,
+            62
+          ],
+          "eletrica": [
+            48,
+            47
+          ]
+        }
+      }
+    ]
+  },
+  "db74": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/db74-studio.png",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/planting-equipment/db-maxemerge-5e/db74acq_maxemerge_photo_field_large_a4bad61b9bd1f0c541611806b31f81ca3b1ee2a8.jpg",
+        "source": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-db-74-maxemerge-45-a-49-linhas/",
+        "caption": "DB74 · cena editada a partir de fotografia oficial",
+        "edited": true,
+        "points": {
+          "chassi": [
+            57,
+            53
+          ],
+          "colheita": [
+            66,
+            61
+          ],
+          "eletrica": [
+            51,
+            50
+          ]
+        }
+      }
+    ]
+  }
+}

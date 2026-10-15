@@ -1,0 +1,655 @@
+{
+  "444": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-444-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/common/products/wheel-loaders/444-g-tier/444g_r4k019696_rrd_1366x768_large_7b4ab13b856a6765fcf621d6a8ce4a02e882a157.jpg",
+        "source": "https://www.deere.com.br/pt/pás-carregadeiras/pá-carregadeira-444-g/",
+        "caption": "John Deere 444G — fotografia oficial da versão G; catálogo de peças identifica família 444, confirmar versão",
+        "bytes": 146782,
+        "points": {
+          "motor": [
+            73,
+            43
+          ],
+          "cabine": [
+            62,
+            31
+          ],
+          "chassi": [
+            64,
+            60
+          ],
+          "colheita": [
+            35,
+            72
+          ]
+        },
+        "width": 1366,
+        "height": 768
+      }
+    ]
+  },
+  "524": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-524-0.png",
+        "url": "https://www.deere.com.br/assets/images/common/products/wheel-loaders/524_p_tier_mid_size_wheel_loader_r4x000737_rrd_1366x768_badged_large_7edf92c09615f6a4df8b4777cfa8cfaf9c3b9bd1.png",
+        "source": "https://www.deere.com.br/pt/pás-carregadeiras/pá-carregadeira-524-p/",
+        "caption": "John Deere 524P — fotografia oficial da versão P; catálogo de peças identifica família 524, confirmar versão",
+        "bytes": 344715,
+        "points": {
+          "motor": [
+            70,
+            43
+          ],
+          "cabine": [
+            57,
+            31
+          ],
+          "chassi": [
+            60,
+            56
+          ],
+          "colheita": [
+            37,
+            61
+          ]
+        },
+        "width": 1366,
+        "height": 768
+      }
+    ]
+  },
+  "544": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-544-0.png",
+        "url": "https://www.deere.com.br/assets/images/common/products/wheel-loaders/544_p_tier_mid_size_wheel_loader_r4x000899_rrd_1366x768_badged_large_22fe95dc4a4a4a0e07bef648ec561578e2c8c131.png",
+        "source": "https://www.deere.com.br/pt/pás-carregadeiras/pá-carregadeira-544-p/",
+        "caption": "John Deere 544P — fotografia oficial da versão P; catálogo de peças identifica família 544, confirmar versão",
+        "bytes": 342129,
+        "points": {
+          "motor": [
+            70,
+            43
+          ],
+          "cabine": [
+            57,
+            31
+          ],
+          "chassi": [
+            60,
+            56
+          ],
+          "colheita": [
+            37,
+            61
+          ]
+        },
+        "width": 1366,
+        "height": 768
+      }
+    ]
+  },
+  "624": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-624-0.png",
+        "url": "https://www.deere.com.br/assets/images/common/products/wheel-loaders/624_p_tier_mid_size_wheel_loader_r4x000739_rrd_1366x768_badged_large_ec1834efc56cbc55065876e831d8374e1edd7829.png",
+        "source": "https://www.deere.com.br/pt/pás-carregadeiras/pá-carregadeira-624-p/",
+        "caption": "John Deere 624P — fotografia oficial da versão P; catálogo de peças identifica família 624, confirmar versão",
+        "bytes": 355044,
+        "points": {
+          "motor": [
+            70,
+            45
+          ],
+          "cabine": [
+            57,
+            34
+          ],
+          "chassi": [
+            60,
+            60
+          ],
+          "colheita": [
+            37,
+            63
+          ]
+        },
+        "width": 1366,
+        "height": 768
+      }
+    ]
+  },
+  "644": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-644-0.png",
+        "url": "https://www.deere.com.br/assets/images/common/products/wheel-loaders/644_p_tier_mid_size_wheel_loader_r4x000740_rrd_1366x768_badged_large_ee56e26e92cd96ec7bcf80ae4aa8590f5b682bce.png",
+        "source": "https://www.deere.com.br/pt/pás-carregadeiras/pá-carregadeira-644-p/",
+        "caption": "John Deere 644P — fotografia oficial da versão P; catálogo de peças identifica família 644, confirmar versão",
+        "bytes": 334776,
+        "points": {
+          "motor": [
+            70,
+            40
+          ],
+          "cabine": [
+            57,
+            28
+          ],
+          "chassi": [
+            59,
+            54
+          ],
+          "colheita": [
+            37,
+            60
+          ]
+        },
+        "width": 1366,
+        "height": 768
+      }
+    ]
+  },
+  "s780": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-s780-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/s-series/s780/r3g002499_colheitadeira_s780_campo_1_large_d5a6cb44a2c418ab3a6810909e9785ed0146216f.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/série-s/s780/",
+        "caption": "John Deere S780 — fotografia oficial do modelo",
+        "bytes": 1140498,
+        "width": 1366,
+        "height": 768,
+        "points": {
+          "cabine": [
+            52,
+            47
+          ],
+          "colheita": [
+            56,
+            73
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-s780-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/s-series/s780/r3g002509_colheitadeira_s780_campo_2_large_2082b6d9983a20505fbc7c05d1b9f708604e4bfc.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/série-s/s780/",
+        "caption": "John Deere S780 — fotografia oficial do modelo",
+        "bytes": 845185,
+        "width": 1366,
+        "height": 768
+      }
+    ]
+  },
+  "s790": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-s790-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/s-series/s790/r3g001311_colheitadeira_s790_campo_1_large_bbae68652ce02e006970288baee2f38fb5b6e3b7.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/série-s/s790/",
+        "caption": "John Deere S790 — fotografia oficial do modelo",
+        "bytes": 805301,
+        "width": 1366,
+        "height": 768,
+        "points": {
+          "cabine": [
+            48,
+            44
+          ],
+          "colheita": [
+            49,
+            73
+          ],
+          "motor": [
+            65,
+            44
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-s790-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/harvesters/s-series/s790/r3g001344_colheitadeira_s790_campo_2_large_00ef9a0e0105e70bddecb6d3306e885ffea1e43e.jpg",
+        "source": "https://www.deere.com.br/pt/colheitadeiras/série-s/s790/",
+        "caption": "John Deere S790 — fotografia oficial do modelo",
+        "bytes": 833634,
+        "width": 1366,
+        "height": 768
+      }
+    ]
+  },
+  "6115j": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-6115j-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6115j/trator_6115j_campo_enfardadora_large_2fb1a2491a6a123d202585f048ce8fbac015dcbb.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6115j-115cv/",
+        "caption": "John Deere 6115J — fotografia oficial do modelo",
+        "bytes": 730587,
+        "width": 1064,
+        "height": 768,
+        "points": {
+          "motor": [
+            16,
+            61
+          ],
+          "cabine": [
+            25,
+            54
+          ],
+          "chassi": [
+            26,
+            68
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-6115j-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6115j/trator_6115j_campo_enfardadora2_large_83d1aa869eb241d278f9ba05958f7abfeb1f3817.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6115j-115cv/",
+        "caption": "John Deere 6115J — fotografia oficial do modelo",
+        "bytes": 755123,
+        "width": 1064,
+        "height": 768
+      }
+    ]
+  },
+  "6125j": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-6125j-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6125j/trator_6125j_campo_plantadeira_large_173e486f4283eaf848bb70fe34d3c2e45e980e6e.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6125j-125cv/",
+        "caption": "John Deere 6125J — fotografia oficial do modelo",
+        "bytes": 860516,
+        "width": 1064,
+        "height": 768,
+        "points": {
+          "motor": [
+            78,
+            52
+          ],
+          "cabine": [
+            62,
+            44
+          ],
+          "chassi": [
+            68,
+            67
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-6125j-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6125j/trator_6125j_campo_plantaderia2_large_c00da617118451416a258c255e4a79e80f1ca41b.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6125j-125cv/",
+        "caption": "John Deere 6125J — fotografia oficial do modelo",
+        "bytes": 849434,
+        "width": 1064,
+        "height": 768
+      }
+    ]
+  },
+  "6135j": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-6135j-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6135j/trator_6135j_campo_plantadeira_large_2dfffba73be2f4f0f38d179573363f7df7f3e788.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6135j-135cv/",
+        "caption": "John Deere 6135J — fotografia oficial do modelo",
+        "bytes": 823982,
+        "width": 1064,
+        "height": 768,
+        "points": {
+          "motor": [
+            74,
+            57
+          ],
+          "cabine": [
+            62,
+            50
+          ],
+          "chassi": [
+            65,
+            67
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-6135j-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6135j/trator_6135j_campo_plantadeira2_large_43b0873369093d6f724b6f5e55f9aa5df3c7b8e6.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6135j-135cv/",
+        "caption": "John Deere 6135J — fotografia oficial do modelo",
+        "bytes": 822933,
+        "width": 1064,
+        "height": 768
+      }
+    ]
+  },
+  "6150j": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-6150j-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6150j/trator_6150j_campo_plantadeira_large_b3a1aa605187326071756f8c6508150b059ad0ba.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6150j-150cv/",
+        "caption": "John Deere 6150J — fotografia oficial do modelo",
+        "bytes": 656256,
+        "width": 1064,
+        "height": 768,
+        "points": {
+          "motor": [
+            68,
+            55
+          ],
+          "cabine": [
+            53,
+            44
+          ],
+          "chassi": [
+            64,
+            75
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-6150j-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6150j/trator_6150j_campo_plantadeira2_large_b95e6673f3b2fd4b74f181ee02f89787eb2310e5.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6150j-150cv/",
+        "caption": "John Deere 6150J — fotografia oficial do modelo",
+        "bytes": 925570,
+        "width": 1064,
+        "height": 768
+      }
+    ]
+  },
+  "6170j": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-6170j-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6170j/trator_6170j_campo_plantadeira_large_ef73977c8eea3665fc0f15bc051a371462077f16.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6170j-170cv/",
+        "caption": "John Deere 6170J — fotografia oficial do modelo",
+        "bytes": 747398,
+        "width": 1064,
+        "height": 768,
+        "points": {
+          "motor": [
+            71,
+            49
+          ],
+          "cabine": [
+            60,
+            39
+          ],
+          "chassi": [
+            65,
+            67
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-6170j-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6170j/trator_6170j_campo_plantadeira2_large_0b587950cac2f996682f8261d42abcd5d2a47419.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6170j-170cv/",
+        "caption": "John Deere 6170J — fotografia oficial do modelo",
+        "bytes": 910438,
+        "width": 1064,
+        "height": 768
+      }
+    ]
+  },
+  "6190j": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-6190j-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6190j/trator_6190j_campo_plantadeira_large_11d7c60a9844afe02e44ffb90ac7592a3678a294.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6190j-190cv/",
+        "caption": "John Deere 6190J — fotografia oficial do modelo",
+        "bytes": 755083,
+        "width": 1064,
+        "height": 768,
+        "points": {
+          "motor": [
+            70,
+            46
+          ],
+          "cabine": [
+            48,
+            32
+          ],
+          "chassi": [
+            68,
+            72
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-6190j-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6190j/trator_6190j_campo_plantadeira2_large_be31fb59e0f040630f037a9b9135544d0224e799.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6190j-190cv/",
+        "caption": "John Deere 6190J — fotografia oficial do modelo",
+        "bytes": 781275,
+        "width": 1064,
+        "height": 768
+      }
+    ]
+  },
+  "6210j": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-6210j-0.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6210j/trator_6210j_campo_plantadeira_large_9174e3c9189896032a7cb8e386e16453a6450387.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6210j-210cv/",
+        "caption": "John Deere 6210J — fotografia oficial do modelo",
+        "bytes": 1002442,
+        "width": 1064,
+        "height": 768,
+        "points": {
+          "motor": [
+            76,
+            60
+          ],
+          "cabine": [
+            65,
+            48
+          ],
+          "chassi": [
+            68,
+            74
+          ]
+        }
+      },
+      {
+        "file": "assets/machines/deere-extra-6210j-1.jpg",
+        "url": "https://www.deere.com.br/assets/images/region-3/products/tractors/mid/6j-series/6210j/trator_6210j_campo_plantadeira2_large_8590306ab3a3e4af0416c53971967dbbe6ea753a.jpg",
+        "source": "https://www.deere.com.br/pt/tratores/médio-cabinado-4x4/6210j-210cv/",
+        "caption": "John Deere 6210J — fotografia oficial do modelo",
+        "bytes": 694358,
+        "width": 1064,
+        "height": 768
+      }
+    ]
+  },
+  "s670": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-s670-0.jpg",
+        "url": "https://photos.machinefinder.com/22/11310622/77467123_huge.jpg",
+        "source": "https://www.machinefinder.com/ww/en-US/machines/2013-john-deere-s670-combine-11310622",
+        "caption": "John Deere S670 — exemplar 2013, concessionário MachineFinder",
+        "bytes": 1032158,
+        "width": 2048,
+        "height": 1536,
+        "points": {
+          "motor": [
+            67,
+            48
+          ],
+          "cabine": [
+            27,
+            43
+          ],
+          "chassi": [
+            75,
+            82
+          ]
+        }
+      }
+    ]
+  },
+  "cp690": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-cp690-0.jpg",
+        "url": "https://photos.machinefinder.com/14/10680914/73861306_huge_48447.jpg",
+        "source": "https://www.trigreenequipment.com/product/pre-owned-equipment/harvesting-pre-owned-equipment-2/cotton-pickers-harvesting-pre-owned-equipment-2/2021-john-deere-cp690-2/",
+        "caption": "John Deere CP690 — exemplar 2021, TriGreen Equipment",
+        "bytes": 2232923,
+        "width": 2048,
+        "height": 1536,
+        "points": {
+          "cabine": [
+            60,
+            32
+          ],
+          "colheita": [
+            66,
+            70
+          ],
+          "motor": [
+            33,
+            27
+          ]
+        }
+      }
+    ]
+  },
+  "s660": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-s660-0.jpg",
+        "url": "https://photos.machinefinder.com/20/11917920/81660613_huge.jpg",
+        "source": "https://www.machinefinder.com/ww/en-US/machines/2016-john-deere-s660-combine-11917920",
+        "caption": "John Deere S660 — exemplar real de concessionário MachineFinder",
+        "bytes": 556997,
+        "width": 1152,
+        "height": 1536,
+        "points": {
+          "cabine": [
+            38,
+            37
+          ],
+          "motor": [
+            71,
+            46
+          ]
+        }
+      }
+    ]
+  },
+  "s680": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-s680-0.jpg",
+        "url": "https://photos.machinefinder.com/22/11190022/74966531_huge.jpg",
+        "source": "https://www.machinefinder.com/ww/en-US/machines/2017-john-deere-s680-combine-11190022",
+        "caption": "John Deere S680 — exemplar real de concessionário MachineFinder",
+        "bytes": 1006402,
+        "width": 2048,
+        "height": 1536,
+        "points": {
+          "cabine": [
+            20,
+            38
+          ],
+          "motor": [
+            58,
+            46
+          ],
+          "chassi": [
+            64,
+            74
+          ]
+        }
+      }
+    ]
+  },
+  "s690": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-s690-0.jpg",
+        "url": "https://photos.machinefinder.com/84/10518784/80299008_huge.jpg",
+        "source": "https://www.machinefinder.com/ww/en-US/machines/2014-john-deere-s690-combine-10518784",
+        "caption": "John Deere S690 — exemplar real de concessionário MachineFinder",
+        "bytes": 1111962,
+        "width": 2048,
+        "height": 1536,
+        "points": {
+          "cabine": [
+            66,
+            34
+          ],
+          "motor": [
+            39,
+            37
+          ],
+          "chassi": [
+            69,
+            72
+          ]
+        }
+      }
+    ]
+  },
+  "210g": {
+    "brand": "John Deere",
+    "images": [
+      {
+        "file": "assets/machines/deere-extra-210g-0.jpg",
+        "url": "https://photos.machinefinder.com/33/9542933/57902373_huge.jpg",
+        "source": "https://www.machinefinder.com/ww/en-US/machines/2019-john-deere-210g-lc-excavator-9542933",
+        "caption": "John Deere 210G LC — exemplar real de concessionário MachineFinder",
+        "bytes": 911044,
+        "width": 2048,
+        "height": 1536,
+        "points": {
+          "motor": [
+            92,
+            64
+          ],
+          "cabine": [
+            78,
+            60
+          ],
+          "chassi": [
+            72,
+            82
+          ]
+        }
+      }
+    ]
+  }
+}

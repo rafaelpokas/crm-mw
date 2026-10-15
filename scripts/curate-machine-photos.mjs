@@ -1,0 +1,21 @@
+import fs from 'node:fs/promises';
+const root='public/catalogo-maquinas';const photos=JSON.parse(await fs.readFile(`${root}/photos.json`,'utf8'));
+const curated={};
+function pick(id,i,points,caption){const original=photos[id].images[i];curated[id]={brand:photos[id].brand,images:[{...original,caption:caption||`John Deere ${id.toUpperCase()} — fotografia oficial do modelo`,points}]};}
+curated.ch570={brand:'John Deere',images:[{file:'assets/machines/ch570-studio.png',url:photos.ch570.images[2].url,source:photos.ch570.images[2].source,caption:'CH570 · cena de apresentação editada a partir de foto oficial',edited:true,points:{motor:[53,40],cabine:[65,45],elevador:[32,43],divisor:[76,75],extrator:[46,42],chassi:[56,67],transmissao:[51,80],eletrica:[57,56],corte:[70,84],colheita:[77,76]}}]};
+pick('ch670',0,{motor:[69,48],cabine:[47,35],elevador:[85,36],divisor:[41,73],extrator:[76,43],chassi:[60,65],transmissao:[67,82],eletrica:[58,48],corte:[33,83]});
+pick('ch950',0,{motor:[59,42],cabine:[47,37],elevador:[67,29],divisor:[45,70],extrator:[63,36],chassi:[53,61],transmissao:[58,69],eletrica:[56,51],corte:[39,79]});
+pick('cp770',0,{motor:[22,36],cabine:[61,44],chassi:[35,64],colheita:[63,77],transmissao:[34,79],eletrica:[49,59]});
+pick('m4025',2,{motor:[80,58],cabine:[74,49],chassi:[71,63],barra:[39,64],transmissao:[69,67],eletrica:[68,53]});
+pick('m4030',2,{motor:[64,54],cabine:[57,44],chassi:[51,63],barra:[26,66],eletrica:[51,52]});
+pick('m4040',0,{motor:[59,58],cabine:[55,49],chassi:[53,65],barra:[34,60],eletrica:[51,54]});
+pick('8320r',0,{motor:[65,48],cabine:[39,35],chassi:[42,65],transmissao:[35,74],eletrica:[47,51]});
+pick('8270r',0,{motor:[60,52],cabine:[42,39],chassi:[41,65],transmissao:[30,70],eletrica:[46,52]});
+pick('8345r',0,{motor:[62,52],cabine:[43,38],chassi:[42,65],transmissao:[30,72],eletrica:[48,51]});
+pick('8370r',0,{motor:[62,52],cabine:[43,38],chassi:[42,65],transmissao:[30,72],eletrica:[48,51]});
+pick('8400r',0,{motor:[62,52],cabine:[43,38],chassi:[42,65],transmissao:[30,72],eletrica:[48,51]});
+pick('db74',0,{chassi:[58,58],colheita:[61,65],eletrica:[65,61]});
+pick('db40',0,{chassi:[58,58],colheita:[61,65],eletrica:[65,61]});
+pick('db50',0,{chassi:[58,58],colheita:[61,65],eletrica:[65,61]});
+pick('db90',0,{chassi:[58,58],colheita:[61,65],eletrica:[65,61]});
+await fs.writeFile(`${root}/photos-curated.json`,JSON.stringify(curated,null,2));
