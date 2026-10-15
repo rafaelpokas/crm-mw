@@ -89,16 +89,8 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
               comercial.
             </p>
             <div className="experience-grid">
-              <a href="/catalogo-3d/index.html">
-                <span>01 / EXPLORAR</span>
-                <h2>Catálogo 3D</h2>
-                <p>
-                  Gire a máquina, explore os conjuntos e selecione suas peças.
-                </p>
-                <b>Entrar na experiência →</b>
-              </a>
               <a href="/catalogo-maquinas/index.html">
-                <span>02 / ENCONTRAR</span>
+                <span>01 / ENCONTRAR</span>
                 <h2>Catálogo por máquina</h2>
                 <p>
                   Fotografias e aplicações publicadas, organizadas por
@@ -107,7 +99,7 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
                 <b>Encontrar peças →</b>
               </a>
               <a href="#/visao-geral">
-                <span>03 / CONECTAR</span>
+                <span>02 / CONECTAR</span>
                 <h2>Ecossistema comercial</h2>
                 <p>Atendimento, leads, propostas e inteligência de mercado.</p>
                 <b>Explorar o CRM →</b>
@@ -139,7 +131,7 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
               Abra um catálogo e adicione os itens de interesse antes de simular
               o atendimento.
             </p>
-            <a href="/catalogo-3d/index.html">Abrir catálogo 3D →</a>
+            <a href="/catalogo-maquinas/index.html">Abrir catálogo →</a>
           </>
         ) : (
           <>

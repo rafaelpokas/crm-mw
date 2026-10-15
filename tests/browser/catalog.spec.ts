@@ -47,7 +47,7 @@ test("presentation works on mobile without horizontal overflow", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await expect(page.getByRole("link", { name: /Catálogo 3D/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Catálogo por máquina/ })).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth + 1,
@@ -55,33 +55,4 @@ test("presentation works on mobile without horizontal overflow", async ({
   ).toBe(true);
 });
 
-test("3D catalog renders and transfers selected parts to request", async ({
-  page,
-}) => {
-  test.setTimeout(90000);
-  const errors: string[] = [];
-  page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto("/");
-  await page.screenshot({
-    path: "test-results/apresentacao-desktop.png",
-    fullPage: true,
-  });
-  await page.getByRole("link", { name: /Catálogo 3D/ }).click();
-  await expect(page.locator("canvas")).toHaveCount(1);
-  await expect(page.locator(".product").first()).toBeVisible();
-  await page.locator("#xray").click();
-  await expect(page.locator("#xray")).toHaveAttribute("aria-pressed", "true");
-  await page.screenshot({
-    path: "test-results/catalogo-3d-integrado.png",
-    fullPage: true,
-  });
-  await page.locator(".product").first().click();
-  await page.locator("#add-product").click();
-  await page.locator("#detail .close").click();
-  await page.locator("#quote").click();
-  await page.locator("#request-crm").click();
-  await expect(
-    page.getByRole("heading", { name: "Vamos conectar seu interesse." }),
-  ).toBeVisible();
-  expect(errors).toEqual([]);
-});
+test("old 3D address opens the photographic catalog",async({page})=>{await page.goto("/catalogo-3d/index.html");await expect(page).toHaveURL(/catalogo-maquinas/);await expect(page.locator("#machine-selected")).toBeVisible();});

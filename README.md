@@ -51,7 +51,7 @@ Os testes de navegador usam Chrome instalado (`channel: chrome`) em modo headles
 
 ## Apresentação integrada (15/10/2026)
 
-A raiz abre a apresentação. O catálogo 3D está em `/catalogo-3d/index.html`, o fotográfico em `/catalogo-maquinas/index.html` e o CRM em `/#/visao-geral`. Nos catálogos, selecione peças e use **Simular atendimento** para criar um lead no mesmo navegador. Nenhum envio é real.
+A raiz abre a apresentação. O catálogo por máquina com fotografias está em `/catalogo-maquinas/index.html` e o CRM em `/#/visao-geral`. No catálogo, selecione peças e use **Simular atendimento** para criar um lead no mesmo navegador. Nenhum envio é real.
 
 Campanhas e inteligência de mercado estão disponíveis no perfil Gestor Demo, padrão de novas bases. O relatório detalhado de implementação e as notas internas são mantidos localmente, fora deste repositório público.
 
