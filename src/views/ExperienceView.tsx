@@ -88,6 +88,10 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
               Explore as peças. Descubra como o interesse chega à equipe
               comercial.
             </p>
+            <a className="experience-action" href="/plano/index.html">
+              Conhecer o plano de implantação e evolução →
+              <small>Marketing, transição do CRM e inteligência de mercado em uma jornada de seis meses.</small>
+            </a>
             <div className="experience-grid">
               <a href="/catalogo-maquinas/index.html">
                 <span>01 / ENCONTRAR</span>
