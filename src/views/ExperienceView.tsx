@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCrm } from "../context/CrmContext";
 
 export function ExperienceView({ request = false }: { request?: boolean }) {
@@ -10,18 +10,25 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
       return null;
     }
   });
-  const [name, setName] = useState(""),
-    [email, setEmail] = useState(""),
-    [company, setCompany] = useState(""),
-    [segment, setSegment] = useState(""),
-    [region, setRegion] = useState("");
+  const [draft] = useState(() => {
+    try { const saved = JSON.parse(sessionStorage.getItem("mw-interest-draft") || "null"); return saved?.eventId === selection?.eventId ? saved : null; } catch { return null; }
+  });
+  const [name, setName] = useState(draft?.name || ""),
+    [email, setEmail] = useState(draft?.email || ""),
+    [company, setCompany] = useState(draft?.company || ""),
+    [segment, setSegment] = useState(draft?.segment || ""),
+    [region, setRegion] = useState(draft?.region || "");
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [done, setDone] = useState(false),
     [duplicate, setDuplicate] = useState(false);
   const [quantities, setQuantities] = useState<number[]>(
-    () => selection?.items?.map(() => 1) || [],
+    () => selection?.items?.map((_: unknown, i: number) => draft?.quantities?.[i] || 1) || [],
   );
+  useEffect(() => {
+    if (!request || !selection || done) return;
+    try { sessionStorage.setItem("mw-interest-draft", JSON.stringify({ eventId: selection.eventId, name, email, company, segment, region, quantities })); } catch { /* The form remains usable when session storage is unavailable. */ }
+  }, [request, selection, done, name, email, company, segment, region, quantities]);
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (busy || done) return;
@@ -57,6 +64,7 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
       if (res.ok) {
         setDone(true);
         sessionStorage.removeItem("mw-catalog-request");
+        sessionStorage.removeItem("mw-interest-draft");
       } else {
         setError(res.error?.message || "Não foi possível salvar");
         if (res.error?.code === "DUPLICATE") setDuplicate(true);
@@ -84,17 +92,17 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
               <br />
               ao próximo negócio.
             </h1>
-            <p>
-              Explore as peças. Descubra como o interesse chega à equipe
-              comercial.
-            </p>
-            <a className="experience-action" href="/plano/index.html">
-              Conhecer o plano de implantação e evolução →
-              <small>Marketing, transição do CRM e inteligência de mercado em uma jornada de seis meses.</small>
-            </a>
+            <p>Conheça o plano, explore as peças e acompanhe o atendimento. Uma experiência que conecta marketing, produto e relacionamento.</p>
+            <div className="experience-guide"><strong>Escolha por onde começar.</strong><span>O menu no topo acompanha você em todas as áreas. Ao retornar, continue de onde parou.</span></div>
             <div className="experience-grid">
+              <a href="/plano/index.html">
+                <span>01 / CONHECER A PROPOSTA</span>
+                <h2>Plano de evolução</h2>
+                <p>Marketing, implantação e inteligência de mercado. Veja como as entregas se conectam.</p>
+                <b>Conhecer o plano →</b>
+              </a>
               <a href="/catalogo-maquinas/index.html">
-                <span>01 / ENCONTRAR</span>
+                <span>02 / EXPERIMENTAR</span>
                 <h2>Catálogo por máquina</h2>
                 <p>
                   Fotografias e aplicações publicadas, organizadas por
@@ -103,16 +111,14 @@ export function ExperienceView({ request = false }: { request?: boolean }) {
                 <b>Encontrar peças →</b>
               </a>
               <a href="#/visao-geral">
-                <span>02 / CONECTAR</span>
+                <span>03 / ACOMPANHAR</span>
                 <h2>Ecossistema comercial</h2>
                 <p>Atendimento, leads, propostas e inteligência de mercado.</p>
                 <b>Explorar o CRM →</b>
               </a>
             </div>
             <p className="experience-note">
-              Para testar a jornada, adicione peças no catálogo e escolha
-              “Simular atendimento”. O lead fica neste navegador. Nenhuma
-              mensagem será enviada.
+              Experimente a jornada completa: selecione uma peça no catálogo, escolha “Simular atendimento” e acompanhe o novo contato no CRM. Use dados fictícios: os registros ficam neste navegador e nenhuma mensagem real é enviada.
             </p>
           </>
         ) : done ? (

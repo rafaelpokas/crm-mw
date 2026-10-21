@@ -172,6 +172,7 @@ export const CrmProvider = ({ children }: { children: ReactNode }) => {
       localStorage.removeItem("mw-photo-selection");
       localStorage.removeItem("megawhip-3d-selection");
       sessionStorage.removeItem("mw-catalog-request");
+      ["mw-interest-draft", "mw-plan-slide", "mw-journey-machine", "mw-journey-crm"].forEach(key => sessionStorage.removeItem(key));
       if (commit(next)) {
         blocked.current = false;
       }

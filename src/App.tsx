@@ -283,7 +283,7 @@ function AppContent() {
           onClick={() => navigateTo("/visao-geral")}
           className="px-4 py-2 bg-[#223237] text-white rounded-lg text-xs font-semibold"
         >
-          Voltar ao Painel Geral (T01)
+          Voltar à visão geral
         </button>
       </div>
     );

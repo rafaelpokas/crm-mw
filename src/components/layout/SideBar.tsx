@@ -49,7 +49,7 @@ export const SideBar: React.FC<SideBarProps> = ({
   );
 
   const navItems = [
- {id:"experience",label:"Apresentação e catálogos",route:"/apresentacao",icon:ExternalLink,badge:null},
+ {id:"experience",label:"Voltar ao início",route:"/apresentacao",icon:ExternalLink,badge:null},
  ...(["manager","admin"].includes(currentUser.role)?[{id:"campaigns",label:"Campanhas",route:"/campanhas",icon:Sparkles,badge:null},{id:"market",label:"Inteligência de mercado",route:"/inteligencia",icon:BarChart3,badge:null}]:[]),
     {
       id: "t01",
@@ -101,7 +101,7 @@ export const SideBar: React.FC<SideBarProps> = ({
     },
     {
       id: "t11",
-      label: "Catálogo",
+      label: "Produtos e aplicações",
       route: "/catalogo",
       icon: Package,
       badge: null,
@@ -286,10 +286,10 @@ export const SideBar: React.FC<SideBarProps> = ({
         >
           <div className="flex items-center space-x-2">
             <Sparkles size={14} />
-            <span>Cenários C01 - C16</span>
+            <span>Testar jornadas</span>
           </div>
           <span className="text-[10px] bg-[#1a2529] px-1.5 py-0.5 rounded text-gray-300">
-            T20
+            Demo
           </span>
         </button>
 
@@ -306,7 +306,7 @@ export const SideBar: React.FC<SideBarProps> = ({
             <ExternalLink size={13} className="text-gray-400" />
             <span>Simulador Comprador</span>
           </div>
-          <span className="text-[10px] text-gray-400">T21</span>
+          <span className="text-[10px] text-gray-400">Demo</span>
         </button>
 
         <div className="text-[10px] text-gray-500 text-center pt-1">
